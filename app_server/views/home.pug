@@ -18,10 +18,9 @@ block content
                    .fmini_user_name_id.vstack
                      a.fmini_user_username(href=`/user/${fmini.user_id}`) #{fmini.name} 
                      a.fmini_user_userid(href=`/user/${fmini.user_id}`) @ #{fmini.userId} 
-                   if user.following.includes(fmini.user_id)
-                       .material-symbols-rounded.fmini_options(id=`open-sheet-${fmini._id}` onclick=`bottomSheet('${fmini._id}')`  data-bs-toggle='popover' data-bs-html='true' data-bs-placement='left' data-bs-content=`<div class="fmini_options_popover"> <span>Unfollow @ ${fmini.userId}</span><br> <span>Connect @ ${fmini.name}</span><br> <span>Report Fantom</span><br> <span>Block @ ${fmini.userId}</span><br> <span>Share fantom</span> </div>`) workspaces
-                   else
-                       .material-symbols-rounded.fmini_options(id=`open-sheet-${fmini._id}` onclick=`bottomSheet('${fmini._id}')` data-bs-toggle='popover' data-bs-html='true' data-bs-placement='left' data-bs-content=`<div class="fmini_options_popover"> <span>Follow @ ${fmini.userId}</span><br> <span>Connect @ ${fmini.name}</span><br> <span>Report Fantom</span><br> <span>Block @ ${fmini.userId}</span><br> <span>Share fantom</span> </div>`) workspaces
+                   .fmini_share 
+                      .material-symbols-rounded 
+                        | share
                  if fmini.media
                    if fmini.media.includes('tenor')
                      img.fmini_media(src=fmini.media , alt="", srcset="") 
