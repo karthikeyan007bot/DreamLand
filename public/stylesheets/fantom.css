@@ -1,0 +1,43 @@
+.fm-cover-img,.fm-catagory{
+    border: 2px solid ;
+    border-radius: 10px;
+}
+.card-title{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-weight: 500;
+    font-size: 30px;
+}
+.card{
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+a.chapters{
+    border-radius: 5px;
+}
+a.chapters:hover{
+    background-color: rgb(212, 210, 210);
+}
+a {
+    text-decoration: none;
+    white-space: nowrap;
+    font-size: 1rem;
+    color: #a1a1af;
+  }
+  a.fm-tag, a.fm-anta, a.fm-prota {
+    color: white;
+    display: block;
+    padding: 4px;
+    margin: 0.5em;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    border-radius: 10px;
+    background : rgb(160, 158, 158)
+}
+
+.fm-usrName{
+    transform: translate(10px,10px);
+}
+.fm-usrId{
+    transform: translateX(60px);
+    font-size: 18px;
+    font-style: italic;
+    margin-bottom: 20px;
+}

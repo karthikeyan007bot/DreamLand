@@ -1,0 +1,112 @@
+extends layout
+block link
+    link(rel="stylesheet", href="/stylesheets/fmini.css")
+    link(rel="stylesheet", href="/stylesheets/home.css")
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Noto+Color+Emoji&display=swap" rel="stylesheet")
+block content
+  .fmini_container
+      .row
+       .col-12.col-lg-8
+        .card.mb-3.fmini_card.m-3
+           .card-header.text-end                         
+                  button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
+                    i.fa-solid.fa-share-nodes 
+                  button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Report') 
+                    i.fa-solid.fa-flag 
+                  button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Bookmark') 
+                    i.fa-solid.fa-bookmark
+                  button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
+                    i.fa-solid.fa-face-smile                    
+                  button.btn.btn-light.mx-1(type='button' data-bs-toggle='popover' data-bs-html='true' data-bs-content=`<div class='options_popover'> <div > <a href='/${fmini._id}/replies'>Replies</a> </div> <div > <a href='/${fmini._id}/annexes'>Annexes</a> </div> <div> <a href='/${fmini._id}/alters'>Alters</a> </div> </div>`) 
+                    i.fa-solid.fa-ellipsis-vertical                    
+           .card-body.fmini_card_body
+             .row
+               .col-12.col-md-6
+                 if fmini.media
+                   if fmini.media.includes('tenor')
+                     img.fmedia(src=fmini.media , alt="", srcset="") 
+                   else 
+                     img.fmedia(src=`https://drive.google.com/uc?export=view&id=${fmini.media}`, alt="", srcset="")   
+               .col-12.col-md-6
+                if fmini.title
+                  h6.ftitle #{fmini.title}
+                .text-body-secondary.mb-5.fbody  #{fmini.body}
+           .card-footer               
+              .d-flex.justify-content-around
+                  button.btn.btn-light.mx-1(type='button') 
+                    i.lapdisp.fa-solid.fa-reply 
+                  button.btn.btn-light.mx-1(type='button') 
+                    i.lapdisp.fa-solid.fa-plus 
+                  button.btn.btn-light.mx-1(type='button') 
+                    i.lapdisp.fa-solid.fa-pen  
+                  button.btn.btn-light.mx-1(type='button') 
+                    i.lapdisp.fa-solid.fa-face-smile 
+       .col-12.col-lg-4.p-2
+          .card.user_card
+             .card-body.text-center
+                 img.user_pic(src=`https://drive.google.com/uc?export=view&id=${fmini_user.prflimg}`)
+                 .user_info.my-1 
+                   a(href="/profile").user_name #{fmini_user.name}
+                   a(href="/profile").user_id #{fmini_user.userId}
+                 .user_follows.d-flex.justify-content-between.my-1 
+                    button(type="button").btn.btn-light.user_following #{fmini_user.following.length} followings
+                    button(type="button").btn.btn-light.user_followers #{fmini_user.followers.length} followers
+      .modal.fade(id='reactionModal' data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                               h6 Reactions
+                               button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                          .modal-body
+                            if fmini.reactions.length
+                             ul.list-group.list-group-flush.reaction-infos 
+                              for reaction in fmini.reactions
+                               li.list-group-item
+                                a(href='').fmini-rxn-hdr.d-flex 
+                                  .fmini-rxn-hdr-img
+                                    if reaction.usrImg
+                                      img.avator(src=`https://drive.google.com/uc?export=view&id=${reaction.usrImg}` alt='')
+                                    else 
+                                     div(style='width : 48px; height : 48px; background : purple; border-radius: 5px')
+                                  .fmini-rxn-hdr-info.vstack 
+                                     .fmini-rxn-hdr-info-up.d-flex
+                                       .fmini-rxn-hdr-usrname=reaction.usrName 
+                                     .fmini-rxn-hdr-usrid @#{reaction.usrId}    
+                                  .fmini-feeling-emoji.float-end  
+                                    -if(reaction.reaction == 'excited')
+                                        span 😐
+                                    -if(reaction.reaction == 'good')
+                                        span 🥰
+                                    -if(reaction.reaction == 'pleased')
+                                        span 😂
+                                    -if(reaction.reaction == 'depressed')
+                                        span 🤗
+                                    -if(reaction.reaction == 'heartbroken')
+                                        span 🥱
+                                    -if(reaction.reaction == 'upset')
+                                         span 😡
+                                    -if(reaction.reaction == 'outraged')
+                                         span 💔
+                                    -if(reaction.reaction == 'frustated')
+                                         span 🤯
+                                    -if(reaction.reaction == 'irritated')
+                                         span 😭
+                                    -if(reaction.reaction == 'terrified')
+                                         span 💔
+                                    -if(reaction.reaction == 'insecure')
+                                         span 🤯
+                                    -if(reaction.reaction == 'nervous')
+                                         span 😭
+                                    -if(reaction.reaction == 'worthless')
+                                         span 😭
+                                    -if(reaction.reaction == 'guilty')
+                                         span 💔
+                                    -if(reaction.reaction == 'silly')
+                                         span 🤯                                       
+                            else 
+                              h6 No reactions yet.
+block script      
+     script(src="//cdn.jsdelivr.net/npm/share-buttons/dist/share-buttons.js")
+     script(src="/javascripts/fmini.js" defer)        

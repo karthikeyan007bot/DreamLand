@@ -1,0 +1,427 @@
+extends layout
+block link
+    link(rel='stylesheet', href='/stylesheets/home.css')
+    link(rel='stylesheet', href='/stylesheets/alenrep.css')
+block content
+ .posts.text-start       
+  if nothing 
+   h3 No data found
+  else                         
+   .header
+    if annexes 
+     .card.header_card.m-2 
+       .card-body 
+        h5 Annexure of
+          a.fmini-wrap(href=`/fmini/${annexes[0].fminiRefId}` id=`${annexes[0].fminiRefId}` ) Fantom   
+    else if replies 
+     .card.header_card.m-2 
+       .card-body 
+        h5 Replies of 
+         if replyId 
+          a.fmini-wrap(href=`/fmini/${replyId}` id=`${replyId}` ) Fantom 
+         else 
+           a.fmini-wrap(href=`/fmini/${replies[0].fminiRefId}` id=`${replies[0].fminiRefId}` ) Fantom 
+    else if alters 
+     .card.header_card.m-2 
+       .card-body 
+        h5 Alters of
+         a.fmini-wrap(href=`/fmini/${alters[0].fminiRefId}` id=`${alters[0].fminiRefId}` ) Fantom  
+   if annexes     
+    ul.list-group.list-group-flush.dreams-post
+     for annex in annexes
+       li.list-group-item.my-2 
+        .annex-wrap
+           .annex-hdr.d-flex 
+             .annex-hdr-img
+               img.avator(src='https://pbs.twimg.com/profile_images/1543523698862239744/FeJy-3sl_400x400.jpg' alt='')
+             .annex-hdr-info.vstack 
+                .annex-hdr-info-up.d-flex
+                  a(href=`/user/${annex.userId}`).annex-hdr-usrname  #{annex.name} 
+                  .annex-hdr-timeStamp.ms-1 #{moment(annex.timeStamp).startOf('hour').fromNow()} 
+                  .annex-hdr-options.flex-grow-1 
+                    a(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                     i.fa-solid.fa-ellipsis.fa-vertical 
+                .annex-hdr-usrid @#{annex.userId}
+           a.annex-body(href=`/annex/${annex._id}` id=annex._id)
+             .mt-2  #{annex.annex}
+           if annex.media.includes('https://media.tenor.com')  
+             img(src=`${annex.media}`)
+           else
+             img.annex-media.my-1(src=`https://drive.google.com/uc?export=view&id=${annex.media}`, alt="", srcset="" data-bs-toggle='modal' data-bs-target='#reply-media-modal')                             
+           #annex-media-modal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                .modal-dialog.modal-fullscreen
+                  .modal-content
+                    .modal-header
+                      button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                    .modal-body.text-center.vstack
+                      img.modal-img(src='https://w0.peakpx.com/wallpaper/970/985/HD-wallpaper-stormy-attack-waves-sky-dragon-storm-wall-stormy-sea-fire-fantasy-ship-mountains-digital-attack-night.jpg' alt='').mx-auto
+                      .modal-dream-info-counts           
+           .annex-footer.d-flex.justify-content-between.mt-2
+             .annex-footer-comment 
+               button.btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#annex_annex_${annex._id}`)
+                 i.fa-regular.fa-comment
+               a(href=`/${annex.fminiRefId}/${annex._id}/nestedReplies`) 122 
+                 span.lapdisp(style='font-size:15px') replies
+             .modal.fade(data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true' id=`annex_annex_${annex._id}`)
+                 .modal-dialog.modal-fullscreen-sm-down
+                   .modal-content
+                     .modal-header
+                          beutton.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .fanta-options.float-end 
+                         label(for=`annex-fileinp-${annex._id}`).mx-1 
+                            span(class="material-symbols-outlined")
+                              | add_photo_alternate
+                            input(name="fantaimage", type="file", onchange=`readURL(this,"replyImg${annex._id}")` id=`annex-fileinp-${annex._id}`).d-none    
+                         a.mx-1(href='#'  data-bs-toggle='collapse' data-bs-target=`#annex-reply-gif-${annex._id}` aria-expanded='false')
+                             span(class="material-symbols-outlined")
+                                    |gif_box                                                                                                                                                                          
+                             button.btn.ibtn#-annex-load-gif(type='button' style='display:none') Load more                                                          
+                       img(src="", alt="", srcset="" id=`replyImg${annex._id}`)
+                       textarea.form-control(name="", cols="30", id = `replyBody${annex._id}`) 
+                       .collapse(id=`annex-reply-gif-${annex._id}`)
+                           .card.card-body
+                             input.form-control(id = `annexReplygfsearch${annex._id}` type="search", name=`annex-reply-gif-${annex._id}` , placeholder='Search Tenor', onkeyup=`suggest(this,'${annex._id}')`)
+                             div(id=`tenor-suggestion-${annex._id}`)
+                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                 div(style='width:2000px')
+                                  .radios
+                                    label(for=`a1-${annex._id}` onclick=`setAnnexReplyGifSearch(this,"${annex._id}")`)
+                                      input(type='radio' id=`a1-${annex._id}` name=`annex-reply-tenor-suggestion-${annex._id}`  checked='')
+                                      span(class=`reply-tenor-suggestion-${annex._id}`)                                        
+                                    label(for=`b2-${annex._id}` onclick=`setAnnexReplyGifSearch(this,"${annex._id}")`)
+                                      input(type='radio' id=`b2-${annex._id}` name=`annex-reply-tenor-suggestion-${annex._id}` )
+                                      span(class=`reply-tenor-suggestion-${annex._id}`)                                       
+                                    label(for=`c3-${annex._id}` onclick=`setAnnexReplyGifSearch(this,"${annex._id}")`)
+                                      input(type='radio' id=`c3-${annex._id}` name=`annex-reply-tenor-suggestion-${annex._id}` )
+                                      span(class=`reply-tenor-suggestion-${annex._id}`)                  
+                             div(id=`annex-reply-gif-preview-container-${annex._id}`).no-scrollbar()
+                       button.btn.ibtn(type = 'button' onclick=`postCommonReply('${annex._id}', '${annexes[0].fminiRefId}')`) Reply             
+             .annex-footer-react.btn#emoji-rxn-btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target='#react-modal').fmini-footer-react 
+               i.fa-regular.fa-face-smile  
+             #react-modal.modal.fade(data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                 .modal-dialog
+                   .modal-content
+                     .modal-header
+                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .scrollbox.overflow-scroll
+                         .grid(style='width : 1000px')
+                           .hstack 
+                             a.emoji-rxns.mx-3#lol( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 😂
+                             a.emoji-rxns.mx-3#love( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 🥰
+                             a.emoji-rxns.mx-3#hug( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 🤗
+                             a.emoji-rxns.mx-3#no-rxn( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 😐
+                             a.emoji-rxns.mx-3#bored( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 🥱
+                             a.emoji-rxns.mx-3#anger( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 😡
+                             a.emoji-rxns.mx-3#broken-heart( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 💔
+                             a.emoji-rxns.mx-3#cry( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 😭
+                             a.emoji-rxns.mx-3#mind-blowing( onclick=`postRxn(this, "${annexes[0].fminiRefId}", "${annex._id}")`) 🤯   
+                       h6 Reactions
+                       ul.list-group.list-group-flush.reaction-infos 
+                        for reaction in annex.reactions
+                         li.list-group-item
+                          a(href='').annex-rxn-hdr.d-flex 
+                            .annex-rxn-hdr-img
+                              if reaction.usrImg
+                                if reaction.usrImg.includes('tenor.com')
+                                  img.avator(src=reaction.usrImg)
+                                else   
+                                  img.avator(src=`https://drive.google.com/uc?export=view&id=${reaction.usrImg}` alt='')
+                              else 
+                               div(style='width : 48px; height : 48px; background : purple')
+                            .annex-rxn-hdr-info.vstack 
+                               .annex-rxn-hdr-info-up.d-flex
+                                 .annex-rxn-hdr-usrname=reaction.usrName 
+                               .annex-rxn-hdr-usrid @#{reaction.usrId}    
+                            .annex-feeling-emoji.float-end  
+                              -if(reaction.reaction == 'no-rxn')
+                                  span 😐
+                              -if(reaction.reaction == 'love')
+                                  span 🥰
+                              -if(reaction.reaction == 'lol')
+                                  span 😂
+                              -if(reaction.reaction == 'hug')
+                                  span 🤗
+                              -if(reaction.reaction == 'bored')
+                                  span 🥱
+                              -if(reaction.reaction == 'anger')
+                                   span 😡
+                              -if(reaction.reaction == 'broken-heart')
+                                   span 💔
+                              -if(reaction.reaction == 'mind-blowing')
+                                   span 🤯
+                              -if(reaction.reaction == 'cry')
+                                   span 😭                                                                  
+             .annex-footer-share 
+              i.fa-solid.fa-share-nodes  
+   else if replies
+    ul.list-group.list-group-flush.dreams-post
+     for reply in replies
+       li.list-group-item.my-2 
+        .reply-wrap
+           .reply-hdr.d-flex 
+             .reply-hdr-img
+               if reply.prflimg
+                 img.avator(src=`https://drive.google.com/uc?export=view&id=${reply.prflimg}`)
+               else 
+                 div(style='width : 48px; height : 48px; background : purple')
+             .reply-hdr-info.vstack 
+                .reply-hdr-info-up.d-flex
+                  a(href=`/user/${reply.userId}`).reply-hdr-usrname  #{reply.name} 
+                  .reply-hdr-timeStamp.ms-1 #{moment(reply.timeStamp).startOf('hour').fromNow()} 
+                  .reply-hdr-options.flex-grow-1 
+                    a(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                     i.fa-solid.fa-ellipsis.fa-vertical 
+                .reply-hdr-usrid @#{reply.userId}
+           a.reply-body(href=`/reply/${reply._id}` id=reply._id)
+            if reply.body
+             .mt-2  #{reply.body}
+            else if reply.reply
+              .mt-2 #{reply.reply}
+           if reply.media
+            if reply.media.includes('https://media.tenor.com')  
+              img(src=`${reply.media}`)
+            else
+              img.reply-media.my-1(src=`https://drive.google.com/uc?export=view&id=${reply.media}`, alt="", srcset="" data-bs-toggle='modal' data-bs-target='#reply-media-modal')                             
+           #reply-media-modal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                .modal-dialog.modal-fullscreen
+                  .modal-content
+                    .modal-header
+                      button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                    .modal-body.text-center.vstack
+                      img.modal-img(src=`https://drive.google.com/uc?export=view&id=${reply.media}` alt='').mx-auto
+                      .modal-dream-info-counts           
+           .reply-footer.d-flex.justify-content-between.mt-2
+             .reply-footer-comment 
+               button.btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#reply_reply_${reply._id}`)
+                 i.fa-regular.fa-comment
+               a(href=`/${reply.fminiRefId}/${reply._id}/nestedReplies`) 122 
+                 span.lapdisp(style='font-size:15px') replies
+             .modal.fade(data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true' id=`reply_reply_${reply._id}`)
+                 .modal-dialog.modal-fullscreen-sm-down
+                   .modal-content
+                     .modal-header
+                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .fanta-options.float-end 
+                         label(for=`reply-fileinp-${reply._id}`).mx-1 
+                            span(class="material-symbols-outlined")
+                              | add_photo_alternate
+                            input(name="fantaimage", type="file", onchange=`readURL(this,"replyImg${reply._id}")` id=`reply-fileinp-${reply._id}`).d-none    
+                         a.mx-1(href='#'  data-bs-toggle='collapse' data-bs-target=`#reply-gif-${reply._id}` aria-expanded='false')
+                             span(class="material-symbols-outlined")
+                                    |gif_box                                                                                                                                                                          
+                             button.btn.ibtn#-reply-load-gif(type='button' style='display:none') Load more                                                          
+                       img(src="", alt="", srcset="" id=`replyImg${reply._id}`)
+                       textarea.form-control(name="", cols="30", id = `replyBody${reply._id}`) 
+                       .collapse(id=`reply-gif-${reply._id}`)
+                           .card.card-body
+                             input.form-control(id = `replygfsearch${reply._id}` type="search", name=`reply-gif-${reply._id}` , placeholder='Search Tenor', onkeyup=`suggest(this,'${reply._id}')`)
+                             div(id=`tenor-suggestion-${reply._id}`)
+                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                 div(style='width:2000px')
+                                  .radios
+                                    label(for=`a1-${reply._id}` onclick=`setReplyReplyGifSearch(this,"${reply._id}")`)
+                                      input(type='radio' id=`a1-${reply._id}` name=`reply-tenor-suggestion-${reply._id}`  checked='')
+                                      span(class=`reply-tenor-suggestion-${reply._id}`)                                        
+                                    label(for=`b2-${reply._id}` onclick=`setReplyReplyGifSearch(this,"${reply._id}")`)
+                                      input(type='radio' id=`b2-${reply._id}` name=`reply-tenor-suggestion-${reply._id}` )
+                                      span(class=`reply-tenor-suggestion-${reply._id}`)                                       
+                                    label(for=`c3-${reply._id}` onclick=`setReplyReplyGifSearch(this,"${reply._id}")`)
+                                      input(type='radio' id=`c3-${reply._id}` name=`reply-tenor-suggestion-${reply._id}` )
+                                      span(class=`reply-tenor-suggestion-${reply._id}`)                  
+                             div(id=`reply-gif-preview-container-${reply._id}`).no-scrollbar()
+                       button.btn.ibtn(type = 'button' onclick=`postCommonReply('${reply._id}', '${replies[0].fminiRefId}')`) Reply                
+             .reply-footer-react.btn(id=`reply-emoji-rxn-btn-${reply._id}` type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#reply-react-modal-${reply._id}`).fmini-footer-react 
+               i.fa-regular.fa-face-smile  
+             .modal.fade(id=`reply-react-modal-${reply._id}` , data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                 .modal-dialog
+                   .modal-content
+                     .modal-header
+                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .scrollbox.overflow-scroll
+                         .grid(style='width : 1000px')
+                           .hstack 
+                             a.emoji-rxns.mx-3(id=`lol` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 😂
+                             a.emoji-rxns.mx-3(id=`love` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 🥰
+                             a.emoji-rxns.mx-3(id=`hug` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 🤗
+                             a.emoji-rxns.mx-3(id=`no-rxn` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 😐
+                             a.emoji-rxns.mx-3(id=`bored` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 🥱
+                             a.emoji-rxns.mx-3(id=`anger` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 😡
+                             a.emoji-rxns.mx-3(id=`broken-heart` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 💔
+                             a.emoji-rxns.mx-3(id=`cry` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 😭
+                             a.emoji-rxns.mx-3(id=`mind-blowing` onclick=`postRxn(this, "${replies[0].fminiRefId}","${reply._id}")`) 🤯                           
+                       h6 Reactions
+                       if reply.reactions
+                        ul.list-group.list-group-flush.reaction-infos 
+                         for reaction in reply.reactions
+                          li.list-group-item
+                           a(href='').reply-rxn-hdr.d-flex 
+                            .reply-rxn-hdr-img
+                              if reaction.usrImg
+                                if reaction.usrImg.includes('tenor.com')
+                                  img.avator(src=reaction.usrImg)
+                                else   
+                                  img.avator(src=`https://drive.google.com/uc?export=view&id=${reaction.usrImg}` alt='')
+                              else 
+                               div(style='width : 48px; height : 48px; background : purple')
+                            .reply-rxn-hdr-info.vstack 
+                               .reply-rxn-hdr-info-up.d-flex
+                                 .reply-rxn-hdr-usrname=reaction.usrName 
+                               .reply-rxn-hdr-usrid @#{reaction.usrId}    
+                            .reply-feeling-emoji.float-end  
+                              -if(reaction.reaction == 'no-rxn')
+                                  span 😐
+                              -if(reaction.reaction == 'love')
+                                  span 🥰
+                              -if(reaction.reaction == 'lol')
+                                  span 😂
+                              -if(reaction.reaction == 'hug')
+                                  span 🤗
+                              -if(reaction.reaction == 'bored')
+                                  span 🥱
+                              -if(reaction.reaction == 'anger')
+                                   span 😡
+                              -if(reaction.reaction == 'broken-heart')
+                                   span 💔
+                              -if(reaction.reaction == 'mind-blowing')
+                                   span 🤯
+                              -if(reaction.reaction == 'cry')
+                                   span 😭                                                                  
+             .reply-footer-share 
+              i.fa-solid.fa-share-nodes      
+   else if alters
+    ul.list-group.list-group-flush.dreams-post
+     for alter in alters
+       li.list-group-item.my-2 
+        .alter-wrap
+           .alter-hdr.d-flex 
+             .alter-hdr-img
+               img.avator(src='https://pbs.twimg.com/profile_images/1543523698862239744/FeJy-3sl_400x400.jpg' alt='')
+             .alter-hdr-info.vstack 
+                .alter-hdr-info-up.d-flex
+                  a(href=`/user/${alter.userId}`).alter-hdr-usrname  #{alter.name} 
+                  .alter-hdr-timeStamp.ms-1 #{moment(alter.timeStamp).startOf('hour').fromNow()} 
+                  .alter-hdr-options.flex-grow-1 
+                    a(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                     i.fa-solid.fa-ellipsis.fa-vertical 
+                .alter-hdr-usrid @#{alter.userId}
+           a.alter-body(href=`/alter/${alter._id}` id=alter._id)
+             .mt-2  #{alter.alter}
+           if alter.media
+            if alter.media.includes('https://media.tenor.com')  
+             img(src=`${alter.media}`)
+           else
+             img.alter-media.my-1(src=`https://drive.google.com/uc?export=view&id=${alter.media}`, alt="", srcset="" data-bs-toggle='modal' data-bs-target='#reply-media-modal')                             
+           #alter-media-modal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+                .modal-dialog.modal-fullscreen
+                  .modal-content
+                    .modal-header
+                      button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                    .modal-body.text-center.vstack
+                      img.modal-img(src='https://w0.peakpx.com/wallpaper/970/985/HD-wallpaper-stormy-attack-waves-sky-dragon-storm-wall-stormy-sea-fire-fantasy-ship-mountains-digital-attack-night.jpg' alt='').mx-auto
+                      .modal-dream-info-counts           
+           .alter-footer.d-flex.justify-content-between.mt-2
+             .alter-footer-comment 
+               button.btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#annex_annex_${alter._id}`)
+                 i.fa-regular.fa-comment
+               a(href=`/${alter.fminiRefId}/${alter._id}/nestedReplies`) 122 
+                 span.lapdisp(style='font-size:15px') replies
+             .modal.fade(data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true' id=`annex_annex_${alter._id}`)
+                 .modal-dialog.modal-fullscreen-sm-down
+                   .modal-content
+                     .modal-header
+                          beutton.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .fanta-options.float-end 
+                         label(for=`alter-fileinp-${alter._id}`).mx-1 
+                            span(class="material-symbols-outlined")
+                              | add_photo_alternate
+                            input(name="fantaimage", type="file", onchange=`readURL(this,"replyImg${alter._id}")` id=`alter-fileinp-${alter._id}`).d-none    
+                         a.mx-1(href='#'  data-bs-toggle='collapse' data-bs-target=`#alter-reply-gif-${alter._id}` aria-expanded='false')
+                             span(class="material-symbols-outlined")
+                                    |gif_box                                                                                                                                                                          
+                             button.btn.ibtn#-alter-load-gif(type='button' style='display:none') Load more                                                          
+                       img(src="", alt="", srcset="" id=`replyImg${alter._id}`)
+                       textarea.form-control(name="", cols="30", id = `replyBody${alter._id}`) 
+                       .collapse(id=`alter-reply-gif-${alter._id}`)
+                           .card.card-body
+                             input.form-control(id = `annexReplygfsearch${alter._id}` type="search", name=`alter-reply-gif-${alter._id}` , placeholder='Search Tenor', onkeyup=`suggest(this,'${alter._id}')`)
+                             div(id=`tenor-suggestion-${alter._id}`)
+                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                 div(style='width:2000px')
+                                  .radios
+                                    label(for=`a1-${alter._id}` onclick=`setAnnexReplyGifSearch(this,"${alter._id}")`)
+                                      input(type='radio' id=`a1-${alter._id}` name=`alter-reply-tenor-suggestion-${alter._id}`  checked='')
+                                      span(class=`reply-tenor-suggestion-${alter._id}`)                                        
+                                    label(for=`b2-${alter._id}` onclick=`setAnnexReplyGifSearch(this,"${alter._id}")`)
+                                      input(type='radio' id=`b2-${alter._id}` name=`alter-reply-tenor-suggestion-${alter._id}` )
+                                      span(class=`reply-tenor-suggestion-${alter._id}`)                                       
+                                    label(for=`c3-${alter._id}` onclick=`setAnnexReplyGifSearch(this,"${alter._id}")`)
+                                      input(type='radio' id=`c3-${alter._id}` name=`alter-reply-tenor-suggestion-${alter._id}` )
+                                      span(class=`reply-tenor-suggestion-${alter._id}`)                  
+                             div(id=`alter-reply-gif-preview-container-${alter._id}`).no-scrollbar()
+                       button.btn.ibtn(type = 'button' onclick=`postCommonReply('${alter._id}', '${alters[0].fminiRefId}')`) Reply             
+             .alter-footer-react.btn#emoji-rxn-btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target='#react-modal').fmini-footer-react 
+               i.fa-regular.fa-face-smile  
+             #react-modal.modal.fade(data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                 .modal-dialog
+                   .modal-content
+                     .modal-header
+                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .scrollbox.overflow-scroll
+                         .grid(style='width : 1000px')
+                           .hstack 
+                             a.emoji-rxns.mx-3#lol( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 😂
+                             a.emoji-rxns.mx-3#love( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 🥰
+                             a.emoji-rxns.mx-3#hug( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 🤗
+                             a.emoji-rxns.mx-3#no-rxn( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 😐
+                             a.emoji-rxns.mx-3#bored( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 🥱
+                             a.emoji-rxns.mx-3#anger( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 😡
+                             a.emoji-rxns.mx-3#broken-heart( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 💔
+                             a.emoji-rxns.mx-3#cry( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 😭
+                             a.emoji-rxns.mx-3#mind-blowing( onclick=`postRxn(this, "${alters[0].fminiRefId}", "${alter._id}")`) 🤯   
+                       h6 Reactions
+                       ul.list-group.list-group-flush.reaction-infos 
+                        for reaction in alter.reactions
+                         li.list-group-item
+                          a(href='').alter-rxn-hdr.d-flex 
+                            .alter-rxn-hdr-img
+                              if reaction.usrImg
+                                if reaction.usrImg.includes('tenor.com')
+                                  img.avator(src=reaction.usrImg)
+                                else   
+                                  img.avator(src=`https://drive.google.com/uc?export=view&id=${reaction.usrImg}` alt='')
+                              else 
+                               div(style='width : 48px; height : 48px; background : purple')
+                            .alter-rxn-hdr-info.vstack 
+                               .alter-rxn-hdr-info-up.d-flex
+                                 .alter-rxn-hdr-usrname=reaction.usrName 
+                               .alter-rxn-hdr-usrid @#{reaction.usrId}    
+                            .alter-feeling-emoji.float-end  
+                              -if(reaction.reaction == 'no-rxn')
+                                  span 😐
+                              -if(reaction.reaction == 'love')
+                                  span 🥰
+                              -if(reaction.reaction == 'lol')
+                                  span 😂
+                              -if(reaction.reaction == 'hug')
+                                  span 🤗
+                              -if(reaction.reaction == 'bored')
+                                  span 🥱
+                              -if(reaction.reaction == 'anger')
+                                   span 😡
+                              -if(reaction.reaction == 'broken-heart')
+                                   span 💔
+                              -if(reaction.reaction == 'mind-blowing')
+                                   span 🤯
+                              -if(reaction.reaction == 'cry')
+                                   span 😭                                                                  
+             .alter-footer-share 
+              i.fa-solid.fa-share-nodes  
+block script 
+     script(src="/javascripts/fmini.js" defer)  
+     script(src="/javascripts/home.js")  

@@ -1,0 +1,187 @@
+
+.following_card{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  }
+
+  img.following_user_img, img.follow_user_img,.fantom_user_profile_pic{
+      width : 50px;
+      border-radius: 10px;
+  }
+  .following_user_name, .follow_user_name{
+      font-size: 12px;
+      font-family:Verdana, Geneva, Tahoma, sans-serif;
+  }
+  .add_user_icon{
+      transform: translate(-15px, 30px);
+  }
+  .fantom_user_profile_pic{
+      float: left;
+      margin-right: 20px;
+  }
+  .fantom_user_name_id{
+      float: left;
+      font-family: cursive;
+      font-size: 15px;
+      font-weight: bolder;
+      z-index: 4;
+  }
+  .fantom_body{
+      clear: both;
+  }
+  .fantom_options{
+    cursor: pointer;
+   position: relative;
+   left: 160px;
+   top: -40px
+  }
+  .fantom_card{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  
+  }
+  @media screen and (max-width: 570px){
+      .item{
+          margin-left: 30px ;
+      }
+  }
+     
+    img.fantom_media {
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.5; 
+    }
+    span.totals{
+      font-size: 12px;
+      position: relative;
+      bottom: 7px;
+    }
+  
+    .fantom_body {
+      position: relative;
+      display: -webkit-box;
+      -webkit-line-clamp: 12;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 600;
+    }
+    .fantom_user_info{
+      position: relative;
+      z-index: 1;
+    }
+    .fantom_reactions {
+      width: 44px;
+      height: 25px;
+      position: relative;
+      left: 13px;
+      cursor: pointer;
+    }
+    .fantom_footer{
+      position: relative;
+      z-index: 1;
+    }
+    .fantom_reactions::before {
+      content: ".";
+      opacity: 0;
+      display: block;
+      width: 44px;
+      height: 10px;
+      position: absolute;
+      top: -10px;
+      left: 0;
+    }
+    .fantom_reactions .reaction-box {
+      position: absolute;
+      left : -140px;
+      width: 290px;
+      height: 55px;
+      background: #FFF;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+      border-radius: 28px;
+      bottom: 35px;
+      display: none;
+      z-index: 6;
+    }
+    .fantom_reactions .reaction-box .reaction-icon.angry {
+      animation: fadeInLoad-angry 0.3s;
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+      background-position: 0px 0px;}
+  
+      .fantom_reactions .reaction-box .reaction-icon.haha {
+      animation: fadeInLoad-haha 0.3s;
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+      background-position: 0px -80px;
+  }
+    .fantom_reactions .reaction-box .reaction-icon.like {
+      animation: fadeInLoad-like 0.3s;
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+      background-position: 0px -120px;
+    }
+    .fantom_reactions .reaction-box .reaction-icon.love {
+      animation: fadeInLoad-love 0.3s;
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+      background-position: 0px -160px;
+    }
+  
+    .fantom_reactions .reaction-box .reaction-icon.sad {
+      animation: fadeInLoad-sad 0.3s;
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+      background-position: 0px -200px;
+    }
+  
+    .fantom_reactions .reaction-box .reaction-icon.wow {
+      animation: fadeInLoad-wow 0.3s;
+      -webkit-animation-timing-function: ease-out;
+      animation-timing-function: ease-out;
+      background-position: 0px -240px;
+    }
+  .emoji{
+    font-family: 'Noto Color Emoji', sans-serif;
+    font-size: 30px;
+  }
+    .fantom_reactions .reaction-box .reaction-icon {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      background-size: cover;
+      border-radius: 20px;
+      margin: 8px -1px 0 8px;
+      text-align: center;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      opacity: 0;
+      transform: translate(0, 100px) scale(0);
+    }
+    .fantom_reactions .reaction-box .reaction-icon label {
+      padding: 3px 5px 3px 5px;
+      position: relative;
+      top: -24px;
+      border-radius: 10px;
+      font-size: 11px;
+      color: #FFF;
+      background: #333;
+      visibility: hidden;
+    }
+  
+    .fantom_reactions:hover .reaction-box {
+      display: block;
+    }
+    .fantom_reactions:hover .reaction-box .reaction-icon.show {
+      opacity: 1;
+      transform: translate(0, 0) scale(1);
+    }
+    .fantom_reactions:hover .reaction-box .reaction-icon:hover {
+      transform: scale(1.4);
+      transform-origin: bottom;
+    }
+    .fantom_reactions:hover .reaction-box .reaction-icon:hover label {
+      visibility: visible;
+    }
+  

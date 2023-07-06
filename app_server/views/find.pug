@@ -1,0 +1,62 @@
+extends layout
+block link
+    link(rel='stylesheet', href='/stylesheets/home.css')
+    link(rel="stylesheet", href="/stylesheets/find.css")
+    script(src="/javascripts/find.js") 
+block content
+ .overall                                
+   form(action="/")
+     .hstack
+        input#find_input.ms-3(type="search", name="", placeholder='Dive into imaginations').form-control.m-2
+        button(type="submit").btn.ibtn.me-3#find_button 
+         .fa-solid.fa-magnifying-glass
+   .radio_grd.overflow-scroll.no-scrollbar
+             .radio_container.hstack.scrollbox    
+               .radio.radio_tile_group(name = `radio_tile`)
+                    .input_container
+                      input.radio_button.custom-cursor-on-hover(name='find_filter' value='fmini' type='radio' onclick='find("fmini")')
+                      .radio_tile   
+                        .radio_tile_label.label     
+                          span Fmini                
+                    .input_container
+                      input.radio_button.custom-cursor-on-hover(name='find_filter' value='fantom' type='radio' onclick='find("fantom")')
+                      .radio_tile   
+                        .radio_tile_label.label     
+                          span Fantom                                
+                    .input_container
+                      input.radio_button.custom-cursor-on-hover(name='find_filter' value='tags' type='radio' onclick='find("tag")' )
+                      .radio_tile   
+                        .radio_tile_label.label     
+                          span   Dream Tags                                                               
+                    .input_container
+                      input.radio_button.custom-cursor-on-hover(name='find_filter' value='feelings' type='radio' onclick='find("feeling")' )
+                      .radio_tile   
+                        .radio_tile_label.label     
+                          span Feelings
+                    .input_container
+                      input.radio_button.custom-cursor-on-hover(name='find_filter' value='dream_echo' type='radio' onclick='find("trending")' )
+                      .radio_tile   
+                        .radio_tile_label.label     
+                          span Dream Echo      
+                    .input_container
+                      input.radio_button.custom-cursor-on-hover(name='find_filter' value='dream_domain' type='radio' onclick='find("catagory")' )
+                      .radio_tile   
+                        .radio_tile_label.label     
+                          span Dream Domain                                 
+                    .input_container
+                      input.radio_button.custom-cursor-on-hover(name='find_filter' value='dreamstream' type='radio' onclick='find("recent")' )
+                      .radio_tile   
+                        .radio_tile_label.label     
+                          span Dreamstream                                                  
+   .search_results.mt-4
+     #placeholders
+       img#search_placeholder(src="/images/search1.png", alt="")
+       span#search_msg Search for imaginations     
+       #search_spinner.spinner-border.m-auto(role='status' style='display : none')
+               span.visually-hidden Loading...       
+     #no_search_result(style='display : none')
+       img#no_result(src="/images/no_result.png", alt="")
+       span#search_msg No imaginations found
+     #search_results_grid.grid
+     
+                                          

@@ -1,0 +1,405 @@
+:root {
+  --card-line-height: 1.2em;
+  --card-padding: 1em;
+  --card-radius: 0.5em;
+  --color-green: var(--bg-theme);
+  --color-gray: #e2ebf6;
+  --color-dark-gray: #c4d1e1;
+  --radio-border-width: 2px;
+  --radio-size: 1.5em;
+}
+
+  input, textarea {
+    margin-top: 10px !important;
+  }
+
+  .ck-editor__editable[role="textbox"] {
+    /* editing area */
+    min-height: 200px;
+    }
+    .ck-content .image {
+    /* block images */
+    max-width: 80%;
+    margin: 20px auto;
+    }
+    .demo-update .ck.ck-editor__editable_inline {
+        border: 1px solid hsla( 0, 0%, 0%, 0.15 );
+        transition: background .5s ease-out;
+        min-height: 6em;
+        margin-bottom: 1em;
+    }
+
+    .demo-update__controls {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .demo-update__chart {
+        margin-right: 1em;
+    }
+
+    .demo-update__chart__circle {
+        transform: rotate(-90deg);
+        transform-origin: center;
+    }
+
+    .demo-update__chart__characters {
+        font-size: 13px;
+        font-weight: bold;
+    }
+
+    .demo-update__words {
+        flex-grow: 1;
+        opacity: .5;
+    }
+
+    .demo-update__limit-close .demo-update__chart__circle {
+        stroke: hsl( 30, 100%, 52% );
+    }
+
+    .demo-update__limit-exceeded .ck.ck-editor__editable_inline {
+        background: hsl( 0, 100%, 97% );
+    }
+
+    .demo-update__limit-exceeded .demo-update__chart__circle {
+        stroke: hsl( 0, 100%, 52% );
+    }
+
+    .demo-update__limit-exceeded .demo-update__chart__characters {
+        fill: hsl( 0, 100%, 52% );
+    }
+
+      
+      .grid {
+        display: grid;
+        grid-gap: var(--card-padding);
+        margin: 0 auto;
+        max-width: 60em;
+        padding: 0;
+      }
+      @media (min-width: 42em) {
+        .grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      
+      .card.radio-cards {
+        width: 250px;
+        background-color: #fff;
+        border-radius: var(--card-radius);
+        position: relative;
+        margin-right: 10px;
+      }
+      .card.radio-cards:hover {
+        box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+      }
+      
+      .radio[name]{
+        font-size: inherit;
+        margin: 0;
+        position: absolute;
+        right: calc(var(--card-padding) + var(--radio-border-width));
+        top: calc(var(--card-padding) + var(--radio-border-width));
+      }
+      
+      @supports (-webkit-appearance: none) or (-moz-appearance: none) {
+        .radio {
+          /* -webkit-appearance: none;
+          -moz-appearance: none; */
+          background: #fff;
+          border: var(--radio-border-width) solid var(--color-gray);
+          border-radius: 50%;
+          cursor: pointer;
+          height: var(--radio-size);
+          outline: none;
+          transition: background 0.2s ease-out, border-color 0.2s ease-out;
+          width: var(--radio-size);
+        }
+        .radio[name]::after {
+          border: var(--radio-border-width) solid #fff;
+          border-top: 0;
+          border-left: 0;
+          content: "";
+          display: block;
+          height: 0.75rem;
+          left: 25%;
+          position: absolute;
+          top: 50%;
+          transform: rotate(45deg) translate(-50%, -50%);
+          width: 0.375rem;
+        }
+        .radio[name]:checked {
+          background: var(--color-green);
+          border-color: var(--color-green);
+        }
+      
+        .card.radio-cards:hover .radio {
+          border-color: var(--color-dark-gray);
+        }
+        .card.radio-cards:hover .radio:checked {
+          border-color: var(--color-green);
+        }
+      }
+      .plan-details {
+        border: var(--radio-border-width) solid var(--color-gray);
+        border-radius: var(--card-radius);
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        padding: var(--card-padding);
+        transition: border-color 0.2s ease-out;
+        color : var(--bg-theme)
+      }
+      
+      .card:hover .plan-details {
+        border-color: var(--color-dark-gray);
+      }
+      
+      .radio[name]:checked ~ .plan-details{
+        border-color: var(--color-green);
+      }
+      
+      .radio[name]:focus ~ .plan-details {
+        box-shadow: 0 0 0 2px var(--color-dark-gray);
+      }
+      
+      .radio[name]:disabled ~ .plan-details{
+        color: var(--bg-theme);
+        cursor: default;
+      }
+      
+      .card.radio-cards:hover .radio[name]:disabled ~ .plan-details {
+        border-color: var(--color-gray);
+        box-shadow: none;
+      }
+      
+      .card.radio-cards:hover .radio[name]:disabled {
+        border-color: var(--color-gray);
+      }
+      
+      .plan-type {
+        color: var(--color-green);
+        font-size: 1.5rem;
+        font-weight: bold;
+        line-height: 1em;
+      }
+      
+      .plan-cost {
+        font-size: 2.5rem;
+        font-weight: bold;
+        padding: 0.5rem 0;
+      }
+      
+      .slash {
+        font-weight: normal;
+      }
+      
+      .plan-cycle {
+        font-size: 2rem;
+        font-variant: none;
+        border-bottom: none;
+        cursor: inherit;
+        text-decoration: none;
+      }
+      
+      .hidden-visually {
+        border: 0;
+        clip: rect(0, 0, 0, 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
+      }      
+      select {
+        width: 100%;
+      }      
+   .characters label{
+    color : rgb(20, 19, 19)
+   }
+   .feelings .card {
+    --background: #fff;
+    --background-checkbox: #0082ff;
+    --background-image: #fff, rgba(0, 107, 175, 0.2);
+    --text-color: #666;
+    --text-headline: #000;
+    --card-shadow: #0082ff;
+    --card-height: 90px;
+    --card-width: 190px;
+    --card-radius: 12px;
+    --header-height: 47px;
+    --blend-mode: overlay;
+    --transition: 0.15s;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+  }
+  .card:nth-child(odd) .card__body-cover-image {
+    --x-y1: 100% 90%;
+    --x-y2: 67% 83%;
+    --x-y3: 33% 90%;
+    --x-y4: 0% 85%;
+  }
+  .card:nth-child(even) .card__body-cover-image {
+    --x-y1: 100% 85%;
+    --x-y2: 73% 93%;
+    --x-y3: 25% 85%;
+    --x-y4: 0% 90%;
+  }
+  .card__input {
+    position: absolute;
+    display: block;
+    outline: none;
+    border: none;
+    background: none;
+    padding: 0;
+    margin: 0;
+  }
+  .card__input:checked ~ .card__body {
+    --shadow: 0 0 0 3px var(--card-shadow);
+  }
+  .card__input:checked ~ .card__body .card__body-cover-checkbox {
+    --check-bg: var(--background-checkbox);
+    --check-border: #fff;
+    --check-scale: 1;
+    --check-opacity: 1;
+  }
+  .card__input:checked ~ .card__body .card__body-cover-checkbox--svg {
+    --stroke-color: #fff;
+    --stroke-dashoffset: 0;
+  }
+  .card__input:checked ~ .card__body .card__body-cover:after {
+    --opacity-bg: 0;
+  }
+  .card__input:checked ~ .card__body .card__body-cover-image {
+    --filter-bg: grayscale(0);
+  }
+  .card__input:disabled ~ .card__body {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  .card__input:disabled ~ .card__body:active {
+    --scale: 1;
+  }
+  .card__body {
+    display: grid;
+    grid-auto-rows: calc(var(--card-height) - var(--header-height)) auto;
+    background: var(--background);
+    height: var(--card-height);
+    width: var(--card-width);
+    border-radius: var(--card-radius);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    box-shadow: var(--shadow, 0 4px 4px 0 rgba(0, 0, 0, 0.02));
+    transition: transform var(--transition), box-shadow var(--transition);
+    transform: scale(var(--scale, 1)) translateZ(0);
+  }
+  .card__body:active {
+    --scale: 0.96;
+  }
+  .card__body-cover {
+    --c-border: var(--card-radius) var(--card-radius) 0 0;
+    --c-width: 100%;
+    --c-height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+  .card__body-cover:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--c-width);
+    height: var(--c-height);
+    border-radius: var(--c-border);
+    background: linear-gradient(to bottom right, var(--background-image));
+    mix-blend-mode: var(--blend-mode);
+    opacity: var(--opacity-bg, 1);
+    transition: opacity var(--transition) linear;
+  }
+  .card__body-cover-image {
+    width: var(--c-width);
+    height: var(--c-height);
+    -o-object-fit: cover;
+       object-fit: cover;
+    border-radius: var(--c-border);
+    filter: var(--filter-bg, grayscale(1));
+    -webkit-clip-path: polygon(0% 0%, 100% 0%, var(--x-y1, 100% 90%), var(--x-y2, 67% 83%), var(--x-y3, 33% 90%), var(--x-y4, 0% 85%));
+            clip-path: polygon(0% 0%, 100% 0%, var(--x-y1, 100% 90%), var(--x-y2, 67% 83%), var(--x-y3, 33% 90%), var(--x-y4, 0% 85%));
+  }
+  .card__body-cover-checkbox {
+    background: var(--check-bg, var(--background-checkbox));
+    border: 2px solid var(--check-border, #fff);
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 1;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    opacity: var(--check-opacity, 0);
+    transition: transform var(--transition), opacity calc(var(--transition) * 1.2) linear;
+    transform: scale(var(--check-scale, 0));
+  }
+  .card__body-cover-checkbox--svg {
+    width: 13px;
+    height: 11px;
+    display: inline-block;
+    vertical-align: top;
+    fill: none;
+    margin: 7px 0 0 5px;
+    stroke: var(--stroke-color, #fff);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 16px;
+    stroke-dashoffset: var(--stroke-dashoffset, 16px);
+    transition: stroke-dashoffset 0.4s ease var(--transition);
+  }
+  .card__body-header {
+    height: var(--header-height);
+    background: var(--background);
+    padding: 0 10px 10px 10px;
+  }
+  .card__body-header-title {
+    color: var(--text-headline);
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .card__body-header-subtitle {
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 13px;
+  }
+  
+
+  body .socials {
+    position: fixed;
+    display: flex;
+    right: 20px;
+    bottom: 20px;
+  }
+  body .socials > a {
+    display: block;
+    height: 28px;
+    margin-left: 15px;
+  }
+  body .socials > a.dribbble img {
+    height: 28px;
+  }
+  body .socials > a.twitter svg {
+    width: 32px;
+    height: 32px;
+    fill: #1da1f2;
+  }
+input[name='age-rating'] image{
+  width : 200px
+}
+#catagory_radio .radio_tile_group .input_container .radio_tile{
+  padding: 25px !important;
+}

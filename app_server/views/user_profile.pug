@@ -1,0 +1,328 @@
+extends layout 
+block link
+   link(rel='stylesheet', href='/stylesheets/profile.css')  
+   script(src ='/javascripts/profile.js')
+   script(src='https://jsuites.net/v4/jsuites.js')
+   link(rel='stylesheet' href='https://jsuites.net/v4/jsuites.css' type='text/css')
+   script(src='https://cdn.jsdelivr.net/npm/@jsuites/cropper/cropper.min.js')
+   link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/@jsuites/cropper/cropper.min.css' type='text/css')   
+   script(src='https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js')
+   script.
+     feather.replace()
+block content
+  .profile 
+   .row
+    .col-12.col-lg-8  
+     .hstack.profile-header    
+      .profile_img.p-2       
+       if user.prflimg 
+           img.profile-img.ms-2(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}`, alt="", srcset="" data-bs-toggle='modal' data-bs-target='#edtprflimg')
+       else 
+         .profile-img( data-bs-toggle='modal' data-bs-target='#edtprflimg' style='background: #c631c6; min-width : 120px;min-height:120px ')      
+      .profile-info.text-start.ps-2
+        .profile_names
+          .usrname=user.name
+          .userid @ #{user.id}
+        -if(user.about == '')  
+          .about 
+        -else
+          .about.my-1 #{user.about}
+        .joined.my-1 
+          i.fa-solid.fa-calender
+          | Dreaming since #{user.joinedat}
+        .effect.jaques
+          .buttons
+           -if(user.fbuserid)
+            a.fb(href='#' title='Join us on Facebook')
+               i.fa.fa-facebook(aria-hidden='true')
+           -if(user.twtruserid)
+            a.tw(href='#' title='Join us on Twitter')
+               i.fa.fa-twitter(aria-hidden='true')
+           -if(user.instauserid) 
+            a.insta(href='#' title='Join us on Instagram')
+               i.fa.fa-instagram(aria-hidden='true')          
+        .d-flex.mt-1  
+          button(type='button'  data-bs-toggle='modal' data-bs-target='#following_modal').ibtn.btn.following  #{user.following.length} following
+          button(type='button'  data-bs-toggle='modal' data-bs-target='#followers_modal').ibtn.btn.followers.mx-3  #{user.followers.length} followers     
+     ul#pills-tab.nav.nav-pills.my-3.px-2.profile-tab(role='tablist')
+        .overflow-scroll.no-scrollbar
+         .hstack.scrollbox#top_tab
+          li.nav-item.mx-2(role='presentation')
+            button#pills-Fmini-tab.nav-link.active(data-bs-toggle='pill' data-bs-target='#pills-Fmini' type='button' role='tab' aria-controls='pills-Fmini' aria-selected='true' ) Fminis
+          li.nav-item.mx-2(role='presentation')
+            button#pills-fantoms-tab.nav-link(data-bs-toggle='pill' data-bs-target='#pills-fantoms' type='button' role='tab' aria-controls='pills-fantoms' aria-selected='false') Fantoms
+          li.nav-item.mx-2(role='presentation')
+            button#pills-annexures-tab.nav-link(data-bs-toggle='pill' data-bs-target='#pills-annexures' type='button' role='tab' aria-controls='pills-annexures' aria-selected='false') Annexes
+          li.nav-item.mx-2(role='presentation')
+            button#pills-alter-tab.nav-link(data-bs-toggle='pill' data-bs-target='#pills-alter' type='button' role='tab' aria-controls='pills-alter' aria-selected='false') Alter
+          li.nav-item.mx-2(role='presentation')
+            button#pills-replies-tab.nav-link(data-bs-toggle='pill' data-bs-target='#pills-replies' type='button' role='tab' aria-controls='pills-replies' aria-selected='false') Replies  
+     #pills-tabContent.tab-content
+       #pills-Fmini.tab-pane.fade.show.active(role='tabpanel' aria-labelledby='pills-Fmini-tab' tabindex='0') 
+         ul.list-group.list-group-flush.dreams-post
+          -for(fmini of usr_fminis)
+           li.list-group-item
+              .dream-wrap
+                .dream-header.hstack
+                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  .dream-header-info.hstack 
+                      -if(fmini.settings.postAs == 'anonymous')
+                        span Anonymous
+                      -else
+                        .vstack
+                          span #{user.name}
+                          span.usrid @#{user.id}
+                      a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                        i.fa-solid.fa-ellipsis-vertical                        
+                .fmini_body 
+                    .fmini_catagory.badge.me-3 #{fmini.catagory}
+                    a(href=`.fmini/${fmini._id}`)  #{fmini.body}
+                .fmini_tag.d-flex 
+                  -for(tag of fmini.tags)
+                    .tag-light #{tag}
+                -if(fmini.media)
+                  .dream-img-wrap.m-auto
+                    -if(fmini.media.includes('tenor'))
+                      img.fmini_media(src=`${fmini.media}`, alt="", srcset="")
+                    -else
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${fmini.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${fmini._id}`)
+                  .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${fmini._id}`)
+                     .modal-dialog.modal-fullscreen
+                       .modal-content
+                         .modal-header
+                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                         .modal-body.text-center.vstack
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${fmini.media}` alt='').mx-auto                                                 
+                .dream-info-counts.d-flex.justify-content-around
+                            .replies 
+                                a.btn.btn-light.mx-1(type='button' href=`/${fmini._id}/replies`) 
+                                  i.lapdisp.fa-solid.fa-reply 
+                            .annexes 
+                                a.btn.btn-light.mx-1(type='button' href=`/${fmini._id}/annexures`) 
+                                   i.lapdisp.fa-solid.fa-plus 
+                            .alters
+                                a.btn.btn-light.mx-1(type='button' href=`/${fmini._id}/alters`) 
+                                 i.lapdisp.fa-solid.fa-pen                             
+                            .reactions 
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
+                                i.fa-solid.fa-face-smile                             
+                            .share  
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
+                                i.fa-solid.fa-share-nodes                         
+       #pills-fantoms.tab-pane.fade.pd(role='tabpanel' aria-labelledby='pills-fantoms-tab' tabindex='0')                              
+         ul.list-group.list-group-flush.dreams-post
+          -for(fantom of usr_fantoms)
+           li.list-group-item
+              .dream-wrap
+                .dream-header.hstack
+                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  .dream-header-info
+                    .user_name_id.d-flex 
+                      -if(fantom.post_as == 'anonymous')
+                        span Anonymous
+                      -else
+                        .vstack
+                          span #{user.name}
+                          span.usrid @#{user.id}
+                      a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                        i.fa-solid.fa-ellipsis-vertical                        
+                    p #{fantom.desc}
+                -if(fantom.cover)
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}` alt=''  data-bs-toggle='modal' data-bs-target=`#${fantom._id}`)
+                .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${fantom._id}`)
+                     .modal-dialog.modal-fullscreen
+                       .modal-content
+                         .modal-header
+                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                         .modal-body.text-center.vstack
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}` alt='').mx-auto                                                 
+                .dream-info-counts.d-flex.justify-content-around
+                            .replies 
+                                button.btn.btn-light.mx-1(type='button') 
+                                  i.lapdisp.fa-solid.fa-reply 
+                            .annexes 
+                                 button.btn.btn-light.mx-1(type='button') 
+                                   i.lapdisp.fa-solid.fa-plus 
+                            .alters
+                               button.btn.btn-light.mx-1(type='button') 
+                                 i.lapdisp.fa-solid.fa-pen                             
+                            .reactions 
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
+                                i.fa-solid.fa-face-smile                             
+                            .share  
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
+                                i.fa-solid.fa-share-nodes                
+       #pills-annexures.tab-pane.fade(role='tabpanel' aria-labelledby='pills-annexures-tab' tabindex='0') 
+         ul.list-group.list-group-flush.dreams-post
+          -for(annex of usr_annexes)
+           li.list-group-item
+              .dream-wrap
+                .dream-header.hstack
+                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  .dream-header-info
+                    .user_name_id.d-flex 
+                        .vstack
+                          span #{user.name}
+                          span.usrid @#{user.id}
+                        a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                          i.fa-solid.fa-ellipsis-vertical                        
+                .fmini_body 
+                    a(href=`.annex/${annex._id}`)  #{annex.annex}
+                .fmini_tags 
+                  -for(tag in annex.tags)
+                    .tag-light #{tag}
+                -if(annex.media)
+                  .dream-img-wrap
+                    -if(annex.media.includes('tenor'))
+                      img.fmini_media(src=`${annex.media}`, alt="", srcset="")
+                    -else
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${annex.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${annex._id}`)
+                  .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${annex._id}`)
+                     .modal-dialog.modal-fullscreen
+                       .modal-content
+                         .modal-header
+                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                         .modal-body.text-center.vstack
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${annex.media}` alt='').mx-auto                                                 
+                .dream-info-counts.d-flex.justify-content-around
+                            .replies 
+                                a.btn.btn-light.mx-1(type='button' href=`/${annex._id}/replies`) 
+                                  i.lapdisp.fa-solid.fa-reply                              
+                            .reactions 
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
+                                i.fa-solid.fa-face-smile                             
+                            .share  
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
+                                i.fa-solid.fa-share-nodes  
+       #pills-alter.tab-pane.fade(role='tabpanel' aria-labelledby='pills-alter-tab' tabindex='0') 
+         ul.list-group.list-group-flush.dreams-post
+          -for(alter of usr_alters)
+           li.list-group-item
+              .dream-wrap
+                .dream-header.hstack
+                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  .dream-header-info
+                    .user_name_id.d-flex 
+                        .vstack
+                          span #{user.name}
+                          span.usrid @#{user.id}
+                        a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                          i.fa-solid.fa-ellipsis-vertical                        
+                .fmini_body 
+                    a(href=`.alter/${alter._id}`)  #{alter.alter}
+                .fmini_tags 
+                  -for(tag in alter.tags)
+                    .tag-light #{tag}
+                -if(alter.media)
+                  .dream-img-wrap
+                    -if(alter.media.includes('tenor'))
+                      img.fmini_media(src=`${alter.media}`, alt="", srcset="")
+                    -else
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${alter.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${alter._id}`)
+                  .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${alter._id}`)
+                     .modal-dialog.modal-fullscreen
+                       .modal-content
+                         .modal-header
+                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                         .modal-body.text-center.vstack
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${alter.media}` alt='').mx-auto                                                 
+                .dream-info-counts.d-flex.justify-content-around
+                            .replies 
+                                a.btn.btn-light.mx-1(type='button' href=`/${alter._id}/replies`) 
+                                  i.lapdisp.fa-solid.fa-reply                             
+                            .reactions 
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
+                                i.fa-solid.fa-face-smile                             
+                            .share  
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
+                                i.fa-solid.fa-share-nodes             
+       #pills-replies.tab-pane.fade(role='tabpanel' aria-labelledby='pills-replies-tab' tabindex='0') 
+         ul.list-group.list-group-flush.dreams-post
+          -for(reply of usr_replies)
+           li.list-group-item
+              .dream-wrap
+                .dream-header.hstack
+                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  .dream-header-info
+                    .user_name_id.d-flex 
+                        .vstack
+                          span #{user.name}
+                          span.usrid @#{user.id}
+                        a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                          i.fa-solid.fa-ellipsis-vertical                        
+                .fmini_body 
+                    a(href=`.reply/${reply._id}`)  #{reply.reply}
+                .fmini_tags 
+                  -for(tag in reply.tags)
+                    .tag-light #{tag}
+                -if(reply.media)
+                  .dream-img-wrap
+                    -if(reply.media.includes('tenor'))
+                      img.fmini_media(src=`${reply.media}`, alt="", srcset="")
+                    -else
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${reply.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${reply._id}`)
+                  .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${reply._id}`)
+                     .modal-dialog.modal-fullscreen
+                       .modal-content
+                         .modal-header
+                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                         .modal-body.text-center.vstack
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${reply.media}` alt='').mx-auto                                                 
+                .dream-info-counts.d-flex.justify-content-around
+                            .replies 
+                                a.btn.btn-light.mx-1(type='button' href=`/${reply._id}/replies`) 
+                                  i.lapdisp.fa-solid.fa-reply                            
+                            .reactions 
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
+                                i.fa-solid.fa-face-smile                             
+                            .share  
+                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
+                                i.fa-solid.fa-share-nodes        
+    .col-12.col-lg-4.lapdisp.side_notifications 
+          h6 Top Users 
+          ul.list-group#top_users 
+             #top_users_spinner.spinner-border.m-auto(role='status')
+               span.visually-hidden Loading...
+   .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id='followers_modal')
+                     .modal-dialog
+                       .modal-content
+                         .modal-header
+                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                         .modal-body  
+                           ul.list-group
+                            -if(user.followers.length)
+                              -for( follower of user.followers)
+                               li.list-group-item.follows_list
+                                .d-flex
+                                  img(src=`${follower.prflimg}` alt='' srcset='')
+                                .usr_names.vstack
+                                 .user_name #{follower.name}
+                                 .user_id @ #{follower.userId}
+                                button.btn.btn-primary Follow
+                            -else
+                             h6 No followers found.
+   .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id='following_modal')
+                     .modal-dialog
+                       .modal-content
+                         .modal-header
+                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                         .modal-body  
+                           ul.list-group.follows_list
+                            -if(user.following.length)
+                              -for(fellow of user.following)
+                               li.list-group-item
+                                .d-flex
+                                  img(src=`${fellow.prflimg}` alt='' srcset='')
+                                .usr_names.vstack
+                                 .user_name #{fellow.name}
+                                 .user_id @ #{fellow.userId}
+                                button.btn.btn-primary Follow
+                            -else
+                             h6 Not following anyone               
+    
+block script 
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js' )
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js' )
+  //- script(src="/javascripts/profile.js") 
+  script.
+   fetchTopUsers()

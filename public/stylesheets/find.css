@@ -1,0 +1,11 @@
+
+#find_button{
+  width: 80px;
+  border-radius: 5px;
+}
+.search_msg{
+  font-size: 40px;
+  color: crimson;
+  font-weight: bold;
+  font-family: cursive;
+}

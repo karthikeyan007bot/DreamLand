@@ -1,0 +1,4 @@
+These are all bugs in this application which should be eliminated in future as soon as possible. These 
+bugs are here because this is the possibly easiest way or known way to do so.
+
+1) Posting reactions for a post won't work at first  click due to some issues with bootstrap popover.

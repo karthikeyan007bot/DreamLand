@@ -1,0 +1,213 @@
+.profile-header{
+    position: relative;
+    max-width: 100%;
+}
+.profile-img{
+    border-radius: 20px;
+    width: 120px;
+}
+
+.dream-img{
+  max-width: 100%;
+}
+
+input:not(type='text'), .export {
+  /* Use relative position to prevent from being covered by image background */
+  position: relative;
+  z-index: 10;
+  display: block;
+}
+
+@media screen and (max-width:992px){
+    .jupload, .jcrop-area{
+        min-height : 100px !important
+    }
+    .header-img{
+      min-height: 150px;
+    }
+    .following, .followers, .edit{
+      font-size: 10px !important;
+    }
+    .userid{
+      font-size: 12px !important;;
+    }
+    .about{
+      font-size: 13px !important;;
+      color: grey;
+    }
+}
+@media screen and (min-width:992px){
+  .header-img{
+    min-height: 250px;
+  }
+  .following, .followers, .edit{
+    font-size: 15px !important;
+  }
+  .userid{
+    font-size: 15px;
+  }
+  .about{
+    font-size: 20px;
+    color: grey;
+  }
+  .fmini_media{
+    width : 20%
+  }
+}
+@media screen and (max-width:576px){
+    .profile-img{
+        width : 100px;
+    }
+}
+.usrname{
+    font-weight: 900;
+}
+
+.rradiowrapper{
+    display: inline-flex;
+    height: 100px;
+    width: 400px;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    padding: 20px 15px;
+  }
+  .rradiowrapper .option{
+    background: #fff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 0 10px;
+    border: 2px solid lightgrey;
+    transition: all 0.3s ease;
+  }
+  .rradiowrapper .option .dot{
+    height: 20px;
+    width: 20px;
+    background: #d9d9d9;
+    border-radius: 50%;
+    position: relative;
+  }
+  .rradiowrapper .option .dot::before{
+    position: absolute;
+    content: "";
+    top: 4px;
+    left: 4px;
+    width: 12px;
+    height: 12px;
+    background: var(--bg-theme);
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(1.5);
+    transition: all 0.3s ease;
+  }
+  input[type="radio"]{
+    display: none;
+  }
+  #option-1:checked:checked ~ .option-1,
+  #option-2:checked:checked ~ .option-2{
+    border-color:var(--bg-theme);
+    background:var(--bg-theme);
+  }
+  #option-1:checked:checked ~ .option-1 .dot,
+  #option-2:checked:checked ~ .option-2 .dot{
+    background: #fff;
+  }
+  #option-1:checked:checked ~ .option-1 .dot::before,
+  #option-2:checked:checked ~ .option-2 .dot::before{
+    opacity: 1;
+    transform: scale(1);
+  }
+  .rradiowrapper .option span{
+    font-size: 20px;
+    color: #808080;
+  }
+  #option-1:checked:checked ~ .option-1 span,
+  #option-2:checked:checked ~ .option-2 span{
+    color: #fff;
+  }
+/*  */
+
+.profile-tab{
+  position : sticky;
+  top : 80px;
+  z-index: 4;
+  background-color: white;
+}
+.side_notifications {
+  padding: 20px;
+}
+#top_users{
+  border-radius: 20px;
+  background-color: rgb(220, 221, 222);
+  min-height: 300px;
+  font-size: 18px;
+}
+#top_users > li{
+  background-color: rgb(220, 221, 222);
+  border-radius: 20px;
+}
+.usr_names{
+  max-width : 50%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  margin-inline: 10px;
+}
+.top_users_img{
+  width : 50px;
+  height : 50px;
+}
+.fmini_media{
+  margin-inline : auto;
+}
+#top_tab{
+  font-size : 18px
+}
+.fmini_catagory{
+  background-color: var(--bg-theme);
+}
+.effect {
+  display: flex; 
+}
+.effect a {
+  text-decoration: none !important;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin-right: 20px;
+  font-size: 25px;
+  overflow: hidden;
+  position: relative;
+}
+.effect a i {
+  position: relative;
+  z-index: 3;
+}
+.effect a.fb {
+  background-color: #3b5998;
+}
+.effect a.tw {
+  background-color: #00aced;
+}
+.effect a.pinterest {
+  background-color: #cb2027;
+}
+.effect a.insta {
+  background-color: #bc2a8d;
+}
+.effect.jaques a {
+  transition: border-top-left-radius 0.1s linear 0s, border-top-right-radius 0.1s linear 0.1s, border-bottom-right-radius 0.1s linear 0.2s, border-bottom-left-radius 0.1s linear 0.3s;
+}
+.effect.jaques a:hover {
+  border-radius: 50%;
+}

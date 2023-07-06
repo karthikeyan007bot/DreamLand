@@ -1,0 +1,15 @@
+.list-group-item {
+    border-radius : 20px;
+}
+ul.list-group{
+    border-radius : 20px;
+    padding: 20px;
+}
+.reply-media, .alter-media, .annex-media {
+    max-width: 100%;
+    border-radius: 20px;
+}
+.header-card{
+    border-radius: 20px;
+    
+}

@@ -1,0 +1,40 @@
+extends layout 
+block link
+   link(rel='stylesheet', href='/stylesheets/messages.css')  
+   script(src="/javascripts/message.js" defer) 
+   link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200")
+   link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+   link(href="https://fonts.googleapis.com/css2?family=Material+Icons+Round"  rel="stylesheet")          
+block content
+  .messages-section.text-center
+    .header 
+      h5 Messages
+    .msg-welcome-msg
+     h1 Welcome to  your message section 
+     button.btn.ibtn(type='button' data-bs-toggle='modal' data-bs-target='#msgto')
+      | New message
+    #msgto.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+      .modal-dialog.modal-dialog-scrollable
+        .modal-content
+          .modal-header 
+               .hstack 
+                   input#find(type="search", name="", placeholder='Search People to messages', style='font-size: inherit', oninput='findPeople()').form-control.me-2
+                   button(type="submit").btn.ibtn 
+                     .fa-solid.fa-magnifying-glass                             
+               button.btn-close(type='button' data-bs-dismiss="modal" aria-label="Close") 
+          .modal-body          
+            ul.list-group.list-group-flush.text-start#msgresp(style='background: transparent')
+
+
+
+    hr
+    .recent-msgs.text-start 
+        h3 Chat History
+        ul.list-group.list-group-flush.text-start(style='background: transparent')
+         -for(item of chat_history)
+          li.list-group-item(style='background-color: transparent')
+            a(href=`/message/${item[0].name}/${item[0].userId}?recip=${item[0].userId}`)
+              img.msg-to-list-img.float-start.me-1(src=`https://drive.google.com/uc?export=view&id=${item[0].prflimg}`, alt="")
+              .msg-accnt-info.vstack
+                strong.me-2 #{item[0].name} 
+                em(style='font-size : 15px') @ #{item[0].userId}              

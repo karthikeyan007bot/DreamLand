@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title></title>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/super-build/ckeditor.js"></script>
+    <script src="https://unpkg.com/markerjs2/markerjs2.js"></script>
+    <link rel="stylesheet" href="/stylesheets/emoji.css">
+    <link rel="stylesheet" href="/stylesheets/dreampost.css">
+    <script src="/javascripts/usrDefined.js">  </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/home.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"> </script>
+    <link rel="stylesheet" href="/stylesheets/layout.css">
+    <link rel="stylesheet" href="/stylesheets/dreampost.css">
+    <link rel="stylesheet" href="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js">   </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="https://harvesthq.github.io/chosen/chosen.css">
+  </head>
+  <body>
+    <div class="main-container"> 
+      <div class="sidenav lapdisp vstack">
+        <div class="navoptions vstack"><a href="#"> <i class="fa-solid fa-moon" style="color : #2c4df0;font-size: 50px">            </i></a><a class="btn" href="/"> <i class="fa-solid fa-house"></i><span>Home </span></a><a class="btn" href="/find"> <i class="fa-solid fa-magnifying-glass"></i><span>Find </span></a><a class="btn" href="#"> <i class="fa-solid fa-image-portrait"></i><span>Story      </span></a>
+          <button class="btn" type="button" onclick="logOut()"><i class="fa-solid fa-arrow-right-from-bracket"></i><span>Log out                      </span></button>
+        </div>
+        <div class="floating-container">
+          <div class="fantom-action-btn"><span>Fantasize</span>
+            <nav><a tabindex="0" data-bs-toggle="modal" data-bs-target="#fantamodal1"><i class="fa-solid fa-feather"></i></a><a href="/post"><i class="fa-solid fa-feather-pointed">   </i></a></nav>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="fantamodal1" data-bs-backdrop="static" tabindex="-1" aria-labelledby="fantamodalLabel1" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen-sm-down">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/postfmini" method="post" encType="multipart/form-data"> <img class="avator float-start" src="https://pbs.twimg.com/profile_images/1543523698862239744/FeJy-3sl_400x400.jpg" alt="">
+                <textarea class="mt-2" id="fantatxtarea" placeholder=" Your Fantasy !" cols="40" oninput="showlimit()" name="fmtext"></textarea>
+                <div class="media-attached-fantamini" style="position: relative"> <img src="" alt="" id="frontimg"><i class="fa-solid fa-xmark" type="button" style="position: absolute; top:5px;right:5px;color:white" onclick="closmedia()"></i></div><span class="fmmood">Karthi's <span id="fmmood"> </span> fantom  </span>
+                <hr>
+                <div id="minpntclpx"> 
+                  <div class="fanta-options d-flex"> 
+                    <label class="mx-1" for="fileinp"> <span class="material-symbols-outlined">add_photo_alternate</span>
+                      <input class="d-none" id="fileinp" name="fantaimage" type="file" onchange="readURL(this,'fileinp')">
+                    </label><a class="mx-1" href="#" data-bs-toggle="collapse" data-bs-target="#fanta-post-gif" aria-expanded="false" aria-controls="fanta-post-options"><span class="material-symbols-outlined">gif_box</span></a><a class="mx-1" href="#" data-bs-toggle="collapse" data-bs-target="#fanta-post-options" aria-expanded="false" aria-controls="fanta-post-options"><span class="material-symbols-outlined">tune</span></a><a class="mx-1" href="#" data-bs-toggle="collapse" data-bs-target="#fanta-post-mood" aria-expanded="false" aria-controls="fanta-post-mood"><span class="material-symbols-outlined">mood</span></a><a class="mx-1" href="#" data-bs-toggle="collapse" data-bs-target="#fanta-post-catagory" aria-expanded="false" aria-controls="fanta-post-catagory"><span class="material-symbols-outlined">label                                              </span></a>
+                    <div class="counter mx-1"></div>
+                  </div><span class="counter ms-auto d-block"> </span>
+                  <div class="collapse" id="fanta-post-gif" data-bs-parent="#minpntclpx">
+                    <div class="card card-body">
+                      <input class="form-control" id="gfsrch" type="search" name="gfsrch" placeholder="Search Tenor" onkeyup="suggest(this)">
+                      <div id="tenor-suggestion">
+                        <div class="no-scrollbar" style="max-width : 100%;overflow-x: scroll;padding:20px">
+                          <div style="width:2000px">
+                            <div class="radios">
+                              <label for="a1">
+                                <input id="a1" type="radio" name="tenor-suggestion" checked=""><span class="tnr-sugsns">                                       </span>
+                              </label>
+                              <label for="b2">
+                                <input id="b2" type="radio" name="tenor-suggestion"><span class="tnr-sugsns">                                      </span>
+                              </label>
+                              <label for="c3">
+                                <input id="c3" type="radio" name="tenor-suggestion"><span class="tnr-sugsns">                                                                                                                                                                        </span>
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="no-scrollbar" id="gif-preview-container"></div>
+                      <button class="btn ibtn" id="load-gif" type="button" style="display:none">Load more</button>
+                    </div>
+                  </div>
+                  <div class="collapse" id="fanta-post-options" data-bs-parent="#minpntclpx">
+                    <div class="card card-body text-center">
+                      <lead>Who can see ?</lead>
+                      <div class="scrollbox overflow-scroll">         
+                        <div class="grid" style="width : 1000px">
+                          <div class="hstack">                           
+                            <label class="card radio-cards my-1">
+                              <input class="radio" name="mode" value="public" type="radio" checked=""><span class="plan-details"><i class="fa-solid fa-users"> </i>Anyone</span>
+                            </label>
+                            <label class="card radio-cards my-1">
+                              <input class="radio" name="mode" value="friends" type="radio"><span class="plan-details"><i class="fa-solid fa-user-group"></i>  Friends                        </span>
+                            </label>
+                            <label class="card radio-cards my-1">
+                              <input class="radio" name="mode" value="private" type="radio"><span class="plan-details"><i class="fa-solid fa-user-lock">  </i>Only me                              </span>
+                            </label>
+                          </div>
+                        </div>
+                      </div><br>
+                      <lead>Post as  </lead>
+                      <div class="scrollbox overflow-scroll">         
+                        <div class="grid" style="width : 1000px">
+                          <div class="hstack">                                         
+                            <label class="card radio-cards my-1">
+                              <input class="radio" name="mode1" value="karthik" type="radio" checked=""><span class="plan-details"><i class="fa-solid fa-user-check"></i>Karthikeyan</span>
+                            </label>
+                            <label class="card radio-cards my-1">
+                              <input class="radio" name="mode1" value="anonymous" type="radio"><span class="plan-details"><i class="fa-solid fa-user-secret"> </i>Anonymous                                 </span>
+                            </label>
+                          </div>
+                        </div>
+                      </div><br>
+                      <lead>Tags  </lead>
+                      <input class="mt-3" value="" type="text" id="tags" data-role="tagsinput">
+                    </div>
+                  </div>
+                  <div class="collapse" id="fanta-post-mood" data-bs-parent="#minpntclpx">
+                    <div class="no-scrollbar" style="max-width : 100%;overflow-x: scroll;padding:20px">
+                      <div style="width:2000px">
+                        <div class="radios" id="fmmoodradio">
+                          <label for="happy">
+                            <input id="happy" type="radio" name="mood" value="happy" checked=""><span>😃 Happy   </span>
+                          </label>
+                          <label for="romantic">
+                            <input id="romantic" type="radio" name="mood" value="romantic"><span>😃 Romantic                               </span>
+                          </label>
+                          <label for="lovely">
+                            <input id="lovely" type="radio" name="mood" value="lovely"><span>😃   Lovely</span>
+                          </label>
+                          <label for="adventurous">
+                            <input id="adventurous" type="radio" name="mood" value="adventurous"><span>😃   Adventurous                                       </span>
+                          </label>
+                          <label for="fantastic">
+                            <input id="fantastic" type="radio" name="mood" value="fantastic"><span>😃  Fantastic</span>
+                          </label>
+                          <label for="Fabulous">
+                            <input id="Fabulous" type="radio" name="mood" value="Fabulous"><span>😃 Fabulous</span>
+                          </label>
+                          <label for="good">
+                            <input id="good" type="radio" name="mood" value="good"><span>🤗    Good                             </span>
+                          </label>
+                          <label for="blessed">
+                            <input id="blessed" type="radio" name="mood" value="blessed"><span>😁   Blessed                            </span>
+                          </label>
+                          <label for="beautiful">
+                            <input id="beautiful" type="radio" name="mood" value="beautiful"><span>😀 Beautiful                       </span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="collapse" id="fanta-post-catagory" data-bs-parent="#minpntclpx">               
+                    <div class="scrollbox overflow-scroll">         
+                      <div class="grid" style="width : 3000px">
+                        <div class="hstack">
+                          <label class="card radio-cards">
+                            <input class="radio" name="fmini-catagory" value="whatIf" type="radio" checked=""><span class="plan-details">
+                              <h5>What if</h5></span>
+                          </label>
+                          <label class="card radio-cards">
+                            <input class="radio" name="fmini-catagory" value="Its me" type="radio"><span class="plan-details">
+                              <h5>Its me</h5></span>
+                          </label>
+                          <label class="card radio-cards">
+                            <input class="radio" name="fmini-catagory" value="Two of us" type="radio"><span class="plan-details">
+                              <h5>Two of us</h5></span>
+                          </label>
+                          <label class="card radio-cards">
+                            <input class="radio" name="fmini-catagory" value="howItShould" type="radio"><span class="plan-details">
+                              <h5>How It Should</h5></span>
+                          </label>
+                          <label class="card radio-cards">
+                            <input class="radio" name="fmini-catagory" value="Day Dream" type="radio"><span class="plan-details">
+                              <h5>Day Dream</h5></span>
+                          </label>
+                          <label class="card radio-cards">
+                            <input class="radio" name="fmini-catagory" value="Dream" type="radio"><span class="plan-details">
+                              <h5>Dream             </h5></span>
+                          </label>
+                          <label class="card radio-cards">
+                            <input class="radio" name="fmini-catagory" value="Just a moment" type="radio"><span class="plan-details">
+                              <h5>Just a moment                                                                                                                                    </h5></span>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button class="btn btn-light" id="postfmini" type="button">
+                   Post <i class="fa-solid fa-spinner fa-spin-pulse" id="post-spinner" style="display : none"></i></button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="toast-container position-fixed top-2 end-2 p-3">      
+        <div class="toast align-items-center" id="mnstost" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="d-flex">
+            <div class="toast-body">
+              Media not supported. 
+              Only image and video can be uploaded.
+            </div>
+            <button class="btn-close me-2 m-auto" type="button" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+        </div>
+      </div>
+      <form class="drmpost container p-3"> 
+        <div class="row"> 
+          <div class="col-12 col-lg-8"> 
+            <div class="demo-update mx-1">
+              <div class="l" name="body" id="editor"></div>
+              <div class="demo-update__controls"><span class="demo-update__words"></span>
+                <svg class="demo-update__chart" viewbox="0 0 40 40" width="40" height="40" xmlns="http://www.w3.org/2000/svg">
+                  <circle stroke="hsl(0, 0%, 93%)" stroke-width="3" fill="none" cx="20" cy="20" r="17"></circle>
+                  <circle class="demo-update__chart__circle" stroke="hsl(202, 92%, 59%)" stroke-width="3" stroke-dasharray="134,534" stroke-linecap="round" fill="none" cx="20" cy="20" r="17"></circle>
+                  <text class="demo-update__chart__characters" x="50%" y="50%" dominant-baseline="central" text-anchor="middle"></text>
+                </svg>
+              </div>
+            </div>
+            <button class="demo-update__send sk-button mt-3 btn ibtn" type="submit">Post  </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="btm-nav">
+      <div class="wrapper1">
+        <div class="navbar"><i class="fas fa-home icon-home"></i><i class="fa-solid fa-magnifying-glass"></i><i class="fa-solid fa-image-portrait"></i><i class="fas fa-cog icon-settings"></i>
+          <div class="pcircle"><i class="fas fa-plus plus-icon"></i><i class="fa-solid fa-feather social" data-bs-toggle="modal" data-bs-target="#fantamodal1" role="dialog"></i><a class="fa-solid fa-feather-pointed social" href="/post"></a></div>
+          <div class="circleBackground"> 
+            <div class="modal-footer"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/javascripts/dreampost.js"></script>
+    <script src="/javascripts/layout.js">  </script>
+    <script src="http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js"></script>
+    <script src="https://kit.fontawesome.com/04a1228d4b.js" crossorigin="anonymous"></script>
+    <script src="/javascripts/home.js">  </script>
+    <script>
+       function setmood(){  
+       document.querySelectorAll('input[name="mood"]').forEach((elem) => {
+       elem.addEventListener("change", function(event) {
+        var item = event.target.value;
+        document.getElementById('fmmood').innerText = item
+        });
+         });}             
+          setmood()
+          setreplygifsearch()
+         setgifsearch()
+         setannexgifsearch()
+         setaltergifsearch()
+       // expandable textarea 
+       var tx = document.getElementsByTagName('textarea');
+       for (var i = 0; i < tx.length; i++) {
+         tx[i].setAttribute('style', 'height:' + (tx[i].scrollHeight) + 'px;overflow-y:hidden;');
+          tx[i].addEventListener("input", OnInput, false);
+         }
+      
+           function OnInput(e) {
+           this.style.height = 'auto';
+           this.style.height = (this.scrollHeight) + 'px';
+          }
+         for (var i = 0; i < tx.length; i++) {
+          tx[i].setAttribute('style', 'height:' + '50' + 'px;overflow-y:hidden;');
+          }
+        
+        document.getElementById('postfmini').addEventListener('click', async ()=>{
+      console.log('clicked')
+      var src
+      var gif = document.getElementById('frontimg').src.search('tenor')
+      var image = document.getElementById('frontimg').src.search('image')
+      if(document.getElementById('fantatxtarea').value == ''){
+          alert('Ops.... where is fantom?')
+      }else{
+          document.getElementById('post-spinner').style.display = 'block'
+      }
+      // if gif
+      if(gif != -1 ){
+           src = document.getElementById('frontimg').src
+           const data = {
+              media : src,
+              body : document.getElementById('fantatxtarea').value,
+              mood : document.getElementById('fmmood').innerText,
+              catagory : RadioValueOf('fmini-catagory'),
+              tags : tagInputsOf('tags'),
+              settings : {
+                  postAs : RadioValueOf('mode1'),
+                  whoCanSee : RadioValueOf('mode')
+              }
+           };
+           fetch('http://localhost:3000/fmini', {
+              method: 'POST', // or 'PUT'
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            }).then(()=>window.location.href = 'http://localhost:3000/').catch(err => console.log(err))
+      }else if(image != -1){ // same for image and video
+          var url = document.getElementById('frontimg').src
+          var media;
+          await fetch(url).then(res => res.blob()).then(blob => media = blob)    
+      
+              let tokenRequest = await axios.request({
+                  method: 'post',
+                  url: "https://oauth2.googleapis.com/token",
+                  headers: {"content-type": "application/x-www-form-urlencoded"},
+                  params: {
+                  client_id: '107645595769-al5lco2dmqo4k8da50skhh04v3reub4r.apps.googleusercontent.com',
+                  client_secret: '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',
+                  refresh_token: '1//049IAwoJc9-r_CgYIARAAGAQSNwF-L9IrXZiSfW2lHZQePB7-jUJ524N8-qDecYwLtwZ_uSH8GPBEWOL-AIAV3UYBCHzmhty3430',
+                  grant_type: "refresh_token"
+                      } 
+                    }).catch(e => console.log(e))
+                       let accessToken = tokenRequest.data["access_token"];
+                
+                       var metadata = {
+                        'name': 'sampleName', // Filename at Google Drive
+                        'mimeType': media.type, // mimeType at Google Drive
+                          };
+                      // var accessToken = gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
+                     var form = new FormData();
+                     form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+                     form.append('file', media);
+                
+                     fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
+                    method: 'POST',
+                    headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
+                    body: form,
+                      }).then((res) => {
+                    return res.json();
+                      }).then(function(val) {
+                          var data = {
+                              media : val.id,
+                              body : document.getElementById('fantatxtarea').value,
+                              mood : document.getElementById('fmmood').innerText,
+                              settings : {
+                                  postAs : RadioValueOf('mode1'),
+                                  whoCanSee : RadioValueOf('mode')
+                              }
+                           };
+                          fetch('http://localhost:3000/fmini', {
+                          method: 'POST',
+                          headers: {
+                                 "Content-Type": "application/json",
+                              },
+                          body:  JSON.stringify(data)
+                            }).then((resp)=>window.location.href = 'http://localhost:3000/').catch(e=> console.log(e))
+                     });             
+      }else if( gif == -1 && image == -1){
+          const data = {
+              body : document.getElementById('fantatxtarea').value,
+              mood : document.getElementById('fmmood').innerText,
+              catagory : RadioValueOf('fmini-catagory'),
+              tags : tagInputsOf('tags'),
+              settings : {
+                  postAs : RadioValueOf('mode1'),
+                  whoCanSee : RadioValueOf('mode')
+              }
+           };
+           fetch('http://localhost:3000/fmini', {
+              method: 'POST', // or 'PUT'
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(data),
+            }).then(()=>window.location.href = 'http://localhost:3000/').catch(err => console.log(err))        
+      }
+           })
+    </script>
+  </body>
+</html>

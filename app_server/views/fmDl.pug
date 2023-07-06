@@ -1,0 +1,75 @@
+extends layout
+block link
+    link(rel='stylesheet', href='/stylesheets/fantom.css')
+block content
+   .fantom-wrap.p-2
+     .fm-common-header 
+     .fm-wrap.my-2 
+        .row
+          .col-12.col-md-4.fm-cover-card
+              img.fm-cover-img(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}`)
+          .col-12.col-md-8
+              .card.fm-desc-card.my-2
+                .card-body
+                 a(href=`/fantom/${fantom._id}`).float-end.fa-solid.fa-arrow-right
+                 .card-title.fm-title #{fantom.title}
+                 .fm-user
+                  -if(user.prflimg)
+                   .d-flex
+                    img.fm-prflimg(style='width : 48px ; height : 48px; border-radius : 8px' src=`https://drive.google.com/uc?export=view&id=${user.prflimg}`)
+                    .fm-usrName #{user.name}
+                  -else
+                   .d-flex
+                    div(style='width : 48px ; height : 48px; background : purple; border-radius : 8px')
+                    .fm-usrName #{user.name}
+                 .vstack 
+                    a(href=`/user`).fm-usrId @#{user.id}               
+                 .d-flex.justify-content-around
+                  button.btn.btn-light.mx-1(type='button') 
+                    i.lapdisp.fa-solid.fa-reply  
+                  button.btn.btn-light.mx-1(type='button') 
+                    i.lapdisp.fa-solid.fa-bookmark 
+                  button.btn.btn-light.mx-1(type='button') 
+                    i.lapdisp.fa-solid.fa-face-smile 
+                  button.btn.btn-light.mx-1(type='button') 
+                    i.lapdisp.fa-solid.fa-share-nodes                    
+        .row.my-2 
+           .col-12.col-md-8 
+              .card.m-1 
+                .card-body 
+                  .card-title Description 
+                  .card-body #{fantom.desc}
+           .col-12.col-md-4
+            .card.user_card.m-1
+             .card-body.text-center
+                 img.user_pic(src=`https://drive.google.com/uc?export=view&id=${fantom_user.prflimg}`)
+                 .user_info.my-1 
+                   a(href="/profile").user_name #{fantom_user.name}
+                   a(href="/profile").user_id #{fantom_user.userId}
+                 .user_follows.d-flex.justify-content-between.my-1 
+                    button(type="button").btn.btn-light.user_following #{fantom_user.following.length} followings
+                    button(type="button").btn.btn-light.user_followers #{fantom_user.followers.length} followers      
+        .row
+          .col-12.col-md-8
+            .card.tbl-contents.p-1 
+             .card-body
+              h6 Contents
+              -for(chapter of fantom.chapters)
+                a.chapters(href=`/${fantom._id}/chapter/${chapter._id}`).mx-1.p-2 #{chapter.title}        
+            .fm-tags.d-flex 
+             for tag in fantom.tags
+              a(href='').fm-tag #{tag}
+            .fm-protas.d-flex.flex-wrap 
+              for x in fantom.prota
+               a(href='').fm-prota #{x}  
+            .fm-antas.d-flex.flex-wrap 
+              for x in fantom.anta
+                a(href='').fm-anta #{x}                          
+          .col-12.col-md-4
+              .card.add-card  
+                .card-body 
+                  .card-title Add goes here 
+                  .card-text Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nesciunt aspernatur cumque labore blanditiis culpa amet consequuntur aut inventore, ab, quasi in facilis corporis optio magni debitis esse dolorum eum.
+              
+         
+          

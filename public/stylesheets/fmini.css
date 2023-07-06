@@ -1,0 +1,41 @@
+.emoji-rxns{
+    font-size: 50px;
+}
+.fmini_options{
+    position: absolute;
+    right: 50px;
+}
+.fmedia{
+    width: 100%;
+    position: sticky;
+    top: 10px;
+}
+.fm_footer{
+    position: absolute;
+    bottom: 10px;
+}
+@media screen and (min-width: 992px){
+    .fmini_card_body{
+        overflow-y: scroll;
+    }
+    .fmini_card{
+        max-height: 500px ;
+    }
+}
+.user_card{
+    border-radius: 20px;
+}
+.user_pic{
+    width: 100%;
+    border-radius: 20px;
+}
+.user_card{
+    width : 60%;
+    margin: auto;
+}
+.user_followers, .user_following{
+    font-size: 20px;
+}
+button.finfos{
+    font-size: 18px;
+}

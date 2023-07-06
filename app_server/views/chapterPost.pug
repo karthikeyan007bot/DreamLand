@@ -1,0 +1,26 @@
+extends layout
+block link 
+  script(src='https://cdn.ckeditor.com/ckeditor5/35.0.1/super-build/ckeditor.js')
+  script(src='https://unpkg.com/markerjs2/markerjs2.js')
+  link(rel="stylesheet", href="/stylesheets/emoji.css")
+  link(rel="stylesheet", href="/stylesheets/dreampost.css")
+block content
+  form(action=`/chapter/${fmId}` method='post').drmpost.container.p-3 
+    .row  
+      .col-12.col-lg-8
+        input#chapter_title(type="text", name="title", placeholder='Chapter Title').form-control.my-5
+        .demo-update.mx-1
+          textarea#editor(name="chapter", cols="30", rows="10")
+          .demo-update__controls
+                span.demo-update__words
+                svg.demo-update__chart(viewbox='0 0 40 40' width='40' height='40' xmlns='http://www.w3.org/2000/svg')
+                  circle(stroke='hsl(0, 0%, 93%)' stroke-width='3' fill='none' cx='20' cy='20' r='17')
+                  circle.demo-update__chart__circle(stroke='hsl(202, 92%, 59%)' stroke-width='3' stroke-dasharray='134,534' stroke-linecap='round' fill='none' cx='20' cy='20' r='17')
+                  text.demo-update__chart__characters(x='50%' y='50%' dominant-baseline='central' text-anchor='middle')
+        button(type = 'submit').demo-update__send.sk-button.mt-3.btn.ibtn Post  
+
+
+
+block script 
+  script(src='/javascripts/dreampost.js')
+

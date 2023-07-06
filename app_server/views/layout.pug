@@ -1,0 +1,346 @@
+doctype html
+html
+  head
+    meta(name='viewport', content='width=device-width,initial-scale=1.0')
+    title= title  
+    block link
+    script(src="/javascripts/usrDefined.js")   
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js' )
+    link(rel='stylesheet', href='/stylesheets/layout.css') 
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/home.css')
+    script(src="https://unpkg.com/feather-icons")
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous")  
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200")
+    script(src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous")
+    script(src="https://kit.fontawesome.com/04a1228d4b.js" crossorigin="anonymous")
+    link(rel='stylesheet' href='http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.css')
+    script(src='http://bootstrap-tagsinput.github.io/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') 
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(rel='preconnect' href='https://fonts.googleapis.com')
+    link(href='https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap' rel='stylesheet')
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200")
+    link(rel='stylesheet', href='/stylesheets/home.css')
+    script(src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js") 
+    //- link(rel='stylesheet', href='/stylesheets/dreampost.css')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.3/jquery.mCustomScrollbar.concat.min.js")    
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js" integrity="sha512-rMGGF4wg1R73ehtnxXBt5mbUfN9JUJwbk21KMlnLZDJh7BkPmeovBuddZCENJddHYYMkCh9hPFnPmS9sspki8g==" crossorigin="anonymous" referrerpolicy="no-referrer")
+    link(rel="stylesheet", href="https://harvesthq.github.io/chosen/chosen.css")
+  body 
+   .main_container
+     nav.navbar.navbar-expand-lg
+      .container-fluid
+       a.navbar-logo(data-bs-toggle='popover' data-bs-placement='right' data-bs-html='true' data-bs-content='<div class="brand_popover"> <div claidss="fantom"> <a href="/fantom">Fantom</a> </div> <div id="fmini"> <a href="/fmini">Fmini</a> </div> <div id="guide"> <a href="/guide">Guide</a> </div> <div id="faq"> <a href="/faq">FAQ</a> </div> <div id="about_us"> <a href="/about_us">About Us</a> </div> <div id="jobs"> <a href="/jobs">Join Us</a> </div> </div>')
+         img(src="https://png.pngtree.com/png-vector/20191021/ourlarge/pngtree-curvy-white-feather-inside-red-circle-vector-logo-design-png-image_1840011.jpg", alt="", srcset="")
+       a(href='/fminiFeed').navbar-item
+         .material-symbols-rounded
+           | home
+         span.lapdisp Home 
+       a(href='/find').navbar-item  
+         .material-symbols-rounded
+           | explore
+         span.lapdisp Explore  
+       a(href='/feed').navbar-item  
+         .material-symbols-rounded
+           | tune
+         span.lapdisp  Dream Line
+       a(href='/notifications').navbar-item  
+         .material-symbols-rounded 
+            | mail
+         span.lapdisp  Messages   
+       a(href='/users').navbar-item  
+         .material-symbols-rounded 
+           | settings
+         span.lapdisp  Dremers             
+       .navbar-profile_pic(data-bs-toggle="popover" data-bs-placement="left" data-bs-html='true' data-bs-content=`<div class="account_popover"> <div class="profile"> <div class="profile_card"> <img src="https://drive.google.com/uc?export=view&id=${user.prflimg}" alt="" class="profile_pic"> <div class="user_info_card"> <span class="user_name">${user.name}</span> <br> <span class="user_id">@${user.id}</span> </div> </div> </div> <div claidss="profile"> <a href="/profile">Profile</a> </div> <div id="privacy_policy"> <a href="">Privacy policy</a> <span class="material-symbols-rounded">open_in_new</span> </div> <div id="terms_conds"> <a href="">Terms & conditions</a> <span class="material-symbols-rounded">open_in_new</span> </div> <a id="terms_conds" onclick =" logOut()"> <span >Log Out</span> <span class="material-symbols-rounded">logout</span> </a> </div>`) 
+         img(alt="usr_pic", srcset=`https://drive.google.com/uc?export=view&id=${user.prflimg}`)#usr_pic
+     block content
+     #feedModal.modal.fade.text-center(data-bs-backdrop="static" tabindex='-1' aria-labelledby='feedModal1' aria-hidden='true')
+            .modal-dialog
+              .modal-content
+                .modal-header
+                     h5 Tune your home feed
+                     button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body     
+                  a(href="/home") Fantom Mini 
+                  a(href="/fantoms")  Fantom
+     #fantamodal1.modal.fade(data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+            .modal-dialog.modal-fullscreen-sm-down
+              .modal-content
+                .modal-header
+                     button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body
+                   form(action="/postfmini" method='post'  encType="multipart/form-data") 
+                     img.avator.float-start(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                     textarea#fantatxtarea.mt-1.form-control( placeholder=" Your Fantasy !" cols='40' oninput='showlimit()' name='fmtext')
+                     .media-attached-fantamini(style ='position: relative') 
+                             img.img.my-2(src="", alt="", srcset="", id=`fmini_media_preview_${user.id}`, name='fmini_media')
+                             i.fa-solid.fa-xmark.close_img.btn.ibtn(onclick = `closeMedia('${user.id}')` style='display : none')
+                     hr 
+                     #minpntclpx 
+                      .fanta-options.d-flex 
+                         label(for="fileinp").mx-1 
+                            span(class="material-symbols-rounded")
+                              | add_photo_alternate
+                            input#fileinp(name="fantaimage", type="file", onchange=`embed(this,'${user.id}')`).d-none    
+                         a.mx-1(href='#'  data-bs-toggle='collapse' data-bs-target='#fanta-post-gif' aria-expanded='false' aria-controls='fanta-post-options')
+                             span(class="material-symbols-rounded")
+                                    |gif_box
+                         a.mx-1(href='#'  data-bs-toggle='collapse' data-bs-target='#fanta-post-options' aria-expanded='false' aria-controls='fanta-post-options')
+                            span(class="material-symbols-rounded")
+                              | tune
+                         a.mx-1(href='#'  data-bs-toggle='collapse' data-bs-target='#fanta-post-mood' aria-expanded='false' aria-controls='fanta-post-mood')
+                            span(class="material-symbols-rounded")
+                              | mood
+                         a.mx-1(href='#'  data-bs-toggle='collapse' data-bs-target='#fanta-post-catagory' aria-expanded='false' aria-controls='fanta-post-catagory')
+                            span(class="material-symbols-rounded")
+                              | label                                              
+                         .counter.mx-1
+                      span.counter.ms-auto.d-block  
+                      #fanta-post-gif.collapse(data-bs-parent='#minpntclpx')
+                           .card.card-body
+                             input.form-control(id= `fmini_gif_search_${user.id}`,type="search", name=`fmini_gif_search_${user.id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
+                             div(id=`tenor_suggestion_${user.id}`)
+                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                 div.reply_radios(style='width:2000px')
+                                  .radios.radio_tile_group(name = `fmini_radio_tile_${user.id}`) 
+                             .no-scrollbar(id=`fmini_gif_preview_container_${user.id}`)
+                             button.btn.ibtn(type='button' id=`fmini_gif_load_${user.id}` onclick=`loadGif('fmini','${user.id}')`) Load more
+                      #fanta-post-options.collapse(data-bs-parent='#minpntclpx')
+                           .card.card-body.text-center
+                            lead Who can see ?
+                             .no-scrollbar.overflow-scroll.radio_grd
+                              .scrollbox.radio_container.hstack(style='width : 580px')     
+                               .radio_tile_group(name = `radio_tile`) 
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='mode' value='public' type='radio' checked='')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-users
+                                       | Anyone              
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='mode' value='friends' type='radio')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-user-group
+                                       | Friends
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='mode' value='private' type='radio')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-user-lock
+                                       | Only me                                                   
+                            br
+                            lead Post as  
+                            .radio_grd.no-scrollbar.overflow-scroll(style='width : 1000px')
+                              .radio_container.hstack.scrollbox     
+                               .radio_tile_group(name = `radio_tile`) 
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='mode1' value=user.name type='radio' checked='')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-user-check
+                                       | #{user.name}
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='mode1' value='anonymous' type='radio')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-user-secret
+                                       | Anonymous                               
+                            br   
+                            lead Tags  
+                            input.mt-3(value='' type='text' id='tags'  data-role="tagsinput" )
+                      #fanta-post-mood.collapse(data-bs-parent='#minpntclpx')
+                        .no-scrollbar.overflow-scroll(style='max-width : 100%padding:20px')
+                         .hstack.scrollbox(style='width:2890px')
+                              .radio_container    
+                               .radio_tile_group(name = `radio_tile`) 
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#excited(type='radio' name='mood' value='excited' checked='')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 Excited
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#good(type='radio' name='mood' value='good')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 good
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#pleased(type='radio' name='mood' value='pleased')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 pleased                          
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#depressed(type='radio' name='mood' value='depressed')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 depressed
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#heartbroken(type='radio' name='mood' value='heartbroken')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 heartbroken                                      
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#upset(type='radio' name='mood' value='upset')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 upset
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#outraged(type='radio' name='mood' value='outraged')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 outraged
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#frustrated(type='radio' name='mood' value='frustrated')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 frustrated                            
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#irritated(type='radio' name='mood' value='irritated')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 irritated                           
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#terrified(type='radio' name='mood' value='terrified')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 terrified     
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#insecure(type='radio' name='mood' value='insecure')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 insecure         
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#nervous(type='radio' name='mood' value='nervous')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 nervous        
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#worthless(type='radio' name='mood' value='worthless')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 worthless 
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#guilty(type='radio' name='mood' value='guilty')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 guilty        
+                                 .input_container_light
+                                   input.radio_button_light.custom-cursor-on-hover#silly(type='radio' name='mood' value='silly')
+                                   .radio_tile_light   
+                                     .radio_tile_label.label     
+                                       |  😃 silly     
+                                                                                                                                                                                       
+                      #fanta-post-catagory.collapse(data-bs-parent='#minpntclpx')                
+                              .radio_container.no-scrollbar.overflow-scroll
+                               .radio_tile_group.scrollbox.hstack(style='width : 3460px' name = `radio_tile`) 
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='whatIf' type='radio' checked='')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span What if  
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Its me' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Its me
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Two of us' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Two of us
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='howItShould' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span How It Should
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Day Dream' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Day Dream
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Dream' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Dream
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Just a moment' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Just a moment      
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Artistry' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Artistry    
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Sci-fi' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Sci-fi     
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Artistry' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Artistry 
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Romance' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Romance                           
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Adventure' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Adventure                                                            
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Mystery' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Mystery       
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Horror' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Horror                                                                
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Historical' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Historical                
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Inspirational' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Inspirational                       
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Comedy' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Comedy                                          
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='fmini-catagory' value='Surreal' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Surreal                                                                                                                                                                                                                                                                                                                                       
+                     button.btn.btn-light#postfmini(type='button' onclick=`postFmini('${user.id}')`) 
+                       | Post 
+                       i.fa-solid.fa-spinner.fa-spin-pulse#post-spinner(style='display : none')
+   #container-floating
+     .nd1.nds
+      .fa-feather-pointed.fa-solid.reminder( data-bs-toggle='modal' data-bs-target='#fantamodal1' role='dialog')
+     #floating-button
+      p.plus +
+      i.fa-solid.fa-feather.edit
+   block script 
+   script(src="https://cdn.jsdelivr.net/npm/muuri@0.9.5/dist/muuri.min.js") 
+   script(src="/javascripts/fmini.js" defer)  
+   script.
+     feather.replace()
+     var grid = new Muuri('.grid');
+     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+     const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))     
+   script(src="/javascripts/layout.js")   
+   script(src="/javascripts/usrDefined.js")   

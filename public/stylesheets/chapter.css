@@ -1,0 +1,10 @@
+@media screen and (min-width: 992px){
+    .user_card{
+        margin : auto;
+        width : 60%
+    }
+    }
+    hr{
+        margin-inline: auto !important;
+        width : 80%
+    }

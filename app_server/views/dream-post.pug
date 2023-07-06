@@ -1,0 +1,318 @@
+extends layout
+block link 
+  script(src='https://cdn.ckeditor.com/ckeditor5/35.0.1/super-build/ckeditor.js')
+  script(src='https://unpkg.com/markerjs2/markerjs2.js')
+  link(rel="stylesheet", href="/stylesheets/emoji.css")
+  link(rel="stylesheet", href="/stylesheets/dreampost.css")
+  link(rel="stylesheet", href="/stylesheets/home.css")
+  link(rel="stylesheet", href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css")
+block content
+  .drmpost.container.p-3 
+    .row  
+      .col-12.col-lg-4 
+        input#drmttl(type="text", name="title", placeholder='Title').form-control
+        textarea#drmdesc( cols="30", rows="10" type="text", name="description", placeholder='descriptions').form-control
+        .lead.mt-2 Select and click image to edit.
+        img(src=''  name = '')#media_preview_cvrimg.mt-4    
+        label(for="filein").mt-4 
+          a.btn.ibtn(id='book cover' role='button') Add cover
+          input#filein(name="coverimage", type="file", onchange="embed(this,'cvrimg')", accept='image/*').d-none        
+      .col-12.col-lg-8 
+        h6(style='color : black') Tags
+        input#ftags(value='' type='text'  name='ftags' data-role="tagsinput"  )    
+        br
+        h6 Catagory :                                                      
+        #catagory_radio.radio_container.no-scrollbar.overflow-scroll   
+                               .radio_tile_group.hstack.scrollbox(style='width : 3460px' name = `radio_tile`) 
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='whatIf' type='radio' checked='')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span What if  
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Its me' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Its me
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Two of us' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Two of us
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='howItShould' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span How It Should
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Day Dream' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Day Dream
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Dream' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Dream
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Just a moment' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Just a moment      
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Artistry' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Artistry    
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Sci-fi' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Sci-fi     
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Artistry' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Artistry 
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Romance' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Romance                           
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Adventure' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Adventure                                                            
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Mystery' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Mystery       
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Horror' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Horror                                                                
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Historical' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Historical                
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Inspirational' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Inspirational                       
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Comedy' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Comedy                                          
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='catagory' value='Surreal' type='radio' )
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       span Surreal                                                      
+        br    
+        .vstack.characters 
+          h6 Characters
+          label.mt-2.me-2(for="prota") Protagonist(s)
+          input#prota(value='' type='text' name='prota'  data-role="tagsinput" )  
+          label.mt-2.me-2(for="anto") Antagonist
+          input#anto(value='' type='text' name='anta'  data-role="tagsinput" )  
+          label.mt-2.me-2(for="deu") Deuteragonist
+          input#deu(value='' type='text' name='deuta'  data-role="tagsinput" )   
+          label.mt-2.me-2(for="ter") Tertiary
+          input#ter(value='' type='text' name='tert'  data-role="tagsinput" )                    
+        .feelings.mt-2.no-scrollbar.overflow-scroll          
+          .hstack.scrollbox.grd(style='width : 1520px')
+           .hstack    
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='Happy' )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Happy
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='Love'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Love
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='Ammusement' )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Ammusement
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='Pride'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Pride
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='Exitement'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Exitement 
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='dissapointed'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title    Confused  
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='dissapointed'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title   Relief                                
+        br
+        .feelings.mt-1.mb-2.overflow-scroll.no-scrollbar          
+          .hstack.scrollbox.grd(style='width : 1520px')
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='Lonely'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Lonely 
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='Heart broken'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Heart broken 
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='dissapointed'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Dissapointed      
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='dissapointed'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title stressed
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='dissapointed'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title Annoyed 
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='dissapointed'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title  Insulted 
+            label.card.mx-2
+             input.card__input( type='checkbox' name='feeling' value='dissapointed'  )
+             .card__body
+              .card__body-cover
+               span.card__body-cover-checkbox 
+                 svg.card__body-cover-checkbox--svg(viewBox='0 0 12 10')
+                   polyline(points='1.5 6 4.5 9 10.5 1')
+              header.card__body-header
+                p.card__body-header-title    Disturbed                                                                                  
+        .age_ratings         
+              .form-check.form-switch
+                 label.form-check-label(for='age_ratings') Mark for sensitive content
+                 input#age_ratings.form-check-input(type='checkbox' role='switch')
+                 .lead.my-3 If this post contains explicit content please mark it as sensitive to ensure a safe and respectful community experience. Marking your post as sensitive helps provide appropriate warnings and filters for users who prefer to avoid explicit content.                       
+        .background.my-2 
+          h6 Background
+          .lead.m-2 Background of your imagination. eg : school, moon, world war ||| , narnia etc..       
+          input#background(value='' type='text' name='backgound'  data-role="tagsinput" placeholder='BackGround' ) 
+        .who_can_see 
+                             h6 Who can see ?
+                             .no-scrollbar.overflow-scroll.radio_grd
+                              .scrollbox.radio_container.hstack(style='width : 580px')     
+                               .radio_tile_group(name = `radio_tile`) 
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='who_can_see' value='public' type='radio' checked='')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-users
+                                       | Anyone              
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='who_can_see' value='friends' type='radio')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-user-group
+                                       | Friends
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='who_can_see' value='private' type='radio')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-user-lock
+                                       | Only me                                                   
+        .post_as 
+                            h6 Post as  
+                            .radio_grd.no-scrollbar.overflow-scroll(style='width : 1000px')
+                              .radio_container.hstack.scrollbox     
+                               .radio_tile_group(name = `radio_tile`) 
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='post_as' value=user.name type='radio' checked='')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-user-check
+                                       | #{user.name}
+                                 .input_container
+                                   input.radio_button.custom-cursor-on-hover(name='post_as' value='anonymous' type='radio')
+                                   .radio_tile   
+                                     .radio_tile_label.label     
+                                       i.fa-solid.fa-user-secret
+                                       | Anonymous  
+        button(type = 'botton')#fmsubmit.sk-button.mt-3.btn.ibtn Post  
+
+block script 
+  script(src='/javascripts/dreampost.js')
+  script(src="/javascripts/emoji.js") 
+  script.
+    var cvrimg = document.getElementById("media_preview_cvrimg");
+    cvrimg.addEventListener("click", () => {
+      showMarkerArea(cvrimg);
+    });  

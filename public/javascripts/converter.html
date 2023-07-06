@@ -1,0 +1,247 @@
+<div class="account_popover">
+  <div class="profile">
+    <div class="profile_card"> <img src="https://drive.google.com/uc?export=view&id=${user.prflimg}" alt=""
+        class="profile_pic">
+      <div class="user_info_card"> <span class="user_name">${user.name}</span> <br> <span
+          class="user_id">@${user.id}</span> </div>
+    </div>
+  </div>
+  <div claidss="profile"> <a href="/profile">Profile</a> </div>
+  <div id="messages"> <a href="/messages">Messages</a> </div>
+  <div id="settings"> <a href="/settings">Settings</a> </div>
+  <div id="privacy_policy"> <a href="">Privacy policy</a> <span class="material-symbols-rounded">open_in_new</span>
+  </div>
+  <div id="terms_conds">
+    <a href="">Terms & conditions</a>
+    <span class="material-symbols-rounded">open_in_new</span>
+  </div>
+  <a id="terms_conds" onclick=" logOut()">
+    <span>Log Out</span>
+    <span class="material-symbols-rounded">logout</span>
+  </a>
+</div>
+
+<!--  -->
+<div class="brand_popover">
+  <div claidss="fantom"> <a href="/fantom">Fantom</a> </div>
+  <div id="fmini"> <a href="/fmini">Fmini</a> </div>
+  <div id="guide"> <a href="/guide">Guide</a> </div>
+  <div id="faq"> <a href="/faq">FAQ</a> </div>
+  <div id="jobs"> <a href="/jobs">Join Us</a> </div>
+</div>
+<div class="fmini_popover"><div class="report">Report</div></div>
+<div class="reply_radios" style="width:2000px">
+  <div class="radios radio_tile_group" name="radio_tile_63ca9fe7449ca14b90fbfc93">
+    <div class="input_container">
+      <input type="radio" class="radio_button custom-cursor-on-hover" name="reply_tenor_suggestion_63ca9fe7449ca14b90fbfc93" id="0_63ca9fe7449ca14b90fbfc93">
+      <div class="radio_tile">
+        <div class="radio_tile_label label reply_tnr_sugsns" id="reply_tnr_sugsns_0">hi</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class='message_options_popover'>
+  <div > <a type="'button" onclick="logOut()">Log Out</a> </div>
+</div>
+
+.profile-header
+if hdrimg
+  img.header-img(src=`https://drive.google.com/uc?export=view&id=${hdrimg}`, alt="", srcset="" data-bs-toggle='modal' data-bs-target='#edthdrimg')
+else 
+  .header-img( data-bs-toggle='modal' data-bs-target='#edthdrimg' style='background: crimson')
+#edthdrimg.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
+  form(action='/hdrimg', method='post', enctype="multipart/form-data")#myForm.modal-dialog.modal-lg.modal-fullscreen-sm-down
+    .modal-content
+      .modal-header
+        button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+      .modal-body
+         div
+           #image-cropper(style='border:3px solid #2342de; margin: 5px;border-radius : 8px')
+           br
+           #image-cropper-result
+             img(style=' margin: 5px;' id='hdrimg')
+         p
+           input#image-getter.jbutton.dark.btn.ibtn(type='button' value='Preview' )
+           input.btn.ibtn.ms-3( id='savehdrimg' type='button' value='save') 
+           ul.replies.list-group.list-group-flush 
+           for reply in replies
+            li.list-group-item 
+             .reply-wrap
+                .reply-hdr.d-flex 
+                  .reply-hdr-img
+                    if reply.prflimg
+                      img.avator(src='https://drive.google.com/uc?export=view&id=${reply.prflimg}' alt='')
+                    else 
+                     div(style='width : 48px ; height : 48px; background : purple; border-radius : 50%')
+                  .reply-hdr-info.vstack 
+                     .reply-hdr-info-up.d-flex
+                       a(href='/user/${reply.userId}').reply-hdr-usrname  #{reply.name} 
+                       .reply-hdr-timeStamp.ms-1 #{moment(reply.timeStamp).startOf('hour').fromNow()} 
+                       .reply-hdr-options.flex-grow-1 
+                         a(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
+                          .material-symbols-outlined
+                            | more_vert  
+                     .reply-hdr-usrid @#{reply.userId}
+                a(href='/reply/${reply._id}')
+                  .reply-body.mt-2  #{reply.reply}
+                if reply.media
+                 if reply.media.includes('https://media.tenor.com')  
+                  img(src='${reply.media}')
+                else
+                  img.reply-media.my-1(src='https://drive.google.com/uc?export=view&id=${reply.media}', alt="", srcset="" data-bs-toggle='modal' data-bs-target='#reply-media-modal')                
+                .reply-footer.d-flex.justify-content-between.mt-2
+                  .reply-footer-comment 
+                    button.btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target='#reply_reply_${reply._id}')
+                      i.fa-regular.fa-comment
+                    a(href='/${replies[0].fminiRefId}/${reply._id}/nestedReplies') 122 
+                      span.lapdisp(style='font-size:15px') replies
+                  .modal.fade(data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true' id='reply_reply_${reply._id}')
+                      .modal-dialog.modal-fullscreen-sm-down
+                        .modal-content
+                          .modal-header
+                               button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                          .modal-body
+                            .fanta-options.float-end 
+                              label(for='reply-fileinp-${reply._id}').mx-1 
+                                 span(class="material-symbols-outlined")
+                                   | add_photo_alternate
+                                 input(id='reply-fileinp-${reply._id}' name="fantaimage", type="file", onchange='readURL(this,'replyReplyImg${reply._id}')').d-none    
+                              a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target='#reply-gif-${reply._id}' aria-expanded='false')
+                                  span(class="material-symbols-outlined")
+                                         |gif_box                                                                                                                                                                          
+                                  button.btn.ibtn#-reply-load-gif(type='button' style='display:none') Load more                                                          
+                            img(src="", alt="", srcset="" id='replyImg${reply._id}')
+                            textarea.form-control(name="", cols="30", id = 'replyBody${reply._id}') 
+                            .collapse(id='reply-gif-${reply._id}')
+                                .card.card-body
+                                  input.form-control(id = 'replygfsearch${reply._id}' type="search", name='reply-gif-${reply._id}', placeholder='Search Tenor', onkeyup='suggest(this,'${reply._id}')')
+                                  div(id='tenor-suggestion-${reply._id}')
+                                    .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                      div(style='width:2000px')
+                                       .radios
+                                         label(for='a1-${reply._id}' onclick='setReplyReplyGifSearch(this,"${reply._id}")')
+                                           input(type='radio' id='a1-${reply._id}' name='reply-tenor-suggestion-${reply._id}'  checked='')
+                                           span(class='reply-tnr-sugsns-${reply._id}')                                        
+                                         label(for='b2-${reply._id}' onclick='setReplyReplyGifSearch(this,"${reply._id}")')
+                                           input(type='radio' id='b2-${reply._id}' name='reply-tenor-suggestion-${reply._id}' )
+                                           span(class='reply-tnr-sugsns-${reply._id}')                                       
+                                         label(for='c3-${reply._id}' onclick='setReplyReplyGifSearch(this,"${reply._id}")')
+                                           input(type='radio' id='c3-${reply._id}' name='reply-tenor-suggestion-${reply._id}' )
+                                           span(class='reply-tnr-sugsns-${reply._id}')                       
+                                  div(id='reply-gif-preview-container-${reply._id}').no-scrollbar()
+                            button.btn.ibtn(type = 'button' onclick='postCommonReply('${reply._id}', '${replies[0].fminiRefId}')') Reply                  
+                  .reply-footer-reactions 
+                    button.btn(id='reply-emoji-rxn-btn-${reply._id}' type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target='#reply-react-modal-${reply._id}').reply-footer-react 
+                      i.fa-regular.fa-face-smile    
+                      -if(reply.reactions)
+                       span  #{reply.reactions.length} 
+                         span.lapdisp(style='font-size:15px')  reactions
+                  .modal.fade(id='reply-react-modal-${reply._id}' data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                      .modal-dialog
+                        .modal-content
+                          .modal-header
+                               button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                          .modal-body
+                            .replyId-rxn
+                            .scrollbox.overflow-scroll
+                              .grid(style='width : 1000px')
+                                .hstack 
+                                  a.emoji-rxns.mx-3(id='lol' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 😂
+                                  a.emoji-rxns.mx-3(id='love' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 🥰
+                                  a.emoji-rxns.mx-3(id='hug' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 🤗
+                                  a.emoji-rxns.mx-3(id='no-rxn' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 😐
+                                  a.emoji-rxns.mx-3(id='bored' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 🥱
+                                  a.emoji-rxns.mx-3(id='anger' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 😡
+                                  a.emoji-rxns.mx-3(id='broken-heart' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 💔
+                                  a.emoji-rxns.mx-3(id='cry' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 😭
+                                  a.emoji-rxns.mx-3(id='mind-blowing' onclick='postRxn(this,"${fmini._id}","${reply._id}")') 🤯
+                            h6 Reactions
+                            if reply.reactions
+                             ul.list-group.list-group-flush.reaction-infos 
+                              for reaction in reply.reactions
+                               li.list-group-item
+                                a(href='').fmini-rxn-hdr.d-flex 
+                                  .fmini-rxn-hdr-img
+                                    if reaction.usrImg
+                                      img.avator(src='https://drive.google.com/uc?export=view&id=${reaction.usrImg}' alt='')
+                                    else 
+                                     div(style='width : 48px; height : 48px; background : purple')
+                                  .fmini-rxn-hdr-info.vstack 
+                                     .fmini-rxn-hdr-info-up.d-flex
+                                       .fmini-rxn-hdr-usrname=reaction.usrName 
+                                     .fmini-rxn-hdr-usrid @#{reaction.usrId}    
+                                  .fmini-feeling-emoji.float-end  
+                                    -if(reaction.reaction == 'no-rxn')
+                                        span 😐
+                                    -if(reaction.reaction == 'love')
+                                        span 🥰
+                                    -if(reaction.reaction == 'lol')
+                                        span 😂
+                                    -if(reaction.reaction == 'hug')
+                                        span 🤗
+                                    -if(reaction.reaction == 'bored')
+                                        span 🥱
+                                    -if(reaction.reaction == 'anger')
+                                         span 😡
+                                    -if(reaction.reaction == 'broken-heart')
+                                         span 💔
+                                    -if(reaction.reaction == 'mind-blowing')
+                                         span 🤯
+                                    -if(reaction.reaction == 'cry')
+                                         span 😭                            
+                  button.btn.reply-footer-share(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target='#sharemdl')
+                   i.fa-solid.fa-share-nodes           
+
+                   h6 Reactions
+                   ul.list-group.list-group-flush.reaction-infos(id='reactions-${fmini._id}') 
+                    for reaction in fmini.reactions
+                     li.list-group-item
+                      a(href='').fmini-rxn-hdr.d-flex 
+                        .fmini-rxn-hdr-img
+                          if fmini.prflimg
+                            img.avator(src='https://drive.google.com/uc?export=view&id=${fmini.prflimg}' alt='')
+                          else 
+                           div(style='width : 48px; height : 48px; background : purple')
+                        .fmini-rxn-hdr-info.vstack 
+                           .fmini-rxn-hdr-info-up.d-flex
+                             .fmini-rxn-hdr-usrname=reaction.usrName 
+                           .fmini-rxn-hdr-usrid @#{reaction.usrId}    
+                        .fmini-feeling-emoji.float-end  
+                          -if(reaction.reaction == 'no-rxn')
+                              span 😐
+                          -if(reaction.reaction == 'love')
+                              span 🥰
+                          -if(reaction.reaction == 'lol')
+                              span 😂
+                          -if(reaction.reaction == 'hug')
+                              span 🤗
+                          -if(reaction.reaction == 'bored')
+                              span 🥱
+                          -if(reaction.reaction == 'anger')
+                               span 😡
+                          -if(reaction.reaction == 'broken-heart')
+                               span 💔
+                          -if(reaction.reaction == 'mind-blowing')
+                               span 🤯
+                          -if(reaction.reaction == 'cry')
+                               span 😭
+                               
+                               -if(fmini.mood == 'happy')
+                               span 😁
+                              -if(fmini.mood == 'lovely')
+                               span 🥰
+                              -if(fmini.mood == 'romantic')
+                               span 😍
+                              -if(fmini.mood == 'adventurous')
+                               span 😱
+                              -if(fmini.mood == 'fantastic')
+                               span 😎
+                              -if(fmini.mood == 'Fabulous')
+                                span 🤗
+                              -if(fmini.mood == 'blessed')
+                                span 😁
+                              -if(fmini.mood == 'beautiful')
+                                span 😀
+                              -if(fmini.mood == 'good')
+                                span 😀                                
