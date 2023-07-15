@@ -70,7 +70,7 @@ const profile = async (req, res) => {
       const usr_alters = await axios.get(`${server.url}/api/alters/${decoded._id}`)
       const usr_fminis = await axios.get(`${server.url}/api/fminis/detail/${decoded._id}`)
       const usr_fantoms = await axios.get(`${server.url}/api/fantoms/detail/${decoded._id}`)
-       axios.get(`${server.url}/api/user/${decoded._id}`).then( resp => { // gets information about user
+      axios.get(`${server.url}/api/user/${decoded._id}`).then( resp => { // gets information about user
             var User = {
                 name : resp.data.name,
                 id : resp.data.userId,
@@ -100,13 +100,28 @@ const profile = async (req, res) => {
   }
   const user_profile = async (req, res) => { 
       const userId  = req.params.userId
+      const decoded = jwt.verify(req.cookies.indigotoken, process.env.JWT_SECRET)
       const usr_replies = await axios.get(`${server.url}/api/replies/${userId}`)
       const usr_annexes = await axios.get(`${server.url}/api/annexes/${userId}`)
       const usr_alters = await axios.get(`${server.url}/api/alters/${userId}`)
       const usr_fminis = await axios.get(`${server.url}/api/fminis/detail/${userId}`)
       const usr_fantoms = await axios.get(`${server.url}/api/fantoms/detail/${userId}`)
+      var user = await axios.get(`${server.url}/api/user/${userId}`)
+      var profile_user = {
+        name : user.data.name,
+        userId : user.data.userId,
+        _id : user.data._id,
+        following : user.data.following,
+        followers : user.data.followers,
+        prflimg : user.data.prflimg,
+        about : user.data.about,
+        joinedat : user.data.joinedat,
+        fbuserid : user.data.fbuserid,
+        twtruserid : user.data.twtruserid,
+        instauserid : user.data.instauserid
+    }
       // const usr_likes = await axios.get(`${server.url}/api/likes/detail/${userId}`)
-       axios.get(`${server.url}/api/user/${userId}`).then( resp => { // gets information about user
+       axios.get(`${server.url}/api/user/${decoded._id}`).then( resp => { // gets information about user
             var User = {
                 name : resp.data.name,
                 id : resp.data.userId,
@@ -122,6 +137,7 @@ const profile = async (req, res) => {
         res.render('user_profile', {
           title : 'Profile',
           user : User,
+          profile_user : profile_user,
           usr_replies : usr_replies.data,
           usr_annexes : usr_annexes.data,
           usr_alters : usr_alters.data,

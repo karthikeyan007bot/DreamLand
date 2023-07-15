@@ -3,6 +3,7 @@ const Fmini = mongoose.model('Fmini')
 const Message = mongoose.model('Message')
 const Profile = mongoose.model('Profile')
 const Fantom = mongoose.model('Fantom')
+const ctrlMain = require('../controllers/main')
 
 class search_result{
   constructor(id,body, media,user_id, name, userId, prflimg){
@@ -285,4 +286,34 @@ const findRecent = async (req, res) => {
    });
    res.status(200).json(combined)
    }
-module.exports = { findByFantom, findByFmini, findByTag, findByFeeling, findByCatagory, findRecent, findTrending, findByUser}
+   const followers = async (req, res) => {
+    var userId = req.params.userId;
+    const user = await Profile.findById(userId)
+
+    const users = user.followers
+    try {
+      const followers = await Promise.all(users.map(async (id) => {
+        const user = await Profile.findById(id); // Find user by id
+        return { user_id : user._id, userId: user.userId, name: user.name, prflimg: user.prflimg}; // Format the response
+      }));
+      res.status(200).json(followers)
+    } catch (err) {
+      console.error(err);
+    }
+   }
+   const following = async (req, res) => {
+    var userId = req.params.userId;
+    const user = await Profile.findById(userId)
+
+    const users = user.following
+    try {
+      const following = await Promise.all(users.map(async (id) => {
+        const user = await Profile.findById(id); // Find user by id
+        return { user_id : user._id, userId: user.userId, name: user.name, prflimg: user.prflimg}; // Format the response
+      }));
+      res.status(200).json(following)
+    } catch (err) {
+      console.error(err);
+    }
+   }
+module.exports = {followers, following, findByFantom, findByFmini, findByTag, findByFeeling, findByCatagory, findRecent, findTrending, findByUser}

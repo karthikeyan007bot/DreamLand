@@ -60,7 +60,11 @@ class user{
     const User = new user(response.data.name, response.data.userId, response.data.following, response.data.followers, response.data.prflimg);    
     axios.get(`${server.url}/api/fantom/detail/${req.params.id}`).then( async (resp) => {
       const fantom_user = await axios.get(`${server.url}/api/user/${resp.data.usrRefId}`)
+      if(decoded._id == response.data._id){
+        res.render('fmDl', { fantom : resp.data, user : User, fantom_user : fantom_user.data, owner : User})
+      }else{
         res.render('fmDl', { fantom : resp.data, user : User, fantom_user : fantom_user.data})
+      }
     }) 
   }
   const fminiFeed = (req, res) => {
@@ -109,7 +113,7 @@ class user{
           const matchingReply = resp.data.annexes.find(annex => annex._id === user.itemId);
           return { ...user, ...matchingReply };
         });
-      res.render('alanrep', {annexes : combined, user : User})
+        res.render('alanrep', {annexes : combined, user : User})
             }).catch(err => console.log(err))
     })
   }
@@ -129,7 +133,8 @@ class user{
           const matchingReply = resp.data.replies.find(reply => reply._id === user.itemId);
           return { ...user, ...matchingReply };
         });
-      res.render('alanrep', {replies : combined, user : User})
+
+        res.render('alanrep', {replies : combined, user : User})
             }).catch(err => console.log(err))
     })
   }

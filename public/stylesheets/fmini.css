@@ -33,9 +33,6 @@
     width : 60%;
     margin: auto;
 }
-.user_followers, .user_following{
-    font-size: 20px;
-}
 button.finfos{
     font-size: 18px;
 }

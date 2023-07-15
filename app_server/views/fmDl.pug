@@ -11,7 +11,6 @@ block content
           .col-12.col-md-8
               .card.fm-desc-card.my-2
                 .card-body
-                 a(href=`/fantom/${fantom._id}`).float-end.fa-solid.fa-arrow-right
                  .card-title.fm-title #{fantom.title}
                  .fm-user
                   -if(user.prflimg)
@@ -24,15 +23,54 @@ block content
                     .fm-usrName #{user.name}
                  .vstack 
                     a(href=`/user`).fm-usrId @#{user.id}               
-                 .d-flex.justify-content-around
-                  button.btn.btn-light.mx-1(type='button') 
-                    i.lapdisp.fa-solid.fa-reply  
-                  button.btn.btn-light.mx-1(type='button') 
-                    i.lapdisp.fa-solid.fa-bookmark 
-                  button.btn.btn-light.mx-1(type='button') 
-                    i.lapdisp.fa-solid.fa-face-smile 
-                  button.btn.btn-light.mx-1(type='button') 
-                    i.lapdisp.fa-solid.fa-share-nodes                    
+                 .d-flex.justify-content-around    
+                   .fantom_replies  
+                     .icon_btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#reply_modal_${fantom._id}`)
+                       .material-symbols-rounded
+                         | reply
+                       span.totals.total_replies  #{fantom.replies.length}
+                   .fantom_likes(onclick=`like('${fantom._id}', '${fantom._id}')`)
+                     .icon_btn
+                       .material-symbols-rounded(id=`like_btn_${fantom._id}`)  
+                          | favorite
+                       span.totals.total_likes(id=`likes_total_${fantom._id}`)  #{fantom.likes.length}    
+                   .fantom_bookmark(onclick=`bookmark('${fantom._id}', '${fantom._id}')`) 
+                     .icon_btn
+                      .material-symbols-rounded(id=`bookmark_btn_${fantom._id}`)   
+                        | bookmark 
+                   -if(owner)     
+                     a.add_chapter(href=`/chapter/${fantom._id}`) 
+                       .material-symbols-rounded 
+                         | note_add       
+              .modal.fade(id=`reply_modal_${fantom._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                 .modal-dialog.modal-fullscreen-sm-down
+                   .modal-content
+                     .modal-header
+                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .fanta-options.float-end 
+                         label(for=`reply_fileinp_${fantom._id}`).mx-1 
+                            span(class="material-symbols-rounded")
+                              | add_photo_alternate
+                            input(id=`reply_fileinp_${fantom._id}` name="fantaimage", type="file", onchange=`readURL(this,'reply_fileinp_${fantom._id}')`).d-none    
+                         a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#reply_gif_${fantom._id}` aria-expanded='false')
+                             span(class="material-symbols-rounded")
+                                    |gif_box                                                                                                                                                                          
+                             button.btn.ibtn(type='button' style='display:none' id=`reply_load_gif_${fantom._id}`) Load more                                                          
+                       img.reply_img(src="", alt="", srcset="" id=`reply_media_preview_${fantom._id}`)
+                       textarea.form-control(name="", cols="30" id=`reply_${fantom._id}`) 
+                       .collapse(id=`reply_gif_${fantom._id}`)
+                           .card.card-body
+                             input.form-control(id=`reply_gif_search_${fantom._id}` type="search", name=`reply_gif_search_${fantom._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
+                             div(id=`reply_tenor_suggestion_${fantom._id}`)
+                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                 div.reply_radios(style='width :2000px')
+                                  .radios.radio_tile_group(name = `reply_radio_tile_${fantom._id}`) 
+                             .no-scrollbar(id=`reply_gif_preview_container_${fantom._id}`)
+                             .btn.ibtn(type='button' id = `reply_gif_load_${fantom._id}` fminiId = `${fantom._id}` onclick= `loadGif('reply','${fantom._id}')`) Load more gifs
+                       button.btn.ibtn.mt-2(type = 'button' onclick=`postToTarget('${fantom._id}', 'reply','fantom')`) Reply
+                       #reply_spinner.spinner-border.ms-2(role='status' style='display : none')
+                         span.visually-hidden Loading...                                                      
         .row.my-2 
            .col-12.col-md-8 
               .card.m-1 
@@ -52,7 +90,7 @@ block content
         .row
           .col-12.col-md-8
             .card.tbl-contents.p-1 
-             .card-body
+             .card-body 
               h6 Contents
               -for(chapter of fantom.chapters)
                 a.chapters(href=`/${fantom._id}/chapter/${chapter._id}`).mx-1.p-2 #{chapter.title}        
@@ -64,12 +102,6 @@ block content
                a(href='').fm-prota #{x}  
             .fm-antas.d-flex.flex-wrap 
               for x in fantom.anta
-                a(href='').fm-anta #{x}                          
-          .col-12.col-md-4
-              .card.add-card  
-                .card-body 
-                  .card-title Add goes here 
-                  .card-text Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis nesciunt aspernatur cumque labore blanditiis culpa amet consequuntur aut inventore, ab, quasi in facilis corporis optio magni debitis esse dolorum eum.
-              
+                a(href='').fm-anta #{x}                            
          
           

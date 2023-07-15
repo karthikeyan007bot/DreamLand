@@ -1,9 +1,9 @@
 :root {
-    --bg-theme: crimson;
-    --bg-bxshadow:  0 10px 25px -5px crimson;
-    --ck-color-toolbar-background: #f8b8bbd6;
-    --bg-light: #f8b8bbd6;
-    --ck-color-base-text: crimson;
+    --bg-theme: #0072BB; 
+    --bg-bxshadow:  0 10px 25px -5px #0072BB;
+    --ck-color-toolbar-background: #B9D9EB;
+    --bg-light: #B9D9EB;
+    --ck-color-base-text: #0072BB;
     --ck-border-radius: 12px;
       --ck-color-tooltip-background: 	 var(--ck-color-toolbar-background);
       --ck-color-tooltip-text:  var(--ck-color-base-text);
@@ -12,6 +12,11 @@
     background: var(--bg-theme) !important;
     color: white !important
   }
+  .btn-default{
+    background: var(--bg-theme) !important;
+    color : white !important
+  }
+  
   .nav-pills .nav-link.active, .nav-pills .show>.nav-link{
     background-color: var(--bg-theme) !important;
     color: white !important;

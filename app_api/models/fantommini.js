@@ -47,6 +47,7 @@ const miniSchema = new mongoose.Schema({
     mood : String,
     catagory : String,
     likes : Array,
+    bookmarks : Array,
     replies : [replySchema],
     alters : [alterSchema],
     annexes : [annexSchema],

@@ -179,7 +179,7 @@ img.following_user_img, img.follow_user_img,.fmini_user_profile_pic{
     position: relative;
     z-index: 1;
   }
-  .fmini_reactions::before {
+  /* .fmini_reactions::before {
     content: ".";
     opacity: 0;
     display: block;
@@ -238,7 +238,7 @@ img.following_user_img, img.follow_user_img,.fmini_user_profile_pic{
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out;
     background-position: 0px -240px;
-  }
+  } 
 .emoji{
   font-family: 'Noto Color Emoji', sans-serif;
   font-size: 30px;
@@ -279,4 +279,6 @@ img.following_user_img, img.follow_user_img,.fmini_user_profile_pic{
   }
   .fmini_reactions:hover .reaction-box .reaction-icon:hover label {
     visibility: visible;
-  }
+  } */
+
+  

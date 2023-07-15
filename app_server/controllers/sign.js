@@ -33,7 +33,7 @@ const signin = (req, res) => {
             password : req.body.password
         }).then((response) =>{
         res.cookie('indigotoken', response.data.token, {expire: AddDays(7).toGMTString(),  overwrite: true});
-            res.redirect(`/`)
+            res.redirect(`/profile`)
         }).catch((err) =>{ 
             console.log(err)
             if(err.response.data.code == '11000'){

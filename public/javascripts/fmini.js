@@ -1,10 +1,12 @@
-var refresh_token = '1//04CTkYp1kZdtMCgYIARAAGAQSNwF-L9IrIxZ08KZkzmo5-zfWLnqIUEKcmPVTZHopiEUKk3TD3gMzblOhj9SjLBgJlyNldUthRio'
+var refresh_token = '1//046Q6TBraZuMrCgYIARAAGAQSNwF-L9IrDUlr7OjFf9HKXtQmB9h2nAayfwMVb91VnxpqYsjpXgF0DUYWZ2Zv2vzOvR43fNh-RL0'
 
 
 async function postToTarget(toId, target,to){
   var body, media ;
    var refId =  parseJwt(getCookie('indigotoken'))._id;
    var toId = toId ;
+   const spinner = document.getElementById(`${target}_spinner`)
+   spinner.style.display = 'block'
    media = document.getElementById(`${target}_media_preview_${toId}`).src
    body = document.getElementById(`${target}_${toId}`).value
    if(media.includes('tenor')){
@@ -64,15 +66,15 @@ toId : toId, // fmini or fantom
 usrRefId : refId,
 media : media,
 to : to
-}).then( resp => window.location.href = '/fminiFeed') 
+}).then( resp => window.location.href = '/home') 
 }
  async function postCommonReply(id,fminiRefId){
   // var reply_to_reply, reply_to_annex= false;
   // var regxp1 = /annex-[A-Za-z0-9]+/ ; 
   var media=undefined
   var refId =  parseJwt(getCookie('indigotoken'))._id // user reference id
-   media = document.getElementById(`replyImg${id}`).src
-  var reply = document.getElementById(`replyBody${id}`).value;
+   media = document.getElementById(`reply_media_preview_${id}`).src
+  var reply = document.getElementById(`reply_${id}`).value;
 
   if(media.includes('https://media.tenor.com')){
         media = media
@@ -127,7 +129,7 @@ to : to
       refId : refId,
       fminiRefId : fminiRefId, 
       media : media
-     }).then( resp => window.location.href = '/fminiFeed') 
+     }).then( resp => window.location.href = '/home') 
  }
 
 

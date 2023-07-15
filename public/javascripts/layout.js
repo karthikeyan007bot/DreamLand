@@ -11,7 +11,7 @@ var popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.
     e.preventDefault();
 }));
 const serverUrl = 'http://localhost:3000'
-var refresh_token = '1//04XqJlix_lvj3CgYIARAAGAQSNwF-L9Irlgt5jNxMaJVZWyONfMZwncgbimOu2dcXRhViD4nhtruhCh7nlv0mA66WdNMo7gFjFc4'
+var refresh_token = '1//046Q6TBraZuMrCgYIARAAGAQSNwF-L9IrDUlr7OjFf9HKXtQmB9h2nAayfwMVb91VnxpqYsjpXgF0DUYWZ2Zv2vzOvR43fNh-RL0'
 
 function embed(input, id) {
   if (input.files && input.files[0]) {
@@ -114,7 +114,7 @@ document.getElementById("fmsubmit").addEventListener("click", async function(eve
     params: {
     client_id: '107645595769-al5lco2dmqo4k8da50skhh04v3reub4r.apps.googleusercontent.com',
     client_secret: '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',
-    refresh_token: '1//04XqJlix_lvj3CgYIARAAGAQSNwF-L9Irlgt5jNxMaJVZWyONfMZwncgbimOu2dcXRhViD4nhtruhCh7nlv0mA66WdNMo7gFjFc4',
+    refresh_token: '1//046Q6TBraZuMrCgYIARAAGAQSNwF-L9IrDUlr7OjFf9HKXtQmB9h2nAayfwMVb91VnxpqYsjpXgF0DUYWZ2Zv2vzOvR43fNh-RL0',
     grant_type: "refresh_token"
         } 
       }).catch(e => console.log(e))
@@ -204,13 +204,17 @@ function adjustGridWidth() {
 }
 async function follow(userId){
   var userB = parseJwt(getCookie('indigotoken'))._id
-  fetch(`${serverUrl}/api/follow`,{
-    method : 'post',
-    body : {
+    var body = {
       following : userId,
       follower : userB
-    }
-  })
+    }  
+  fetch(`${serverUrl}/api/follow`,{
+    method : 'post',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body)    
+  }).then( data => alert('Done'))
 }
 window.addEventListener('DOMContentLoaded', adjustGridWidth);
 window.addEventListener('resize', adjustGridWidth);

@@ -1,7 +1,7 @@
 extends layout 
 block link
    link(rel='stylesheet', href='/stylesheets/profile.css')  
-   script(src ='/javascripts/profile.js')
+   script(src ='/javascripts/home.js') 
    script(src='https://jsuites.net/v4/jsuites.js')
    link(rel='stylesheet' href='https://jsuites.net/v4/jsuites.css' type='text/css')
    script(src='https://cdn.jsdelivr.net/npm/@jsuites/cropper/cropper.min.js')
@@ -27,19 +27,16 @@ block content
           .about Your about section is empty. Give it a try.
         -else
           .about.my-1 #{user.about}
-        .joined.my-1 
-          i.fa-solid.fa-calender
-          | Dreaming since #{user.joinedat}
         .effect.jaques
           .buttons
            -if(user.fbuserid)
-            a.fb(href='#' title='Join us on Facebook')
+            a.fb(href=`https://www.facebook.com/${user.fbuserid}` title='Join us on Facebook')
                i.fa.fa-facebook(aria-hidden='true')
            -if(user.twtruserid)
-            a.tw(href='#' title='Join us on Twitter')
+            a.tw(href=`https://twitter.com/${user.twtruserid}` title='Join us on Twitter')
                i.fa.fa-twitter(aria-hidden='true')
            -if(user.instauserid) 
-            a.insta(href='#' title='Join us on Instagram')
+            a.insta(href=`https://www.instagram.com/${user.instauserid}` title='Join us on Instagram')
                i.fa.fa-instagram(aria-hidden='true')          
         .d-flex.mt-1  
           button(type='button'  data-bs-toggle='modal' data-bs-target='#following_modal').ibtn.btn.following  #{user.following.length} following
@@ -115,24 +112,29 @@ block content
            li.list-group-item
               .dream-wrap
                 .dream-header.hstack
-                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
-                  .dream-header-info.hstack 
+                  -if(user.prflimg)
+                     img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -else
+                     img(style='background: #c631c6; min-width : 50px;min-height:50px ')  
+                  .dream-header-info.hstack.me-auto 
                       -if(fmini.settings.postAs == 'anonymous')
                         span Anonymous
                       -else
                         .vstack
                           span #{user.name}
                           span.usrid @#{user.id}
-                      a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
-                        i.fa-solid.fa-ellipsis-vertical                        
+                  .fmini_options(data-bs-toggle ='modal' data-bs-target='#fmini_share_modal') 
+                    .material-symbols-rounded 
+                      | share                       
                 .fmini_body 
                     .fmini_catagory.badge.me-3 #{fmini.catagory}
-                    a(href=`.fmini/${fmini._id}`)  #{fmini.body}
+                    a(href=`/fmini/${fmini._id}`)  #{fmini.body}
                 .fmini_tag.d-flex 
-                  -for(tag of fmini.tags)
+                  -if(fmini.tags)
+                   -for(tag of fmini.tags)
                     .tag-light #{tag}
                 -if(fmini.media)
-                  .dream-img-wrap.m-auto
+                  .dream-img-wrap.text-center
                     -if(fmini.media.includes('tenor'))
                       img.fmini_media(src=`${fmini.media}`, alt="", srcset="")
                     -else
@@ -145,28 +147,56 @@ block content
                          .modal-body.text-center.vstack
                            img.modal-img(src=`https://drive.google.com/uc?export=view&id=${fmini.media}` alt='').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
-                            .replies 
-                                a.btn.btn-light.mx-1(type='button' href=`/${fmini._id}/replies`) 
-                                  i.lapdisp.fa-solid.fa-reply 
-                            .annexes 
-                                a.btn.btn-light.mx-1(type='button' href=`/${fmini._id}/annexures`) 
-                                   i.lapdisp.fa-solid.fa-plus 
-                            .alters
-                                a.btn.btn-light.mx-1(type='button' href=`/${fmini._id}/alters`) 
-                                 i.lapdisp.fa-solid.fa-pen                             
-                            .reactions 
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
-                                i.fa-solid.fa-face-smile                             
-                            .share  
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
-                                i.fa-solid.fa-share-nodes                         
+                   .replies  
+                      .material-symbols-rounded
+                         | reply     
+                      span  #{fmini.replies_length}                   
+                      a.mx-1(href=`/${fmini._id}/${fmini._id}/nestedReplies`)                                                           
+                   .alters
+                      a.mx-1(href=`/${fmini._id}/alters`) 
+                       .material-symbols-rounded
+                         | edit_note         
+                       span #{fmini.alters_length}
+                   .likes
+                       .material-symbols-rounded(id=`like_btn_${fmini._id}`) 
+                          | favorite    
+                       span #{fmini.likes_length }                                                                                                                               
+                   .annexes
+                      a.mx-1(href=`/${fmini._id}/annexures`) 
+                       .material-symbols-rounded
+                         | edit
+                       span #{fmini.annexes_length }
+           #fmini_share_modal.modal.fade.text-center(data-bs-backdrop="static" tabindex='-1' aria-labelledby='feedModal1' aria-hidden='true')
+            .modal-dialog
+              .modal-content
+                .modal-header
+                     h5 Share this fantom
+                     button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body     
+                 .d-flex.flex-row.overflow-scroll.no-scrollbar
+                   .hstack.scrollbox(style='width : 1000px')
+                      a.resp-sharing-button__link(href=`https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Ffmini%2F${fmini._id}` target='_blank' rel='noopener' aria-label='')
+                       .resp-sharing-button.resp-sharing-button--facebook.resp-sharing-button--small
+                          .resp-sharing-button__icon.resp-sharing-button__icon--solid(aria-hidden='true')
+                             i.fa-brands.fa-facebook
+                      a.resp-sharing-button__link(href=`https://twitter.com/intent/tweet/?text=Take%20a%20look%20at%20my%20imagination%20at%20Dream%20Land&amp;url=http%3A%2F%2Flocalhost%3A3000%2Ffmini%2F3453q4` target='_blank' rel='noopener' aria-label='')
+                       .resp-sharing-button.resp-sharing-button--twitter.resp-sharing-button--small
+                          .resp-sharing-button__icon.resp-sharing-button__icon--solid(aria-hidden='true')
+                             .fa-brands.fa-twitter
+                      a.resp-sharing-button__link(href=`https://telegram.me/share/url?text=Take%20a%20look%20at%20my%20imagination%20at%20Dream%20Land&amp;url=http%3A%2F%2Flocalhost%3A3000%2Ffmini%2F${fmini._id}` target='_blank' rel='noopener' aria-label='')
+                       .resp-sharing-button.resp-sharing-button--telegram.resp-sharing-button--small
+                          .resp-sharing-button__icon.resp-sharing-button__icon--solid(aria-hidden='true')
+                             i.fa-brands.fa-telegram                                                
        #pills-fantoms.tab-pane.fade.pd(role='tabpanel' aria-labelledby='pills-fantoms-tab' tabindex='0')                              
          ul.list-group.list-group-flush.dreams-post
           -for(fantom of usr_fantoms)
            li.list-group-item
               .dream-wrap
                 .dream-header.hstack
-                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -if(user.prflimg)
+                     img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -else
+                     img(style='background: #c631c6; min-width : 50px;min-height:50px ')                   
                   .dream-header-info
                     .user_name_id.d-flex 
                       -if(fantom.post_as == 'anonymous')
@@ -177,7 +207,7 @@ block content
                           span.usrid @#{user.id}
                       a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
                         i.fa-solid.fa-ellipsis-vertical                        
-                    p #{fantom.desc}
+                    a(href=`/fantom/detail/${fantom._id}`)  #{fantom.desc}
                 -if(fantom.cover)
                       img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}` alt=''  data-bs-toggle='modal' data-bs-target=`#${fantom._id}`)
                 .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${fantom._id}`)
@@ -188,28 +218,27 @@ block content
                          .modal-body.text-center.vstack
                            img.modal-img(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}` alt='').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
-                            .replies 
-                                button.btn.btn-light.mx-1(type='button') 
-                                  i.lapdisp.fa-solid.fa-reply 
-                            .annexes 
-                                 button.btn.btn-light.mx-1(type='button') 
-                                   i.lapdisp.fa-solid.fa-plus 
-                            .alters
-                               button.btn.btn-light.mx-1(type='button') 
-                                 i.lapdisp.fa-solid.fa-pen                             
-                            .reactions 
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
-                                i.fa-solid.fa-face-smile                             
-                            .share  
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
-                                i.fa-solid.fa-share-nodes                
+                   a.mx-1(href=`/${fantom.fminiRefId}/${fantom._id}/nestedReplies`).replies 
+                       .material-symbols-rounded
+                         | reply     
+                       span #{fantom.replies_length}                                                          
+                   a.mx-1.likes
+                       .material-symbols-rounded
+                          | favorite    
+                       span #{fantom.likes_length}                                                      
+                   a.mx-1(href=`/chapter/${fantom._id}/nestedReplies`).replies 
+                       .material-symbols-rounded
+                         | note_add                                                                                                   
        #pills-annexures.tab-pane.fade(role='tabpanel' aria-labelledby='pills-annexures-tab' tabindex='0') 
          ul.list-group.list-group-flush.dreams-post
           -for(annex of usr_annexes)
            li.list-group-item
               .dream-wrap
                 .dream-header.hstack
-                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -if(user.prflimg)
+                     img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -else
+                     img(style='background: #c631c6; min-width : 50px;min-height:50px ')  
                   .dream-header-info
                     .user_name_id.d-flex 
                         .vstack
@@ -217,8 +246,7 @@ block content
                           span.usrid @#{user.id}
                         a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
                           i.fa-solid.fa-ellipsis-vertical                        
-                .fmini_body 
-                    a(href=`.annex/${annex._id}`)  #{annex.annex}
+                .annex_body  #{annex.annex}
                 .fmini_tags 
                   -for(tag in annex.tags)
                     .tag-light #{tag}
@@ -236,22 +264,26 @@ block content
                          .modal-body.text-center.vstack
                            img.modal-img(src=`https://drive.google.com/uc?export=view&id=${annex.media}` alt='').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
-                            .replies 
-                                a.btn.btn-light.mx-1(type='button' href=`/${annex._id}/replies`) 
-                                  i.lapdisp.fa-solid.fa-reply                              
-                            .reactions 
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
-                                i.fa-solid.fa-face-smile                             
-                            .share  
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
-                                i.fa-solid.fa-share-nodes  
+                  .replies
+                   .material-symbols-rounded
+                         | reply                
+                   a.mx-1( href=`/${annex.fminiRefId}/${annex._id}/nestedReplies`) 
+                       span #{annex.replies.length}                                 
+                  .likes                  
+                    .material-symbols-rounded
+                          | favorite                   
+                    a.mx-1  
+                       span #{annex.likes.length}                                                      
        #pills-alter.tab-pane.fade(role='tabpanel' aria-labelledby='pills-alter-tab' tabindex='0') 
          ul.list-group.list-group-flush.dreams-post
           -for(alter of usr_alters)
            li.list-group-item
               .dream-wrap
                 .dream-header.hstack
-                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -if(user.prflimg)
+                     img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -else
+                     img(style='background: #c631c6; min-width : 50px;min-height:50px ')  
                   .dream-header-info
                     .user_name_id.d-flex 
                         .vstack
@@ -259,8 +291,7 @@ block content
                           span.usrid @#{user.id}
                         a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
                           i.fa-solid.fa-ellipsis-vertical                        
-                .fmini_body 
-                    a(href=`.alter/${alter._id}`)  #{alter.alter}
+                .alter_body   #{alter.alter}
                 .fmini_tags 
                   -for(tag in alter.tags)
                     .tag-light #{tag}
@@ -278,22 +309,25 @@ block content
                          .modal-body.text-center.vstack
                            img.modal-img(src=`https://drive.google.com/uc?export=view&id=${alter.media}` alt='').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
-                            .replies 
-                                a.btn.btn-light.mx-1(type='button' href=`/${alter._id}/replies`) 
-                                  i.lapdisp.fa-solid.fa-reply                             
-                            .reactions 
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
-                                i.fa-solid.fa-face-smile                             
-                            .share  
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
-                                i.fa-solid.fa-share-nodes             
+                   a.mx-1.replies(href=`/${alter.fminiRefId}/${alter._id}/nestedReplies`) 
+                       .material-symbols-rounded
+                         | reply     
+                       span #{alter.replies.length }                                                      
+                   a.mx-1.likes
+                       .material-symbols-rounded
+                          | favorite    
+                       span #{alter.likes.length}                                                     
+                                                                                           
        #pills-replies.tab-pane.fade(role='tabpanel' aria-labelledby='pills-replies-tab' tabindex='0') 
          ul.list-group.list-group-flush.dreams-post
           -for(reply of usr_replies)
            li.list-group-item
               .dream-wrap
                 .dream-header.hstack
-                  img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -if(user.prflimg)
+                    img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
+                  -else 
+                     img(style='background: #c631c6; min-width : 50px;min-height:50px ')  
                   .dream-header-info
                     .user_name_id.d-flex 
                         .vstack
@@ -301,8 +335,7 @@ block content
                           span.usrid @#{user.id}
                         a.ms-auto(tabindex='0' data-bs-toggle="popover" data-bs-html='true' data-bs-trigger="focus"  data-bs-content='<div class="list-group list-group-flush"><a href="#" class="list-group-item list-group-item-action " aria-current="true"> The current link item</a><a href="#" class="list-group-item list-group-item-action">A second link item</a><a href="#" class="list-group-item list-group-item-action">A third link item</a><a href="#" class="list-group-item list-group-item-action">A fourth link item</a><a class="list-group-item list-group-item-action ">A disabled link item</a></div> ').options.float-end 
                           i.fa-solid.fa-ellipsis-vertical                        
-                .fmini_body 
-                    a(href=`.reply/${reply._id}`)  #{reply.reply}
+                .reply_body   #{reply.reply}
                 .fmini_tags 
                   -for(tag in reply.tags)
                     .tag-light #{tag}
@@ -320,16 +353,18 @@ block content
                          .modal-body.text-center.vstack
                            img.modal-img(src=`https://drive.google.com/uc?export=view&id=${reply.media}` alt='').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
-                            .replies 
-                                a.btn.btn-light.mx-1(type='button' href=`/${reply._id}/replies`) 
-                                  i.lapdisp.fa-solid.fa-reply                            
-                            .reactions 
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
-                                i.fa-solid.fa-face-smile                             
-                            .share  
-                              button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
-                                i.fa-solid.fa-share-nodes        
-       #pills-likes.tab-pane.fade(role='tabpanel' aria-labelledby='pills-likes-tab' tabindex='0')                                   
+                   a.mx-1(type='button' href=`/${reply.fminiRefId}/${reply._id}/nestedReplies`).replies 
+                       .material-symbols-rounded
+                         | reply     
+                       span #{reply.replies.length}                                                    
+                   a.mx-1.likes
+                       .material-symbols-rounded
+                          | favorite    
+                       span #{reply.likes.length}                                            
+                                                                                      
+       #pills-likes.tab-pane.fade(role='tabpanel' aria-labelledby='pills-likes-tab' tabindex='0')     
+         ul.list-group.list-group-flush.dreams-post#user_likes_lists
+                                        
     .col-12.col-lg-4.lapdisp.side_notifications 
           h6 Top Users 
           ul.list-group#top_users 
@@ -341,16 +376,10 @@ block content
                          .modal-header
                            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
                          .modal-body  
-                           ul.list-group
+                           ul.list-group#profile_followers
                             -if(user.followers.length)
-                              -for( follower of user.followers)
-                               li.list-group-item.follows_list
-                                .d-flex
-                                  img(src=`${follower.prflimg}` alt='' srcset='')
-                                .usr_names.vstack
-                                 .user_name #{follower.name}
-                                 .user_id @ #{follower.userId}
-                                button.btn.btn-primary Follow back
+                              #followers_users_spinner.spinner-border.m-auto(role='status')
+                               span.visually-hidden Loading...
                             -else
                              h6 No followers found.
    .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id='following_modal')
@@ -359,24 +388,27 @@ block content
                          .modal-header
                            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
                          .modal-body  
-                           ul.list-group.follows_list
+                           ul.list-group.follows_list#profile_followings
                             -if(user.following.length)
-                              -for(fellow of user.following)
-                               li.list-group-item
-                                .d-flex
-                                  img(src=`${fellow.prflimg}` alt='' srcset='')
-                                .usr_names.vstack
-                                 .user_name #{fellow.name}
-                                 .user_id @ #{fellow.userId}
-                                button.btn.btn-primary Follow back
+                              #following_users_spinner.spinner-border.m-auto(role='status')
+                               span.visually-hidden Loading...
                             -else
                              h6 You are not following anyone               
     
 block script 
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js' )
+  script(src ='/javascripts/profile.js')
   script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js' )
-  //- script(src="/javascripts/profile.js") 
   script.
+   var user_id = parseJwt(getCookie('indigotoken'))._id
+   function createFollowers(){
+      createFollowersList(user_id, 'profile_followers')
+      }
+    function createFollowings(){
+      createFollowingList(user_id, 'profile_followings')
+      }
+    document.addEventListener('DOMContentLoaded', createFollowers);  
+    document.addEventListener('DOMContentLoaded', createFollowings);  
    fetchTopUsers()
         var refresh_token = '1//04B7CC8js9zlXCgYIARAAGAQSNwF-L9IrZ_HLBxgKHzRaSGUbyyQgaYlJbuxL8KReeXhaMhVDueYvMDcvA5--LRAg4DN24ymDA90'
 
@@ -563,30 +595,3 @@ block script
         }
               )
         }
-     async function fetchFms(){
-      var decoded = parseJwt(getCookie('indigotoken'))
-      usrRefId = decoded._id
-       await fetch(`/api/fantoms/detail/${usrRefId}`).then(res => res.json()).then(data =>console.log(data))
-     }
-      async function fetchFminis(){
-      var decoded = parseJwt(getCookie('indigotoken'))
-      usrRefId = decoded._id
-       await fetch(`/api/fminis/detail/${usrRefId}`).then(res => res.json()).then(data =>console.log(data))
-     }
-      async function fetchReplies(){
-      var decoded = parseJwt(getCookie('indigotoken'))
-      usrRefId = decoded._id
-       await fetch(`/api/replies/${usrRefId}`).then(res => res.json()).then(data =>console.log(data))
-     }
-      async function fetchAnx(){
-      var decoded = parseJwt(getCookie('indigotoken'))
-      usrRefId = decoded._id
-       await fetch(`/api/annexes/${usrRefId}`).then(res => res.json()).then(data =>console.log(data))
-     }
-
-     async function fetchAltr(){
-      var decoded = parseJwt(getCookie('indigotoken'))
-      usrRefId = decoded._id
-       await fetch(`/api/alters/${usrRefId}`).then(res => res.json()).then(data =>console.log(data))
-     }
-              

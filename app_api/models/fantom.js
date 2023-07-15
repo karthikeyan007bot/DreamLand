@@ -33,6 +33,7 @@ const fantomSchema = new mongoose.Schema({
        cover : String,
        replies : [replySchema],
        likes : Array,
+       bookmarks : Array,
        chapters : [chapterSchema]
 })
 mongoose.model('Fantom', fantomSchema)

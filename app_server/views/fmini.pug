@@ -10,17 +10,13 @@ block content
       .row
        .col-12.col-lg-8
         .card.mb-3.fmini_card.m-3
-           .card-header.text-end                         
-                  button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Share') 
-                    i.fa-solid.fa-share-nodes 
-                  button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Report') 
-                    i.fa-solid.fa-flag 
-                  button.btn.btn-light.mx-1(type='button' data-bs-toggle = 'tooltip' data-bs-title='Bookmark') 
-                    i.fa-solid.fa-bookmark
-                  button.btn.btn-light.mx-1(type='button' data-bs-toggle ='modal' data-bs-target='#reactionModal') 
-                    i.fa-solid.fa-face-smile                    
-                  button.btn.btn-light.mx-1(type='button' data-bs-toggle='popover' data-bs-html='true' data-bs-content=`<div class='options_popover'> <div > <a href='/${fmini._id}/replies'>Replies</a> </div> <div > <a href='/${fmini._id}/annexes'>Annexes</a> </div> <div> <a href='/${fmini._id}/alters'>Alters</a> </div> </div>`) 
-                    i.fa-solid.fa-ellipsis-vertical                    
+           //-  .card-header.text-end                         
+           //-         .share
+           //-           .material-symbols-rounded
+           //-              | share
+           //-         .bookmark
+           //-           .material-symbols-rounded
+           //-              | bookmark                                           
            .card-body.fmini_card_body
              .row
                .col-12.col-md-6
@@ -35,78 +31,129 @@ block content
                 .text-body-secondary.mb-5.fbody  #{fmini.body}
            .card-footer               
               .d-flex.justify-content-around
-                  button.btn.btn-light.mx-1(type='button') 
-                    i.lapdisp.fa-solid.fa-reply 
-                  button.btn.btn-light.mx-1(type='button') 
-                    i.lapdisp.fa-solid.fa-plus 
-                  button.btn.btn-light.mx-1(type='button') 
-                    i.lapdisp.fa-solid.fa-pen  
-                  button.btn.btn-light.mx-1(type='button') 
-                    i.lapdisp.fa-solid.fa-face-smile 
+                   .replies  
+                      .material-symbols-rounded(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#reply_modal_${fmini._id}`)
+                         | reply                   
+                      a(type='button' href=`/${fmini._id}/replies`)      
+                       span  #{fmini.replies.length }                            
+                       span.lapdisp  Replies                             
+                   .alters
+                      .material-symbols-rounded(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#alter_modal_${fmini._id}`)
+                         | edit_note  
+                      a(href=`/${fmini._id}/alters`)        
+                       span #{fmini.alters.length}
+                       span.lapdisp Alters
+                   .likes(onclick=`like('${fmini._id}', '${fmini._id}')`)
+                       .material-symbols-rounded(id=`like_btn_${fmini._id}`) 
+                          | favorite    
+                       //span #{fmini.likes.length}                                                    
+                       span.lapdisp Likes                                                       
+                   .annexes
+                      .material-symbols-rounded(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#annex_modal_${fmini._id}`)
+                         | edit                   
+                      a(href=`/${fmini._id}/annexures`) 
+                       span #{fmini.annexes.length }
+                       span.lapdisp Annexes 
        .col-12.col-lg-4.p-2
           .card.user_card
              .card-body.text-center
                  img.user_pic(src=`https://drive.google.com/uc?export=view&id=${fmini_user.prflimg}`)
-                 .user_info.my-1 
-                   a(href="/profile").user_name #{fmini_user.name}
-                   a(href="/profile").user_id #{fmini_user.userId}
+                 .user_info.my-1.vstack 
+                   a(href=`/user/${fmini_user._id}`).user_name #{fmini_user.name}
+                   a(href=`/user/${fmini_user._id}`).user_id.lead @#{fmini_user.userId}
                  .user_follows.d-flex.justify-content-between.my-1 
-                    button(type="button").btn.btn-light.user_following #{fmini_user.following.length} followings
-                    button(type="button").btn.btn-light.user_followers #{fmini_user.followers.length} followers
-      .modal.fade(id='reactionModal' data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
-                      .modal-dialog
-                        .modal-content
-                          .modal-header
-                               h6 Reactions
-                               button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
-                          .modal-body
-                            if fmini.reactions.length
-                             ul.list-group.list-group-flush.reaction-infos 
-                              for reaction in fmini.reactions
-                               li.list-group-item
-                                a(href='').fmini-rxn-hdr.d-flex 
-                                  .fmini-rxn-hdr-img
-                                    if reaction.usrImg
-                                      img.avator(src=`https://drive.google.com/uc?export=view&id=${reaction.usrImg}` alt='')
-                                    else 
-                                     div(style='width : 48px; height : 48px; background : purple; border-radius: 5px')
-                                  .fmini-rxn-hdr-info.vstack 
-                                     .fmini-rxn-hdr-info-up.d-flex
-                                       .fmini-rxn-hdr-usrname=reaction.usrName 
-                                     .fmini-rxn-hdr-usrid @#{reaction.usrId}    
-                                  .fmini-feeling-emoji.float-end  
-                                    -if(reaction.reaction == 'excited')
-                                        span 😐
-                                    -if(reaction.reaction == 'good')
-                                        span 🥰
-                                    -if(reaction.reaction == 'pleased')
-                                        span 😂
-                                    -if(reaction.reaction == 'depressed')
-                                        span 🤗
-                                    -if(reaction.reaction == 'heartbroken')
-                                        span 🥱
-                                    -if(reaction.reaction == 'upset')
-                                         span 😡
-                                    -if(reaction.reaction == 'outraged')
-                                         span 💔
-                                    -if(reaction.reaction == 'frustated')
-                                         span 🤯
-                                    -if(reaction.reaction == 'irritated')
-                                         span 😭
-                                    -if(reaction.reaction == 'terrified')
-                                         span 💔
-                                    -if(reaction.reaction == 'insecure')
-                                         span 🤯
-                                    -if(reaction.reaction == 'nervous')
-                                         span 😭
-                                    -if(reaction.reaction == 'worthless')
-                                         span 😭
-                                    -if(reaction.reaction == 'guilty')
-                                         span 💔
-                                    -if(reaction.reaction == 'silly')
-                                         span 🤯                                       
-                            else 
-                              h6 No reactions yet.
+                    button(type="button").btn.btn-light.user_following(style='font-size: 15px') #{fmini_user.following.length} followings
+                    button(type="button").btn.btn-light.user_followers(style='font-size: 15px') #{fmini_user.followers.length} followers
+                 .follow_button.text-center 
+                   button(type='button' onclick=`follow('${fmini_user._id}')`).btn.btn-default Follow
+       .modal.fade(id=`reply_modal_${fmini._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                 .modal-dialog.modal-fullscreen-sm-down
+                   .modal-content
+                     .modal-header
+                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .fanta-options.float-end 
+                         label(for=`reply_fileinp_${fmini._id}`).mx-1 
+                            span(class="material-symbols-rounded")
+                              | add_photo_alternate
+                            input(id=`reply_fileinp_${fmini._id}` name="fantaimage", type="file", onchange=`readURL(this,'reply_fileinp_${fmini._id}')`).d-none    
+                         a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#reply_gif_${fmini._id}` aria-expanded='false')
+                             span(class="material-symbols-rounded")
+                                    |gif_box                                                                                                                                                                          
+                             button.btn.ibtn(type='button' style='display:none' id=`reply_load_gif_${fmini._id}`) Load more                                                          
+                       img.reply_img(src="", alt="", srcset="" id=`reply_media_preview_${fmini._id}`)
+                       textarea.form-control(name="", cols="30" id=`reply_${fmini._id}`) 
+                       .collapse(id=`reply_gif_${fmini._id}`)
+                           .card.card-body
+                             input.form-control(id=`reply_gif_search_${fmini._id}` type="search", name=`reply_gif_search_${fmini._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
+                             div(id=`reply_tenor_suggestion_${fmini._id}`)
+                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                 div.reply_radios(style='width :2000px')
+                                  .radios.radio_tile_group(name = `reply_radio_tile_${fmini._id}`) 
+                             .no-scrollbar(id=`reply_gif_preview_container_${fmini._id}`)
+                             .btn.ibtn(type='button' id = `reply_gif_load_${fmini._id}` fminiId = `${fmini._id}` onclick= `loadGif('reply','${fmini._id}')`) Load more gifs
+                       button.btn.ibtn.mt-2(type = 'button' onclick=`postToTarget('${fmini._id}', 'reply','fmini')`) Reply
+                       #reply_spinner.spinner-border.ms-2(role='status' style='display : none')
+                         span.visually-hidden Loading...                        
+       .modal.fade(id=`alter_modal_${fmini._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                 .modal-dialog.modal-fullscreen-sm-down
+                   .modal-content 
+                     .modal-header
+                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .fanta-options.float-end 
+                         label(for=`alter_fileinp_${fmini._id}`).mx-1 
+                            span(class="material-symbols-rounded")
+                              | add_photo_alternate
+                            input(id=`alter_fileinp_${fmini._id}` name="fantaimage", type="file", onchange=`readURL(this,'alter_fileinp_${fmini._id}')`).d-none    
+                         a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#alter_gif_${fmini._id}` aria-expanded='false')
+                             span(class="material-symbols-rounded")
+                                    |gif_box                                                                                                                                                                          
+                             button.btn.ibtn(type='button' style='display:none' id=`alter_load_gif_${fmini._id}`) Load more                                                          
+                       img.alter_img(src="", alt="", srcset="" id=`alter_media_preview_${fmini._id}`)
+                       textarea.form-control(name="", cols="30" id=`alter_${fmini._id}`) #{fmini.body}
+                       .collapse(id=`alter_gif_${fmini._id}`)
+                           .card.card-body
+                             input.form-control(id=`alter_gif_search_${fmini._id}` type="search", name=`alter_gif_search_${fmini._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
+                             div(id=`alter_tenor_suggestion_${fmini._id}`)
+                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                 div.alter_radios(style='width:2000px')
+                                  .radios.radio_tile_group(name = `alter_radio_tile_${fmini._id}`) 
+                             .no-scrollbar(id=`alter_gif_preview_container_${fmini._id}`)
+                             .btn.ibtn(type='button' id = `alter_gif_load_${fmini._id}` fminiId = `${fmini._id}` onclick= `loadGif('alter','${fmini._id}')`) Load more gifs
+                       button.btn.ibtn(type = 'button' onclick=`postToTarget('${fmini._id}', 'alter','fmini')`) Alter         
+                       #alter_spinner.spinner-border.ms-2(role='status' style='display : none')
+                         span.visually-hidden Loading...     
+       .modal.fade(id=`annex_modal_${fmini._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+                 .modal-dialog.modal-fullscreen-sm-down 
+                   .modal-content
+                     .modal-header
+                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+                     .modal-body
+                       .fanta-options.float-end 
+                         label(for=`annex_fileinp_${fmini._id}`).mx-1 
+                            span(class="material-symbols-rounded")
+                              | add_photo_alternate
+                            input(id=`annex_fileinp_${fmini._id}` name="fantaimage", type="file", onchange=`readURL(this,'annex_fileinp_${fmini._id}')`).d-none    
+                         a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#annex_gif_${fmini._id}` aria-expanded='false')
+                             span(class="material-symbols-rounded")
+                                    |gif_box                                                                                                                                                                          
+                             button.btn.ibtn(type='button' style='display:none' id=`annex_load_gif_${fmini._id}`) Load more                                                          
+                       img.annex_img(src="", alt="", srcset="" id=`annex_media_preview_${fmini._id}`)
+                       textarea.form-control(name="", cols="30" id=`annex_${fmini._id}`) 
+                       .collapse(id=`annex_gif_${fmini._id}`)
+                           .card.card-body
+                             input.form-control(id=`annex_gif_search_${fmini._id}` type="search", name=`annex_search_${fmini._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
+                             div(id=`annex_tenor_suggestion${fmini._id}`)
+                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+                                 div.annex_radios(style='width:2000px')
+                                  .radios.radio_tile_group(name = `annex_radio_tile_${fmini._id}`) 
+                             .no-scrollbar(id=`annex_gif_preview_container_${fmini._id}`)
+                             .btn.ibtn(type='button' id = `annex_gif_load_${fmini._id}` fminiId = `${fmini._id}` onclick= `loadGif('annex','${fmini._id}')`) Load more gifs
+                       button.btn.ibtn(type = 'button' onclick=`postToTarget('${fmini._id}', 'annex','fmini')`) Annex    
+                       #annex_spinner.spinner-border.ms-2(role='status' style='display : none')
+                         span.visually-hidden Loading...                     
 block script      
      script(src="//cdn.jsdelivr.net/npm/share-buttons/dist/share-buttons.js")
+     script(src="/javascripts/home.js")   
      script(src="/javascripts/fmini.js" defer)        

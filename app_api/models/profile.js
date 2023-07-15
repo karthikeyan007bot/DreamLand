@@ -35,6 +35,7 @@ const profileSchema = new mongoose.Schema({
     alters :  Array,
     replies : Array,
     likes : Array,
+    bookmarks : Array,
     hash:String,
     salt:String
 });

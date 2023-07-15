@@ -6,21 +6,29 @@ const Profile = mongoose.model('Profile')
 const Fantom = mongoose.model('Fantom')
 const Report = mongoose.model('Report')
 const follow = async (req, res) => {
-  const following = Profile.findById(req.body.following)
-  const follower = Profile.findById(req.body.follower)
-  var session = await mongoose.startSession()
-  try{
-    await session.withTransaction( async ()=> {
-      following.followers.push(req.body.follower)
-      follower.following.push(req.body.following)
-    })
-  }catch(err){
-    console.log(err)
-  }finally{
-    console.log('follow request completed')
-    res.status(202).json('ok')
+  const following = await Profile.findById(req.body.following).exec();
+  const follower = await Profile.findById(req.body.follower).exec();
+  var session = await mongoose.startSession();
+  try {
+    await session.withTransaction(async () => {
+      if (following.followers.includes(req.body.follower)) {
+        following.followers.pull(req.body.follower);
+        follower.following.pull(req.body.following);
+      } else {
+        following.followers.push(req.body.follower);
+        follower.following.push(req.body.following);
+      }
+    });
+    await following.save();
+    await follower.save();
+  } catch (err) {
+    console.log(err);
+  } finally {
+    console.log('follow request completed');
+    res.status(202).json('ok');
   }
-}
+};
+
 const fmini = async (req, res) => {
     const fmini = new Fmini();
     const profile = await Profile.findById(req.body.refId)
@@ -220,7 +228,7 @@ const getFantomRxns = async (req, res) => {
     });
    
 } //fantom and its replies
-async function postRxn(req, res) {
+async function like(req, res) {
   const fmini = await Fmini.findOne({_id: req.body.targetId})
   const fantom = await Fantom.findOne({_id: req.body.targetId})
   const profile = await Profile.findById(req.body.usrRefId)
@@ -263,16 +271,82 @@ async function postRxn(req, res) {
               profile.likes.pull(parent._id)
               await parent.save()
               await profile.save()
+              res.status(201).json('ok')
             }else{
               parent.likes.push(req.body.usrRefId)
               profile.likes.push(parent._id)
               await parent.save()
               await profile.save()
+              res.status(201).json('ok')
             }
           }
         }else{ // new reaction
           parent.likes.push(req.body.usrRefId)
           profile.likes.push(parent._id)
+          await parent.save()
+          await profile.save()
+          res.status(201).json('ok')
+        }
+      })
+     }catch(e){
+      console.log(e)
+     }finally{
+      session.endSession()
+     }
+}
+async function bookmark(req, res) {
+  const fmini = await Fmini.findOne({_id: req.body.targetId})
+  const fantom = await Fantom.findOne({_id: req.body.targetId})
+  const profile = await Profile.findById(req.body.usrRefId)
+  var parentId = req.body.parentId
+  var parent
+  if(fantom == null || undefined){
+  parent = fmini
+  }else if(fmini == null || undefined){
+    parent = fantom
+  }else if(fmini.replies.id(parentId)){
+    parent = fmini.replies.id(parentId)
+  }else if(fantom.replies.id(parentId)){
+    parent = fantom.replies.id(parentId)
+  }else if(fmini.annexes.id(parentId)){
+    parent = fmini.annexes.id(parentId)
+  }else if(fmini.alters.id(parentId)){
+    alters = fmini.alters.id(parentId)
+  }else{
+    parent = findTargetReply(fmini.replies, parentId)
+  }
+
+  if(parent == undefined){
+    parent = findTargetReply(fmini.annexes, parentId)
+  }
+
+  if(parent == undefined){
+    parent = findTargetReply(fmini.alters, parentId)
+  }
+  
+  if(parent == undefined){
+    parent = findTargetReply(fantom.replies, parentId)
+  }
+     var session = await mongoose.startSession();
+     try{
+      await session.withTransaction( async()=>{
+        if(parent.bookmarks && parent.bookmarks.length){ // bookmarks exists
+          for(var usrRefId of parent.bookmarks){
+            if(usrRefId == req.body.usrRefId){  // user already liked
+              parent.bookmarks.pull(usrRefId)
+              profile.bookmarks.pull(parent._id)
+              await parent.save()
+              await profile.save()
+            }else{
+              parent.bookmarks.push(req.body.usrRefId)
+              profile.bookmarks.push(parent._id)
+              await parent.save()
+              await profile.save()
+            }
+          }
+        }else{ // new reaction
+          parent.bookmarks.push(req.body.usrRefId)
+          profile.bookmarks.push(parent._id)
           await parent.save()
           await profile.save()
         }
@@ -284,7 +358,6 @@ async function postRxn(req, res) {
      }
 }
 const postToTarget = async (req, res) => {
-  console.log(req.body)
   var to;
    if(req.body.to == 'fmini'){
      to = await Fmini.findOne({ _id: req.body.toId });
@@ -344,17 +417,18 @@ const postCommonReply = async (req, res) => {
   const session = await mongoose.startSession();
   var fminiId = req.body.fminiRefId;
   var fmini = await Fmini.findById(fminiId).session(session);
+  var fantom = await Fantom.findById(fminiId).session(session);
   var parentId = req.body.parentId
   var parent;
   
    if(fmini.replies.id(parentId)){
     parent = fmini.replies.id(parentId)
-   }
-   else if(fmini.annexes.id(parentId)){
+   }else if(fmini.annexes.id(parentId)){
     parent = fmini.annexes.id(parentId)
-   }
-   else if(fmini.alters.id(parentId)){
+   }else if(fmini.alters.id(parentId)){
     parent = fmini.alters.id(parentId)
+   }else if(fantom.replies.id(parentId)){
+    parent = fantom.replies.id(parentId)
    }else{
     parent = findTargetReply(fmini.replies,parentId)
    }
@@ -366,6 +440,11 @@ const postCommonReply = async (req, res) => {
  
    if(parent == undefined){
     parent = findTargetReply(fmini.alters,parentId)
+    console.log('parent : ', parent)
+   }
+
+   if(parent == undefined){
+    parent = findTargetReply(fantom.replies,parentId)
     console.log('parent : ', parent)
    }
   try {
@@ -454,7 +533,6 @@ const getUsers = async (req, res) => {
   }
 }
 const getUsers2 = async (req, res) => {
-  
   try {
     const users = await Promise.all(req.body.usrIds.map(async (id) => {
       const user = await Profile.findById(id); // Find user by id
@@ -487,19 +565,72 @@ const fmDl = (req, res) =>{
   })
 }
 const fmsDl = (req, res)=>{
-  Fantom.find({usrRefId : req.params.id}, 'title desc cover', (err, fantoms)=>{
+  Fantom.find({usrRefId : req.params.id}, {title : 1, desc: 1, cover: 1, likes_length : {$cond : { if : { $isArray : '$likes'}, then : {$size : '$likes'}, else : 0}}, replies_length : { $cond : { if : {$isArray : '$replies'}, then : {$size : '$replies'}, else : 0}}, chapters_length : {$cond : { if : { $isArray : '$chapters'}, then : {$size : '$chapters'}, else : 0}}}, (err, fantoms)=>{
     res.status(200).json(fantoms)
   })
 }
-const fminisDl = (req, res)=>{ 
-  Fmini.find({refId : req.params.id},{ _id: 1, body: 1, media: 1, 'settings.postAs' : 1, tags : 1, mood : 1, catagory : 1, timeStamp : 1 }, (err, fminis) =>{
-    if(err){
-      console.log(err)
-    }else{
-      res.status(200).json(fminis)      
+// const fminisDl = (req, res)=>{  
+//   Fmini.find({refId : req.params.id},{ _id: 1, body: 1, media: 1, 'settings.postAs' : 1, tags : 1, mood : 1, catagory : 1, timeStamp : 1, likes_length : {$size : likes}, alters_length : {$size : '$alters'}, annexes_length : {$size : '$annexes'}, replies_length : {$size : '$replies'} }, (err, fminis) =>{
+//     if(err){
+//       console.log(err)
+//     }else{
+//       res.status(200).json(fminis)      
+//     }
+//   })
+// }
+const fminisDl = (req, res) => {
+  Fmini.aggregate([
+    { $match: { refId: req.params.id } },
+    {
+      $project: {
+        _id: 1,
+        body: 1,
+        media: 1,
+        'settings.postAs': 1,
+        tags: 1,
+        mood: 1,
+        catagory: 1,
+        timeStamp: 1,
+        likes_length: {
+          $cond: {
+            if: { $isArray: '$likes' },
+            then: { $size: '$likes' },
+            else: 0
+          }
+        },
+        alters_length: {
+          $cond: {
+            if: { $isArray: '$alters' },
+            then: { $size: '$alters' },
+            else: 0
+          }
+        },
+        annexes_length: {
+          $cond: {
+            if: { $isArray: '$annexes' },
+            then: { $size: '$annexes' },
+            else: 0
+          }
+        },
+        replies_length: {
+          $cond: {
+            if: { $isArray: '$replies' },
+            then: { $size: '$replies' },
+            else: 0
+          }
+        }
+      }
     }
-  })
-}
+  ], (err, fminis) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).json(fminis);
+    }
+  });
+};
+
+
 var allReplies = []
 const getAllReplies = async () => {
   try {
@@ -542,7 +673,7 @@ const usrReplies = async (req, res) => {
     const allReplies = await getAllReplies();
     const userReplies = allReplies.filter(reply => reply.usrRefId === userId);
     res.status(200).json(userReplies)
-  } catch (err) {
+  }catch (err) {
     console.error(err);
     res.status(500).send('An error occurred while fetching replies.');
   }
@@ -640,6 +771,88 @@ const usrLikes = async (req, res) =>{
     likes.push(item)
   }
   res.status(200).json(likes)
+}
+const usrBookmarks = async (req, res) =>{
+  const userId = req.params.id;
+
+  // Query likes in fantom
+  const Fantom = mongoose.model('Fantom');
+  const fantomLikes = await Fantom.find({ bookmarks: userId }).exec();
+  const fantomRepliesLikes = await Fantom.find({ 'replies.bookmarks' : userId}).exec();
+  
+  // Query bookmarks in fmini
+  const Fmini = mongoose.model('Fmini');
+  const fminiLikes = await Fmini.find({ bookmarks: userId }).exec();
+  
+  // Query bookmarks in alters within fmini
+  const fminiAltersLikes = await Fmini.find({ 'alters.bookmarks': userId }).exec();
+  
+  // Query bookmarks in annexes within fmini
+  const fminiAnnexesLikes = await Fmini.find({ 'annexes.bookmarks': userId }).exec();
+  
+  // Query bookmarks in replies within fmini
+  const fminiRepliesLikes = await Fmini.find({ 'replies.bookmarks': userId }).exec();
+  
+  // Combine all results into a single array
+  const allBookmarks = [
+    ...fantomLikes,
+    ...fantomRepliesLikes,
+    ...fminiLikes,
+    ...fminiAltersLikes,
+    ...fminiAnnexesLikes,
+    ...fminiRepliesLikes,
+  ];
+  var bookmarks = [];
+
+  for(var post of allBookmarks){
+    var _id, parent,body, media, usrRefId, replies_length , alters_length, annexes_length, bookmarks_length;
+    _id = post._id
+    replies_length = post.replies.length
+    bookmarks_length = post.bookmarks.length
+    if(post.body){ // body
+      body = post.body
+    }else{
+      body = post.desc
+    }
+    if(post.media){ // media
+      media = post.media
+    }else if(post.cover){
+      media = post.cover
+    }else{
+      media = null
+    }
+    if(post.usrRefId){
+      usrRefId = post.usrRefId
+    }else{
+      usrRefId = post.refId
+    }
+    if(post.alters){
+      alters_length = post.alters.length
+    }
+    if(post.annexes){
+      annexes_length = post.annexes.length
+    } 
+    if(post.cover){
+      parent = 'fantom'
+    }else if(post.annexes){
+      parent = 'fmini'
+    }else{
+      parent = 'alenrep'
+    }
+    var item = {
+      _id : _id,
+      body : body, 
+      media : media,
+      usrRefId : usrRefId,
+      replies_length : replies_length,
+      alters_length : alters_length,
+      annexes_length : annexes_length,
+      bookmarks_length : bookmarks_length,
+      parent : parent
+    }
+    bookmarks.push(item)
+  }
+  res.status(200).json(bookmarks)
 }
 const usrAlters = async (req, res) =>{
   var usrAlters = []
@@ -768,5 +981,5 @@ const chatHistory = async (req, res) => {
 };
 
 module.exports = {
- chatHistory, usrLikes,follow,chapter,chapterPost,saveSettings, report, postToTarget, fmini,users,getUser, pmsg,gmsg, updtMsgStats,dltmsg,fantom, postRxn, fminiFeed, getFmini, getUsers,getUsers2,postCommonReply, getNestedReply, fantoms, getFantom ,fmDl, fmsDl, fminisDl, usrReplies, usrAnnexes, usrAlters, getFantomRxns, getFminiRxns, topUsers
+ bookmark,chatHistory, usrLikes,usrBookmarks,follow,chapter,chapterPost,saveSettings, report, postToTarget, fmini,users,getUser, pmsg,gmsg, updtMsgStats,dltmsg,fantom, like, fminiFeed, getFmini, getUsers,getUsers2,postCommonReply, getNestedReply, fantoms, getFantom ,fmDl, fmsDl, fminisDl, usrReplies, usrAnnexes, usrAlters, getFantomRxns, getFminiRxns, topUsers
 }

@@ -1,6 +1,7 @@
 var position;
-var refresh_token = '1//048z-zVVUfCYeCgYIARAAGAQSNwF-L9IrawEvrWWsexh5P3dKfpcFEd1WUQHLft3GPodYSNN_l89D4FBYanOX95e4uLYJz23dCw8'
-  var serverUrl = 'http://localhost:3000'
+var user_id = parseJwt(getCookie('indigotoken'))._id
+var refresh_token = '1//046Q6TBraZuMrCgYIARAAGAQSNwF-L9IrDUlr7OjFf9HKXtQmB9h2nAayfwMVb91VnxpqYsjpXgF0DUYWZ2Zv2vzOvR43fNh-RL0'
+  // var serverUrl = 'http://localhost:3000'
 // url Async requesting function
 function httpGetAsync(theUrl, callback,loadnext, loadTarget)
 {
@@ -33,7 +34,7 @@ function httpGetAsync(theUrl, callback,loadnext, loadTarget)
 function tenorCallback_search(responsetext, loadnextgif,loadTarget){
     var regxp = /reply-gif-preview-container-[A-Za-z0-9]+/ ;
     var regxp1 = /annex-reply-gif-preview-container-[A-Za-z0-9]+/ ;
-    var id = loadTarget.split('r_')[1];
+    var id = loadTarget.split('_')[4];
     var target = loadTarget.split('_')[0];
     var gifs = document.getElementsByClassName('preview_gif')
     // Parse the JSON response
@@ -45,7 +46,8 @@ function tenorCallback_search(responsetext, loadnextgif,loadTarget){
             var img = document.createElement('img');
             img.classList.add('preview_gif');
             img.src = e["media_formats"]["nanogif"]["url"];
-            img.addEventListener('click', function(event){
+            console.log(loadTarget)
+            img.addEventListener('click', function(event){            
               document.getElementById(`${target}_media_preview_${id}`).src = event.target.src
               document.getElementsByClassName('close_img')[0].style.display = 'block'
             })             
@@ -59,6 +61,7 @@ function tenorCallback_search(responsetext, loadnextgif,loadTarget){
                 img.classList.add('preview_gif');
                 img.src = e["media_formats"]["nanogif"]["url"];
                 img.addEventListener('click', function(event){
+                  console.log(`${target}_media_preview_${id}`)
                   document.getElementById(`${target}_media_preview_${id}`).src = event.target.src
                   document.getElementsByClassName('close_img')[0].style.display = 'block'
                 })       
@@ -70,6 +73,7 @@ function tenorCallback_search(responsetext, loadnextgif,loadTarget){
                     img.classList.add('preview_gif');
                     img.src = e["media_formats"]["nanogif"]["url"];
                     img.addEventListener('click', function(event){
+                      console.log(`${target}_media_preview_${id}`)
                       document.getElementById(`${target}_media_preview_${id}`).src = event.target.src
                      document.getElementsByClassName('close_img')[0].style.display = 'block'
   })   
@@ -111,12 +115,12 @@ function grab_data(term, loadmore, loadTarget)
 // function to call the featured and category endpoints
 
 function setGifSearch(target, id, num){
-  console.log(target)
-  console.log( num)
-  console.log(id)
-    var value = document.getElementById(`tnr_sugsns_${id}_${num}`).innerText
+  // console.log(target)
+  // console.log( num)
+  // console.log(id)
+    var value = document.getElementById(`${target}_tnr_sugsns_${id}_${num}`).innerText
     console.log(value)
-    document.getElementById(`${target}_gif_search_${id}`).value = document.getElementById(`tnr_sugsns_${id}_${num}`).innerText
+    document.getElementById(`${target}_gif_search_${id}`).value = document.getElementById(`${target}_tnr_sugsns_${id}_${num}`).innerText
     grab_data(value, false, `${target}_gif_preview_container_${id}`);
   }
 
@@ -127,10 +131,10 @@ function tenorCallback_searchSuggestion(responsetext, loadmore, loadTarget)
 { 
     var id = loadTarget.split('search_')[1]
     var target = loadTarget.split('_')[0]
-    console.log(loadTarget)
+    // console.log(loadTarget)
     var response_objects = JSON.parse(responsetext);
     predicted_words = response_objects["results"];
-  console.log(target, id)
+  // console.log(target, id)
     var parent_element = document.getElementsByName(`${target}_radio_tile_${id}`)[0]
         while(parent_element.firstChild){
           parent_element.removeChild(parent_element.firstChild)
@@ -154,7 +158,7 @@ function tenorCallback_searchSuggestion(responsetext, loadmore, loadTarget)
       radio_tile_label.classList.add('label')
       radio_tile_label.htmlFor = `${n}_${id}`
       radio_tile_label.classList.add('tnr_sugsns')
-      radio_tile_label.id = `tnr_sugsns_${id}_${n}`
+      radio_tile_label.id = `${target}_tnr_sugsns_${id}_${n}`
       radio_tile_label.appendChild(text_node)
       radio_tile.appendChild(radio_tile_label)
       input_container.appendChild(radio)
@@ -349,20 +353,46 @@ async function postFmini(id){
 }
 
 
-function postRxn(fminiId, parentId, usrRefId){
-      // var rxn = e.id;
-      // var usrRefId =  parseJwt(getCookie('indigotoken'))._id !!! uncomment this line
-     axios.post('/api/postRxn',{
-      // rxn : rxn,
+function like(targetId, parentId){
+      var usrRefId =  parseJwt(getCookie('indigotoken'))._id 
+      var liked =  document.getElementById(`like_btn_${parentId}`).classList.contains('fill')
+      var icon = document.getElementById(`like_btn_${parentId}`)
+      var likes_total = document.getElementById(`likes_total_${parentId}`)
+      if(liked){
+        likes_total.textContent = Math.ceil(likes_total.textContent) - 1
+        icon.classList.remove('fill')
+      }else{
+        icon.classList.add('fill')
+        likes_total.textContent = Math.ceil(likes_total.textContent) + 1
+      }
+     axios.post('/api/like',{
       usrRefId : usrRefId,
-      targetId : fminiId, //fmini or fantom
+      targetId : targetId, //fmini or fantom
       parentId : parentId 
      }).then( (resp) =>{
-        console.log(resp)
+        console.log('liked')
         // window.location.href = '/fminiFeed'
     })
    }
 
+   function bookmark(targetId, parentId){
+    var usrRefId =  parseJwt(getCookie('indigotoken'))._id 
+    var bookmarked =  document.getElementById(`bookmark_btn_${targetId}`).classList.contains('fill')
+    var icon = document.getElementById(`bookmark_btn_${targetId}`)
+    if(bookmarked){
+      icon.classList.remove('fill')
+    }else{
+      icon.classList.add('fill')
+    }
+   axios.post('/api/bookmark',{
+    usrRefId : usrRefId,
+    targetId : targetId, //fmini or fantom
+    parentId : parentId 
+   }).then( (resp) =>{
+      console.log('bookmarked')
+      // window.location.href = '/fminiFeed'
+  })
+   }
 
 function bottomSheet(id){
         const $ = document.querySelector.bind(document)

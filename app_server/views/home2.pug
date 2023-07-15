@@ -1,79 +1,214 @@
+//- extends layout
+//- block link
+//-     link(rel='stylesheet', href='/stylesheets/home2.css')
+//-     link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+//-     link(href="https://fonts.googleapis.com/css2?family=Material+Icons+Round"  rel="stylesheet")
+//- block content
+//-  .overall 
+//-    .home_feed.mt-4
+//-      .grid
+//-       each fantom, index in fantoms
+//-        - let itemClass = (index % 2 === 0) ? 'small' : 'large'
+//-        .item
+//-          .item-content
+//-              .card.fantom_card 
+//-                .card-body 
+//-                  .fantom_user_info.hstack
+//-                    if fantom.prflimg
+//-                      img.fantom_user_profile_pic(src=`https://drive.google.com/uc?export=view&id=${fantom.prflimg}`, alt="", srcset="")
+//-                    else 
+//-                      .fantom_user_profile_pic(style='background : purple;height : 50px')
+//-                    .fantom_user_name_id.vstack
+//-                      a.fantom_user_username(href=`/user/${fantom.user_id}`) #{fantom.name} 
+//-                      a.fantom_user_userid(href=`/user/${fantom.user_id}`) @ #{fantom.userId} 
+//-                      if user.following.includes(fantom.user_id)
+//-                        .material-symbols-rounded.fantom_options(id=`open-sheet-${fantom._id}` onclick=`bottomSheet('${fantom._id}')`  data-bs-toggle='popover' data-bs-html='true' data-bs-placement='left' data-bs-content=`<div class="fantom_options_popover"> <span>Unfollow @ ${fantom.userId}</span><br> <span>Connect @ ${fantom.name}</span><br> <span>Report Fantom</span><br> <span>Block @ ${fantom.userId}</span><br> <span>Share fantom</span> </div>`) workspaces
+//-                      else
+//-                        .material-symbols-rounded.fantom_options(id=`open-sheet-${fantom._id}` onclick=`bottomSheet('${fantom._id}')` data-bs-toggle='popover' data-bs-html='true' data-bs-placement='left' data-bs-content=`<div class="fantom_options_popover"> <span>Follow @ ${fantom.userId}</span><br> <span>Connect @ ${fantom.name}</span><br> <span>Report Fantom</span><br> <span>Block @ ${fantom.userId}</span><br> <span>Share fantom</span> </div>`) workspaces
+//-                  if fantom.media
+//-                    if fantom.media.includes('tenor')
+//-                      img.fantom_media(src=fantom.media , alt="", srcset="") 
+//-                    else 
+//-                      img.fantom_media(src=`https://drive.google.com/uc?export=view&id=${fantom.media}`, alt="", srcset="")                                    
+//-                  a.fantom_body(class = itemClass href=`/fantom/detail/${fantom._id}`) #{fantom.desc}
+//-                  .fantom_footer.mt-1.d-flex.justify-content-between
+//-                    .fantom_replies  
+//-                      .icon_btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#reply_modal_${fantom._id}`)
+//-                        span(data-feather='message-square')
+//-                        span.totals.total_replies  #{fantom.replies.length}
+//-                    .fantom_reactions
+//-                      .icon_btn
+//-                        i.fa-regular.fa-face-smile
+//-                        span.totals.total_reactions  #{fantom.reactions.length}    
+//-                      .reaction-box
+//-                        .reaction-icon.like
+//-                           .material-symbols-rounded 
+//-                             | thumb_up
+//-                        .reaction-icon.love#love( onclick=`postRxn(this,"${fantom._id}")`)
+//-                           .material-symbols-rounded 
+//-                             |  favorite
+//-                        .reaction-icon.haha#happy( onclick=`postRxn(this,"${fantom._id}")`)
+//-                           .material-symbols-rounded 
+//-                             |  sentiment_very_satisfied
+//-                        .reaction-icon.wow#neutral(onclick = `postRxn(this,"${fantom._id}")`)
+//-                           .material-symbols-rounded 
+//-                             |  sentiment_neutral
+//-                        .reaction-icon.sad#sad( onclick=`postRxn(this,"${fantom._id}")`) 
+//-                           .material-symbols-rounded 
+//-                             |  sentiment_dissatisfied
+//-                        .reaction-icon.angry#anger( onclick=`postRxn(this,"${fantom._id}")`) 
+//-                           .material-symbols-rounded 
+//-                             |  sentiment_extremely_dissatisfied
+//-                    .fantom_bookmark 
+//-                     .icon_btn
+//-                       span(data-feather='bookmark')
+                    
+//-    for fantom in fantoms                  
+//-      .sheet.fantom_options_sheet(id=`sheet-${fantom._id}` aria-hidden='true' role='dialog')
+//-                             .overlay
+//-                             .contents
+//-                                header.controls
+//-                                    .draggable-area
+//-                                      .draggable-thumb
+//-                                    button.close-sheet(type='button' title='Close the sheet') &times;
+//-                                main.sheet_body
+//-                                 span Unfollow #{fantom.name}
+//-                                 span Connect #{fantom.userId}
+//-                                 span Report fantom 
+//-                                 span Share fantom
+//-      .modal.fade(id=`reply_modal_${fantom._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+//-                  .modal-dialog.modal-fullscreen-sm-down
+//-                    .modal-content
+//-                      .modal-header
+//-                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+//-                      .modal-body
+//-                        .fanta-options.float-end 
+//-                          label(for=`reply_fileinp_${fantom._id}`).mx-1 
+//-                             span(class="material-symbols-rounded")
+//-                               | add_photo_alternate
+//-                             input(id=`reply_fileinp_${fantom._id}` name="fantaimage", type="file", onchange=`readURL(this,'reply_fileinp_${fantom._id}')`).d-none    
+//-                          a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#reply_gif_${fantom._id}` aria-expanded='false')
+//-                              span(class="material-symbols-rounded")
+//-                                     |gif_box                                                                                                                                                                          
+//-                              button.btn.ibtn(type='button' style='display:none' id=`reply_load_gif_${fantom._id}`) Load more                                                          
+//-                        img.reply_img(src="", alt="", srcset="" id=`reply_media_preview_${fantom._id}`)
+//-                        textarea.form-control(name="", cols="30" id=`reply_${fantom._id}`) 
+//-                        .collapse(id=`reply_gif_${fantom._id}`)
+//-                            .card.card-body
+//-                              input.form-control(id=`reply_gif_search_${fantom._id}` type="search", name=`reply_gif_search_${fantom._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
+//-                              div(id=`reply_tenor_suggestion_${fantom._id}`)
+//-                                .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+//-                                  div.reply_radios(style='width :2000px')
+//-                                   .radios.radio_tile_group(name = `reply_radio_tile_${fantom._id}`) 
+//-                              .no-scrollbar(id=`reply_gif_preview_container_${fantom._id}`)
+//-                              .btn.ibtn(type='button' id = `reply_gif_load_${fantom._id}` fantomId = `${fantom._id}` onclick= `loadGif('reply','${fantom._id}')`) Load more gifs
+//-                        button.btn.ibtn(type = 'button' onclick=`postToTarget('${fantom._id}', 'reply', 'fantom')`) Reply 
+//-      .modal.fade(id=`alter_modal_${fantom._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+//-                  .modal-dialog.modal-fullscreen-sm-down
+//-                    .modal-content 
+//-                      .modal-header
+//-                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+//-                      .modal-body
+//-                        .fanta-options.float-end 
+//-                          label(for=`alter_fileinp_${fantom._id}`).mx-1 
+//-                             span(class="material-symbols-rounded")
+//-                               | add_photo_alternate
+//-                             input(id=`alter_fileinp_${fantom._id}` name="fantaimage", type="file", onchange=`readURL(this,'alter_fileinp_${fantom._id}')`).d-none    
+//-                          a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#alter_gif_${fantom._id}` aria-expanded='false')
+//-                              span(class="material-symbols-rounded")
+//-                                     |gif_box                                                                                                                                                                          
+//-                              button.btn.ibtn(type='button' style='display:none' id=`alter_load_gif_${fantom._id}`) Load more                                                          
+//-                        img.alter_img(src="", alt="", srcset="" id=`alter_media_preview_${fantom._id}`)
+//-                        textarea.form-control(name="", cols="30" id=`alter._${fantom._id}`) #{fantom.body}
+//-                        .collapse(id=`alter_gif_${fantom._id}`)
+//-                            .card.card-body
+//-                              input.form-control(id=`alter_gif_search_${fantom._id}` type="search", name=`alter_gif_search_${fantom._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
+//-                              div(id=`alter_tenor_suggestion_${fantom._id}`)
+//-                                .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+//-                                  div.alter_radios(style='width:2000px')
+//-                                   .radios.radio_tile_group(name = `alter_radio_tile_${fantom._id}`) 
+//-                              .no-scrollbar(id=`alter_gif_preview_container_${fantom._id}`)
+//-                              .btn.ibtn(type='button' id = `alter_gif_load_${fantom._id}` fantomId = `${fantom._id}` onclick= `loadGif('alter','${fantom._id}')`) Load more gifs
+//-                        button.btn.ibtn(type = 'button' onclick=`postToTarget('${fantom._id}', 'alter', 'fantom')`) Alter         
+//-      .modal.fade(id=`annex_modal_${fantom._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
+//-                  .modal-dialog.modal-fullscreen-sm-down 
+//-                    .modal-content
+//-                      .modal-header
+//-                           button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
+//-                      .modal-body
+//-                        .fanta-options.float-end 
+//-                          label(for=`annex_fileinp_${fantom._id}`).mx-1 
+//-                             span(class="material-symbols-rounded")
+//-                               | add_photo_alternate
+//-                             input(id=`annex_fileinp_${fantom._id}` name="fantaimage", type="file", onchange=`readURL(this,'annex_fileinp_${fantom._id}')`).d-none    
+//-                          a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#annex_gif_${fantom._id}` aria-expanded='false')
+//-                              span(class="material-symbols-rounded")
+//-                                     |gif_box                                                                                                                                                                          
+//-                              button.btn.ibtn(type='button' style='display:none' id=`annex_load_gif_${fantom._id}`) Load more                                                          
+//-                        img.annex_img(src="", alt="", srcset="" id=`annex_media_preview_${fantom._id}`)
+//-                        textarea.form-control(name="", cols="30" id=`annex_${fantom._id}`) 
+//-                        .collapse(id=`annex_gif_${fantom._id}`)
+//-                            .card.card-body
+//-                              input.form-control(id=`annex_gif_search_${fantom._id}` type="search", name=`annex_search_${fantom._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
+//-                              div(id=`annex_tenor_suggestion${fantom._id}`)
+//-                                .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
+//-                                  div.annex_radios(style='width:2000px')
+//-                                   .radios.radio_tile_group(name = `annex_radio_tile_${fantom._id}`) 
+//-                              .no-scrollbar(id=`annex_gif_preview_container_${fantom._id}`)
+//-                              .btn.ibtn(type='button' id = `annex_gif_load_${fantom._id}` fantomId = `${fantom._id}` onclick= `loadGif('annex','${fantom._id}')`) Load more gifs
+//-                        button.btn.ibtn(type = 'button' onclick=`postToTarget('${fantom._id}', 'annex', 'fantom')`) Annex                                                                       
+//- block script 
+//-    script(src="/javascripts/home.js")   
+//-    script(src="https://cdn.jsdelivr.net/npm/muuri@0.9.5/dist/muuri.min.js") 
+//-    script(src="/javascripts/fantom.js" defer)  
+//-    script.
+//-      document.addEventListener('DOMContentLoaded', disablePopover);  
+//-      document.addEventListener('DOMContentLoaded', emoji);  
 extends layout
 block link
-    link(rel='stylesheet', href='/stylesheets/home2.css')
+    link(rel='stylesheet', href='/stylesheets/home.css')
+    link(rel='stylesheet', href='/stylesheets/settings.css')
     link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
     link(href="https://fonts.googleapis.com/css2?family=Material+Icons+Round"  rel="stylesheet")
 block content
  .overall 
-   .following_card.card.mx-2.my-2.p-2.text-center
-      .scroll_content.d-flex
-        .following_user.mx-2
-          img.following_user_img(src="https://pbs.twimg.com/profile_images/1543523698862239744/FeJy-3sl_400x400.jpg", alt="", srcset="")
-          .following_user_name.mt-2 Steve Jobs
-        .follow_user.mx-2
-          img.follow_user_img(src="https://pbs.twimg.com/profile_images/1543523698862239744/FeJy-3sl_400x400.jpg", alt="", srcset="")
-          span.material-symbols-rounded.add_user_icon.fill add_circle
-          .follow_user_name.mt-2 Rishi Sunak
    .home_feed.mt-4
      .grid
       each fantom, index in fantoms
        - let itemClass = (index % 2 === 0) ? 'small' : 'large'
        .item
          .item-content
-             .card.fantom_card 
+             .card.fmini_card 
                .card-body 
-                 .fantom_user_info.hstack
-                   if fantom.prflimg
-                     img.fantom_user_profile_pic(src=`https://drive.google.com/uc?export=view&id=${fantom.prflimg}`, alt="", srcset="")
-                   else 
-                     .fantom_user_profile_pic(style='background : purple;height : 50px')
-                   .fantom_user_name_id.vstack
-                     a.fantom_user_username(href=`/user/${fantom.user_id}`) #{fantom.name} 
-                     a.fantom_user_userid(href=`/user/${fantom.user_id}`) @ #{fantom.userId} 
-                     if user.following.includes(fantom.user_id)
-                       .material-symbols-rounded.fantom_options(id=`open-sheet-${fantom._id}` onclick=`bottomSheet('${fantom._id}')`  data-bs-toggle='popover' data-bs-html='true' data-bs-placement='left' data-bs-content=`<div class="fantom_options_popover"> <span>Unfollow @ ${fantom.userId}</span><br> <span>Connect @ ${fantom.name}</span><br> <span>Report Fantom</span><br> <span>Block @ ${fantom.userId}</span><br> <span>Share fantom</span> </div>`) workspaces
-                     else
-                       .material-symbols-rounded.fantom_options(id=`open-sheet-${fantom._id}` onclick=`bottomSheet('${fantom._id}')` data-bs-toggle='popover' data-bs-html='true' data-bs-placement='left' data-bs-content=`<div class="fantom_options_popover"> <span>Follow @ ${fantom.userId}</span><br> <span>Connect @ ${fantom.name}</span><br> <span>Report Fantom</span><br> <span>Block @ ${fantom.userId}</span><br> <span>Share fantom</span> </div>`) workspaces
-                 if fantom.media
-                   if fantom.media.includes('tenor')
-                     img.fantom_media(src=fantom.media , alt="", srcset="") 
-                   else 
-                     img.fantom_media(src=`https://drive.google.com/uc?export=view&id=${fantom.media}`, alt="", srcset="")                                    
-                 a.fantom_body(class = itemClass href=`/fantom/detail/${fantom._id}`) #{fantom.desc}
-                 .fantom_footer.mt-1.d-flex.justify-content-between
-                   .fantom_replies  
+                 .fmini_user_info.hstack
+                   img.fmini_user_profile_pic(src=`https://drive.google.com/uc?export=view&id=${fantom.prflimg}`, alt="", srcset="")
+                   .fmini_user_name_id.vstack
+                     a.fmini_user_username(href=`/user/${fantom.user_id}`) #{fantom.name} 
+                     a.fmini_user_userid(href=`/user/${fantom.user_id}`) @ #{fantom.userId} 
+                   .fmini_share(data-bs-toggle='modal' data-bs-target='#shareModal' role='dialog') 
+                      .material-symbols-rounded 
+                        | share
+                 if fantom.cover
+                     img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}`, alt="", srcset="")                                    
+                 a.fmini_body(class = itemClass href=`/fantom/detail/${fantom._id}`) #{fantom.desc}
+                 .fmini_footer.mt-1.d-flex.justify-content-between
+                   .fmini_replies  
                      .icon_btn(type='button' tabindex='0' data-bs-toggle="modal"  data-bs-target=`#reply_modal_${fantom._id}`)
-                       span(data-feather='message-square')
+                       .material-symbols-rounded
+                         | reply
                        span.totals.total_replies  #{fantom.replies.length}
-                   .fantom_reactions
+                   .fmini_likes(onclick=`like('${fantom._id}', '${fantom._id}')`)
                      .icon_btn
-                       i.fa-regular.fa-face-smile
-                       span.totals.total_reactions  #{fantom.reactions.length}    
-                     .reaction-box
-                       .reaction-icon.like
-                          .material-symbols-rounded 
-                            | thumb_up
-                       .reaction-icon.love#love( onclick=`postRxn(this,"${fantom._id}")`)
-                          .material-symbols-rounded 
-                            |  favorite
-                       .reaction-icon.haha#happy( onclick=`postRxn(this,"${fantom._id}")`)
-                          .material-symbols-rounded 
-                            |  sentiment_very_satisfied
-                       .reaction-icon.wow#neutral(onclick = `postRxn(this,"${fantom._id}")`)
-                          .material-symbols-rounded 
-                            |  sentiment_neutral
-                       .reaction-icon.sad#sad( onclick=`postRxn(this,"${fantom._id}")`) 
-                          .material-symbols-rounded 
-                            |  sentiment_dissatisfied
-                       .reaction-icon.angry#anger( onclick=`postRxn(this,"${fantom._id}")`) 
-                          .material-symbols-rounded 
-                            |  sentiment_extremely_dissatisfied
-                   .fantom_bookmark 
-                    .icon_btn
-                      span(data-feather='bookmark')
+                       .material-symbols-rounded(id=`like_btn_${fantom._id}`)  
+                          | favorite
+                       span.totals.total_likes(id=`likes_total_${fantom._id}`)  #{fantom.likes.length}    
+                   .fmini_bookmark(onclick=`bookmark('${fantom._id}', '${fantom._id}')`) 
+                     .icon_btn
+                      .material-symbols-rounded(id=`bookmark_btn_${fantom._id}`)   
+                        | bookmark
                     
-   for fantom in fantoms                  
-     .sheet.fantom_options_sheet(id=`sheet-${fantom._id}` aria-hidden='true' role='dialog')
+   -for(fantom of fantoms )                 
+     .sheet.fmini_options_sheet(id=`sheet-${fantom._id}` aria-hidden='true' role='dialog')
                             .overlay
                             .contents
                                header.controls
@@ -85,6 +220,27 @@ block content
                                 span Connect #{fantom.userId}
                                 span Report fantom 
                                 span Share fantom
+     #shareModal.modal.fade.text-center(data-bs-backdrop="static" tabindex='-1' aria-labelledby='feedModal1' aria-hidden='true')
+            .modal-dialog
+              .modal-content
+                .modal-header
+                     h5 Share this fantom
+                     button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
+                .modal-body     
+                 .d-flex.flex-row.overflow-scroll.no-scrollbar
+                   .hstack.scrollbox(style='width : 1000px')
+                      a.resp-sharing-button__link(href=`https://facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A3000%2Ffmini%2F${fantom._id}` target='_blank' rel='noopener' aria-label='')
+                       .resp-sharing-button.resp-sharing-button--facebook.resp-sharing-button--small
+                          .resp-sharing-button__icon.resp-sharing-button__icon--solid(aria-hidden='true')
+                             i.fa-brands.fa-facebook
+                      a.resp-sharing-button__link(href=`https://twitter.com/intent/tweet/?text=Take%20a%20look%20at%20my%20imagination%20at%20Dream%20Land&amp;url=http%3A%2F%2Flocalhost%3A3000%2Ffmini%2F3453q4` target='_blank' rel='noopener' aria-label='')
+                       .resp-sharing-button.resp-sharing-button--twitter.resp-sharing-button--small
+                          .resp-sharing-button__icon.resp-sharing-button__icon--solid(aria-hidden='true')
+                             .fa-brands.fa-twitter
+                      a.resp-sharing-button__link(href=`https://telegram.me/share/url?text=Take%20a%20look%20at%20my%20imagination%20at%20Dream%20Land&amp;url=http%3A%2F%2Flocalhost%3A3000%2Ffmini%2F${fantom._id}` target='_blank' rel='noopener' aria-label='')
+                       .resp-sharing-button.resp-sharing-button--telegram.resp-sharing-button--small
+                          .resp-sharing-button__icon.resp-sharing-button__icon--solid(aria-hidden='true')
+                             i.fa-brands.fa-telegram                                
      .modal.fade(id=`reply_modal_${fantom._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
                  .modal-dialog.modal-fullscreen-sm-down
                    .modal-content
@@ -110,66 +266,14 @@ block content
                                  div.reply_radios(style='width :2000px')
                                   .radios.radio_tile_group(name = `reply_radio_tile_${fantom._id}`) 
                              .no-scrollbar(id=`reply_gif_preview_container_${fantom._id}`)
-                             .btn.ibtn(type='button' id = `reply_gif_load_${fantom._id}` fantomId = `${fantom._id}` onclick= `loadGif('reply','${fantom._id}')`) Load more gifs
-                       button.btn.ibtn(type = 'button' onclick=`postToTarget('${fantom._id}', 'reply', 'fantom')`) Reply 
-     .modal.fade(id=`alter_modal_${fantom._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
-                 .modal-dialog.modal-fullscreen-sm-down
-                   .modal-content 
-                     .modal-header
-                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
-                     .modal-body
-                       .fanta-options.float-end 
-                         label(for=`alter_fileinp_${fantom._id}`).mx-1 
-                            span(class="material-symbols-rounded")
-                              | add_photo_alternate
-                            input(id=`alter_fileinp_${fantom._id}` name="fantaimage", type="file", onchange=`readURL(this,'alter_fileinp_${fantom._id}')`).d-none    
-                         a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#alter_gif_${fantom._id}` aria-expanded='false')
-                             span(class="material-symbols-rounded")
-                                    |gif_box                                                                                                                                                                          
-                             button.btn.ibtn(type='button' style='display:none' id=`alter_load_gif_${fantom._id}`) Load more                                                          
-                       img.alter_img(src="", alt="", srcset="" id=`alter_media_preview_${fantom._id}`)
-                       textarea.form-control(name="", cols="30" id=`alter._${fantom._id}`) #{fantom.body}
-                       .collapse(id=`alter_gif_${fantom._id}`)
-                           .card.card-body
-                             input.form-control(id=`alter_gif_search_${fantom._id}` type="search", name=`alter_gif_search_${fantom._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
-                             div(id=`alter_tenor_suggestion_${fantom._id}`)
-                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
-                                 div.alter_radios(style='width:2000px')
-                                  .radios.radio_tile_group(name = `alter_radio_tile_${fantom._id}`) 
-                             .no-scrollbar(id=`alter_gif_preview_container_${fantom._id}`)
-                             .btn.ibtn(type='button' id = `alter_gif_load_${fantom._id}` fantomId = `${fantom._id}` onclick= `loadGif('alter','${fantom._id}')`) Load more gifs
-                       button.btn.ibtn(type = 'button' onclick=`postToTarget('${fantom._id}', 'alter', 'fantom')`) Alter         
-     .modal.fade(id=`annex_modal_${fantom._id}` data-bs-backdrop="static" tabindex='-1' aria-labelledby='fantamodalLabel1' aria-hidden='true')
-                 .modal-dialog.modal-fullscreen-sm-down 
-                   .modal-content
-                     .modal-header
-                          button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close') 
-                     .modal-body
-                       .fanta-options.float-end 
-                         label(for=`annex_fileinp_${fantom._id}`).mx-1 
-                            span(class="material-symbols-rounded")
-                              | add_photo_alternate
-                            input(id=`annex_fileinp_${fantom._id}` name="fantaimage", type="file", onchange=`readURL(this,'annex_fileinp_${fantom._id}')`).d-none    
-                         a.mx-1(href=''  data-bs-toggle='collapse' data-bs-target=`#annex_gif_${fantom._id}` aria-expanded='false')
-                             span(class="material-symbols-rounded")
-                                    |gif_box                                                                                                                                                                          
-                             button.btn.ibtn(type='button' style='display:none' id=`annex_load_gif_${fantom._id}`) Load more                                                          
-                       img.annex_img(src="", alt="", srcset="" id=`annex_media_preview_${fantom._id}`)
-                       textarea.form-control(name="", cols="30" id=`annex_${fantom._id}`) 
-                       .collapse(id=`annex_gif_${fantom._id}`)
-                           .card.card-body
-                             input.form-control(id=`annex_gif_search_${fantom._id}` type="search", name=`annex_search_${fantom._id}`, placeholder='Search Tenor', onkeyup='suggest(this)')
-                             div(id=`annex_tenor_suggestion${fantom._id}`)
-                               .no-scrollbar(style='max-width : 100%;overflow-x: scroll;padding:20px')
-                                 div.annex_radios(style='width:2000px')
-                                  .radios.radio_tile_group(name = `annex_radio_tile_${fantom._id}`) 
-                             .no-scrollbar(id=`annex_gif_preview_container_${fantom._id}`)
-                             .btn.ibtn(type='button' id = `annex_gif_load_${fantom._id}` fantomId = `${fantom._id}` onclick= `loadGif('annex','${fantom._id}')`) Load more gifs
-                       button.btn.ibtn(type = 'button' onclick=`postToTarget('${fantom._id}', 'annex', 'fantom')`) Annex                                                                       
+                             .btn.ibtn(type='button' id = `reply_gif_load_${fantom._id}` fminiId = `${fantom._id}` onclick= `loadGif('reply','${fantom._id}')`) Load more gifs
+                       button.btn.ibtn.mt-2(type = 'button' onclick=`postToTarget('${fantom._id}', 'reply','fantom')`) Reply
+                       #reply_spinner.spinner-border.ms-2(role='status' style='display : none')
+                         span.visually-hidden Loading...                                                                                          
 block script 
    script(src="/javascripts/home.js")   
    script(src="https://cdn.jsdelivr.net/npm/muuri@0.9.5/dist/muuri.min.js") 
-   script(src="/javascripts/fantom.js" defer)  
+   script(src="/javascripts/fmini.js" defer)  
    script.
      document.addEventListener('DOMContentLoaded', disablePopover);  
      document.addEventListener('DOMContentLoaded', emoji);  
