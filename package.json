@@ -1,6 +1,6 @@
 {
-  "name": "dreamt",
-  "version": "0.0.0",
+  "name": "dreamverse",
+  "version": "1.0.0",
   "private": true,
   "main": "app.js",
   "engines": {
