@@ -1,0 +1,145 @@
+- .env
+- .gitattributes
+- .gitignore
+- app.js
+- app_api
+  - config
+    - passport.js
+  - controllers
+    - authentication.js
+    - dist
+      - authentication.dev.js
+      - find_ctrl.dev.js
+      - main.dev.js
+    - find_ctrl.js
+    - main.js
+    - prflctlr.js
+  - models
+    - db.js
+    - dist
+      - db.dev.js
+      - fantom.dev.js
+      - fantommini.dev.js
+      - profile.dev.js
+      - reports.dev.js
+      - user.dev.js
+    - fantom.js
+    - fantommini.js
+    - message.js
+    - profile.js
+    - reports.js
+  - routes
+    - dist
+      - index.dev.js
+    - index.js
+- app_server
+  - controllers
+    - dist
+      - main.dev.js
+      - posts.dev.js
+    - main.js
+    - posts.js
+    - prflctlr.js
+    - sign.js
+  - routes
+    - dist
+      - index.dev.js
+    - index.js
+    - users.js
+  - views
+    - alanrep.pug
+    - chapter.pug
+    - chapterPost.pug
+    - dist
+      - alanrep.html
+      - chapter.html
+      - dream-post.html
+      - forum.html
+      - home.html
+      - layout.html
+      - profile.html
+      - settings.html
+    - draft_fmini.pug
+    - draft_home.pug
+    - draft_layout.pug
+    - dream-post.pug
+    - error.pug
+    - find.pug
+    - fmDl.pug
+    - fmini.pug
+    - home.pug
+    - home2.pug
+    - info.pug
+    - layout.pug
+    - message.pug
+    - messages.pug
+    - notifications.pug
+    - profile.pug
+    - settings.pug
+    - signin.pug
+    - signup.pug
+    - signup2.pug
+    - test.html
+    - user_profile.pug
+- bin
+  - www
+- bugs.txt
+- dist
+  - app.dev.js
+- jargons.txt
+- package-lock.json
+- package.json
+- public
+  - images
+    - no_result.png
+    - search1.png
+    - user-account-management-logo-user-icon-11562867145a56rus2zwu.png
+  - javascripts
+    - 404.js
+    - comein.js
+    - converter.html
+    - dist
+      - dreampost.dev.js
+      - find.dev.js
+      - fmini.dev.js
+      - home.dev.js
+      - layout.dev.js
+      - settings.dev.js
+    - dreampost.js
+    - emoji.js
+    - find.js
+    - fmini.js
+    - home.js
+    - layout.js
+    - message.js
+    - profile.js
+    - settings.js
+    - token.js
+    - usrDefined.js
+  - stylesheets
+    - 404.css
+    - alenrep.css
+    - chapter.css
+    - comein.css
+    - dist
+      - sample.css
+    - draft_style.css
+    - dreampost.css
+    - emoji.css
+    - explore.css
+    - fantom.css
+    - find.css
+    - fmini.css
+    - home.css
+    - home2.css
+    - layout.css
+    - message.css
+    - messages.css
+    - profile.css
+    - sample.css
+    - sample.css.map
+    - sample.sass
+    - settings.css
+    - style.css
+- README.md
+- vercel.json
