@@ -4,7 +4,7 @@ const axios = require('axios')
 const jwt = require('jsonwebtoken')
 var moment = require('moment');
 const server= {
-  url:'http://localhost:3000'
+  url:'https://dreams.vercel.app/'
 };
 class user{
   constructor(name, id, following, followers, prflimg){

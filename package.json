@@ -1,13 +1,13 @@
 {
-  "name": "dreamverse",
-  "version": "1.0.0",
+  "name": "dreamt",
+  "version": "0.0.0",
   "private": true,
   "main": "app.js",
   "engines": {
     "node": "18.x"
   },
   "scripts": {
-    "start": "node app.js"
+    "start": "nodemon ./bin/www"
   },
   "dependencies": {
     "@ckeditor/ckeditor5-word-count": "^35.0.1",

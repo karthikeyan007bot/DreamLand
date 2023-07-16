@@ -1,4 +1,4 @@
-var serverUrl = 'http://localhost:3000'
+var serverUrl = 'https://dreams.vercel.app/'
 function saveSettings(){
   var blocked_users = []
   if(document.getElementsByClassName('block_users').length != 0){

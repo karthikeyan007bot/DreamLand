@@ -5,7 +5,7 @@ var dltmlsg = function(e) {
   data = {
     id : e.target.parentElement.id,
   }
-  fetch('http://localhost:3000/api/dltmsg', {
+  fetch('https://dreams.vercel.app/api/dltmsg', {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ function loadRecentMsg(){
   var id = {
     id: location.href.split('recip=')[1]
   }
-  fetch(`http://localhost:3000/gmsg`, {
+  fetch(`https://dreams.vercel.app/gmsg`, {
     method : 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const to = q.split('=')[1]
     from : from,
     to: to,
    };
-  fetch('http://localhost:3000/pmsg', {
+  fetch('https://dreams.vercel.app/pmsg', {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ function updtMsgStats(){
   data = {
     there : location.href.split('recip=')[1],
   }
-  fetch('http://localhost:3000/updtMsgStats', {
+  fetch('https://dreams.vercel.app/updtMsgStats', {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',

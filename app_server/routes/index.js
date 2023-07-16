@@ -20,6 +20,7 @@ const ctrlPosts = require('../controllers/posts')
 
 router.route('/settings').get(ctrlMain.settings)
 router.route('/home').get(ctrlMain.fminiFeed) // fmini home page
+router.route('/').get(ctrlMain.fminiFeed) // fmini home page
 router.route('/signin').get(ctrlSign.signin).post(ctrlSign.signinp)
 router.route('/signup').get(ctrlSign.signup).post(ctrlSign.signupp)
 router.route('/profile').get(ctrlPrfl.profile).post(ctrlPrfl.prflinfo)

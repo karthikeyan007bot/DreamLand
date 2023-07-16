@@ -1,4 +1,4 @@
-var serverUrl = 'http://localhost:3000'
+var serverUrl = 'https://dreams.vercel.app/'
 async function find(target){
     var value = document.getElementById('find_input').value;
     var parentElement = document.getElementById('search_results_grid')
