@@ -273,13 +273,13 @@ async function postFmini(id){
                 whoCanSee : RadioValueOf('mode')
             }
          };
-         fetch('http://localhost:3000/fmini', {
+         fetch('https://dreamverse.vercel.app/fmini', {
             method: 'POST', // or 'PUT'
             headers: {
               'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-          }).then(()=>window.location.href = 'http://localhost:3000/').catch(err => console.log(err))
+          }).then(()=>window.location.href = 'https://dreamverse.vercel.app/').catch(err => console.log(err))
     }else if(image != -1){ // same for image and video
         var url = document.getElementById(`media_preview_${id}`).src
         var media;
@@ -323,13 +323,13 @@ async function postFmini(id){
                                 whoCanSee : RadioValueOf('mode')
                             }
                          };
-                        fetch('http://localhost:3000/fmini', {
+                        fetch('https://dreamverse.vercel.app/fmini', {
                         method: 'POST',
                         headers: {
                                "Content-Type": "application/json",
                             },
                         body:  JSON.stringify(data)
-                          }).then((resp)=>window.location.href = 'http://localhost:3000/').catch(e=> console.log(e))
+                          }).then((resp)=>window.location.href = 'https://dreamverse.vercel.app/').catch(e=> console.log(e))
                    });             
     }else if( gif == -1 && image == -1){
         const data = {
@@ -342,7 +342,7 @@ async function postFmini(id){
                 whoCanSee : RadioValueOf('mode')
             }
          };
-         fetch('http://localhost:3000/fmini', {
+         fetch('https://dreamverse.vercel.app/fmini', {
             method: 'POST', // or 'PUT'
             headers: {
               'Content-Type': 'application/json',

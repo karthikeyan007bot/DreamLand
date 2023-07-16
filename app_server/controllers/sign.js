@@ -4,7 +4,7 @@ const axios = require('axios');
 const {CourierClient} = require('@trycourier/courier')
 const jwt = require('jsonwebtoken')
 const apiOptions = {
-    server:'https://dreams.vercel.app/'
+    server:'https://dreamverse.vercel.app/'
 };
 function AddDays (days) {
     var today = new Date();

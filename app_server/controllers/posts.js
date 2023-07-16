@@ -4,7 +4,7 @@ const axios = require('axios')
 const fileUpload = require('express-fileupload');
 const jwt = require('jsonwebtoken')
 const server= {
-  url:'https://dreams.vercel.app/'
+  url:'https://dreamverse.vercel.app/'
 };
 const {google} = require('googleapis')
 const oauth2Client = new google.auth.OAuth2(

@@ -123,7 +123,7 @@ to : to
           media = val.id
        });
     }
-    axios.post('http://localhost:3000/api/postCommonReply',{
+    axios.post('https://dreamverse.vercel.app/postCommonReply',{
       reply : reply,
       parentId : id,
       refId : refId,

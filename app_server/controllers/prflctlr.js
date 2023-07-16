@@ -8,7 +8,7 @@ const { Readable } = require('stream');
 const multer  = require('multer')
 const fileUpload = require('express-fileupload');
 const server= {
-    url:'https://dreams.vercel.app/'
+    url:'https://dreamverse.vercel.app/'
   };
   class user{
     constructor(name, id, following, followers, prflimg){
