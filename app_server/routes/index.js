@@ -1,17 +1,17 @@
 var express = require('express');
 var router = express.Router();
-const {expressjwt: jwt } = require('express-jwt');
-const auth = jwt({
-    secret:process.env.JWT_SECRET,
-    algorithms:["HS256"],
-    userProperty : 'payload',
-    getToken: function fromHeaderOrQuerystring(req) {
-        if (req.cookies.indigotoken) {
-          return req.cookies.indigotoken
-        }
-        return null;
-      }   
-})
+// const {expressjwt: jwt } = require('express-jwt');
+// const auth = jwt({
+//     secret:process.env.JWT_SECRET,
+//     algorithms:["HS256"],
+//     userProperty : 'payload',
+//     getToken: function fromHeaderOrQuerystring(req) {
+//         if (req.cookies.indigotoken) {
+//           return req.cookies.indigotoken
+//         }
+//         return null;
+//       }   
+// })
 /* GET home page. */
 const ctrlMain = require('../controllers/main')
 const ctrlSign = require('../controllers/sign')
