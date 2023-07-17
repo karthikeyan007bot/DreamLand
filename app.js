@@ -1,6 +1,7 @@
 require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
+const port = 5000
 var path = require('path');
 var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
@@ -43,7 +44,7 @@ app.use('/api', (req, res, next) => {
 app.use('/', indexRouter);
 app.use('/api', apiRouter)
 app.use('/users', usersRouter);
-
+app.listen(process.env.port || port, ()=>{ console.log('listening')})
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
   if (err.name === "UnauthorizedError") {
