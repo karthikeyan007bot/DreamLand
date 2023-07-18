@@ -1,16 +1,111 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "./app.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "/"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/app_api/config/passport.js",
+      "dest": "/app_api/config/passport.js"
+    },
+    {
+      "src": "/app_api/controllers/authentication.js",
+      "dest": "/app_api/controllers/authentication.js"
+    },
+    {
+      "src": "/app_api/controllers/dist/authentication.dev.js",
+      "dest": "/app_api/controllers/dist/authentication.dev.js"
+    },
+    {
+      "src": "/app_api/controllers/find_ctrl.js",
+      "dest": "/app_api/controllers/find_ctrl.js"
+    },
+    {
+      "src": "/app_api/controllers/dist/find_ctrl.dev.js",
+      "dest": "/app_api/controllers/dist/find_ctrl.dev.js"
+    },
+    {
+      "src": "/app_api/controllers/main.js",
+      "dest": "/app_api/controllers/main.js"
+    },
+    {
+      "src": "/app_api/controllers/dist/main.dev.js",
+      "dest": "/app_api/controllers/dist/main.dev.js"
+    },
+    {
+      "src": "/app_api/controllers/prflctlr.js",
+      "dest": "/app_api/controllers/prflctlr.js"
+    },
+    {
+      "src": "/app_api/models/db.js",
+      "dest": "/app_api/models/db.js"
+    },
+    {
+      "src": "/app_api/models/fantom.js",
+      "dest": "/app_api/models/fantom.js"
+    },
+    {
+      "src": "/app_api/models/fantommini.js",
+      "dest": "/app_api/models/fantommini.js"
+    },
+    {
+      "src": "/app_api/models/message.js",
+      "dest": "/app_api/models/message.js"
+    },
+    {
+      "src": "/app_api/models/profile.js",
+      "dest": "/app_api/models/profile.js"
+    },
+    {
+      "src": "/app_api/models/reports.js",
+      "dest": "/app_api/models/reports.js"
+    },
+    {
+      "src": "/app_api/routes/index.js",
+      "dest": "/app_api/routes/index.js"
+    },
+    {
+      "src": "/app_server/controllers/main.js",
+      "dest": "/app_server/controllers/main.js"
+    },
+    {
+      "src": "/app_server/controllers/posts.js",
+      "dest": "/app_server/controllers/posts.js"
+    },
+    {
+      "src": "/app_server/controllers/prflctlr.js",
+      "dest": "/app_server/controllers/prflctlr.js"
+    },
+    {
+      "src": "/app_server/controllers/sign.js",
+      "dest": "/app_server/controllers/sign.js"
+    },
+    {
+      "src": "/app_server/routes/index.js",
+      "dest": "/app_server/routes/index.js"
+    },
+    {
+      "src": "/app_server/routes/users.js",
+      "dest": "/app_server/routes/users.js"
+    },
+    {
+      "src": "/public/.*",
+      "headers": { "Cache-Control": "public, max-age=31536000, immutable" }
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "app.js"
+    },
+    {
+      "src": "/users/(.*)",
+      "dest": "app.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "app.js"
+    }
+  ]
+}
