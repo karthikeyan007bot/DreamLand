@@ -3,9 +3,8 @@ var app = express();
 const axios = require('axios');
 const {CourierClient} = require('@trycourier/courier')
 const jwt = require('jsonwebtoken')
-const apiOptions = {
-    server:'https://dreamverse.vercel.app/'
-};
+var server= {}
+server.url = process.env.serverURL
 function AddDays (days) {
     var today = new Date();
     var resultDate = new Date(today);

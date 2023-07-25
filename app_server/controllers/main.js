@@ -3,9 +3,8 @@ const router = express.Router()
 const axios = require('axios')
 const jwt = require('jsonwebtoken')
 var moment = require('moment');
-const server= {
-  url:'https://dreamverse.vercel.app/'
-};
+var server= {}
+server.url = process.env.serverURL
 class user{
   constructor(name, id, following, followers, prflimg){
     this.name  = name;
