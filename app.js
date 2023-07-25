@@ -1,8 +1,8 @@
 require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
-const port = 5000
 var path = require('path');
+var http = require('http')
 var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 var logger = require('morgan');
@@ -20,6 +20,7 @@ var usersRouter = require('./app_server/routes/users');
 var app = express();
 app.locals.moment = require('moment');
 // view engine setup
+app.set('port', process.env.PORT || 3000)
 app.set('views', path.join(__dirname,'app_server', 'views'));
 app.set('view engine', 'pug');
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -44,7 +45,9 @@ app.use('/api', (req, res, next) => {
 app.use('/', indexRouter);
 app.use('/api', apiRouter)
 app.use('/users', usersRouter);
-app.listen(process.env.port || port, ()=>{ console.log('listening')})
+http.createServer(app).listen(app.get('port'), () => {
+  console.log('Express server listening on port ' + app.get('port'))
+})
 // catch 404 and forward to error handler
 app.use(function(err, req, res, next) {
   if (err.name === "UnauthorizedError") {
