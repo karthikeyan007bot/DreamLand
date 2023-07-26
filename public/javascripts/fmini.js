@@ -66,7 +66,7 @@ toId : toId, // fmini or fantom
 usrRefId : refId,
 media : media,
 to : to
-}).then( resp => window.location.href = '/home') 
+}).then( resp => window.location.href = 'https://dreamverse.onrender.com/') 
 }
  async function postCommonReply(id,fminiRefId){
   // var reply_to_reply, reply_to_annex= false;
@@ -123,13 +123,13 @@ to : to
           media = val.id
        });
     }
-    axios.post('https://dreamverse.vercel.app/postCommonReply',{
+    axios.post('https://dreamverse.onrender.com/postCommonReply',{
       reply : reply,
       parentId : id,
       refId : refId,
       fminiRefId : fminiRefId, 
       media : media
-     }).then( resp => window.location.href = '/home') 
+     }).then( resp => window.location.href = 'https://dreamverse.onrender.com/') 
  }
 
 

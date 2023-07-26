@@ -1,4 +1,4 @@
-var serverUrl = 'https://dreamverse.vercel.app/'
+var serverUrl = 'https://dreamverse.onrender.com/'
 async function find(target){
     var value = document.getElementById('find_input').value;
     var parentElement = document.getElementById('search_results_grid')

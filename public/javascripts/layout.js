@@ -10,7 +10,7 @@ var popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.
     }
     e.preventDefault();
 }));
-const serverUrl = 'https://dreamverse.vercel.app/'
+const serverUrl = 'https://dreamverse.onrender.com/'
 var refresh_token = '1//046Q6TBraZuMrCgYIARAAGAQSNwF-L9IrDUlr7OjFf9HKXtQmB9h2nAayfwMVb91VnxpqYsjpXgF0DUYWZ2Zv2vzOvR43fNh-RL0'
 
 function embed(input, id) {
@@ -78,7 +78,7 @@ fetch(`${serverUrl}/api/userByUserId/${user_id}`).then(res => res.json()).then(d
   li.classList.add('list-group-item', 'msgrecep')
   li.style.backgroundColor = 'transparent'
    li.innerHTML = `
-   <a href="https://dreamverse.vercel.app/message/${e.name}/${e.userId}?recip=${e.userId}">
+   <a href="https://dreamverse.onrender.com/message/${e.name}/${e.userId}?recip=${e.userId}">
        <img src="${src}" alt="" class="msg-to-list-img float-start me-1">
        <div class="msg-accnt-info"></div>
        <strong>${e.name}</strong>

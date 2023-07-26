@@ -5,7 +5,7 @@ var dltmlsg = function(e) {
   data = {
     id : e.target.parentElement.id,
   }
-  fetch('https://dreamverse.vercel.app/api/dltmsg', {
+  fetch('https://dreamverse.onrender.com/api/dltmsg', {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',
@@ -41,7 +41,7 @@ function loadRecentMsg(){
   var id = {
     id: location.href.split('recip=')[1]
   }
-  fetch(`https://dreamverse.vercel.app/gmsg`, {
+  fetch(`https://dreamverse.onrender.com/gmsg`, {
     method : 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ const to = q.split('=')[1]
     from : from,
     to: to,
    };
-  fetch('https://dreamverse.vercel.app/pmsg', {
+  fetch('https://dreamverse.onrender.com/pmsg', {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',
@@ -114,7 +114,7 @@ function updtMsgStats(){
   data = {
     there : location.href.split('recip=')[1],
   }
-  fetch('https://dreamverse.vercel.app/updtMsgStats', {
+  fetch('https://dreamverse.onrender.com/updtMsgStats', {
     method: 'POST', // or 'PUT'
     headers: {
       'Content-Type': 'application/json',

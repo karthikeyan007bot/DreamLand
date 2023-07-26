@@ -19,13 +19,12 @@ const signin = (req, res) => {
   }
   const signupp2 = (req, res) => {
     var decoded = jwt.verify(req.params.emailtoken, process.env.JWT_SECRET)
-    console.log(decoded)
     res.render('signup2', {name : decoded.name, email : decoded.email})
 
   }
   const signupp3 = (req, res) => {
     console.log('signup3', req.params,req.body)
-          axios.post(`${apiOptions.server}/api/signup`,{
+          axios.post(`${server.url}/api/signup`,{
             name : req.params.name,
             email : req.params.email,
             userId : req.body.userId,
@@ -34,7 +33,6 @@ const signin = (req, res) => {
         res.cookie('indigotoken', response.data.token, {expire: AddDays(7).toGMTString(),  overwrite: true});
             res.redirect(`/profile`)
         }).catch((err) =>{ 
-            console.log(err)
             if(err.response.data.code == '11000'){
             res.redirect('/signin?msg=try_login')
         }
@@ -44,7 +42,7 @@ const signin = (req, res) => {
   const signupp = async (req, res) => {
     const regxp =/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/
     if(regxp.test(req.body.credential)){
-    axios.post(`${apiOptions.server}/api/glsignup`,{
+    axios.post(`${server.url}/api/glsignup`,{
         credential : req.body.credential
     }).then(function(response){
         res.cookie('indigotoken', response.data, {expire: AddDays(7).toGMTString(),  overwrite: true});
@@ -67,7 +65,7 @@ const signin = (req, res) => {
     })
     }
     else {    
-        axios.post(`${apiOptions.server}/api/checkMail`,{
+        axios.post(`${server.url}/api/checkMail`,{
             email : req.body.email
         }).then(async (resp) => {
             if(resp.data.code == 1){ // checks for existing email
@@ -87,7 +85,7 @@ const signin = (req, res) => {
                     data: {
                       variables: "awesomeness",
                       name : req.body.name,
-                      page : `${apiOptions.server}/signup2/${token}`
+                      page : `${server.url}/signup2/${token}`
                     },
                   },
                 });
@@ -100,7 +98,7 @@ const signin = (req, res) => {
     const signinp = app.post('/signin', (req, res) => {
         const regxp =/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/;
         if( regxp.test(req.body.credential)){
-            axios.post(`${apiOptions.server}/api/glsignin`,{
+            axios.post(`${server.url}/api/glsignin`,{
                 credential : req.body.credential
             }).then((response)=>{
                 res.setHeader('set-cookie', `indigotoken = ${response.data}; expires= ${AddDays(7).toGMTString()}`);
@@ -112,7 +110,7 @@ const signin = (req, res) => {
             })
         }
            else{ 
-            axios.post(`${apiOptions.server}/api/signin`,{
+            axios.post(`${server.url}/api/signin`,{
                 email : req.body.email,
                 password : req.body.password
             }).then((response) => {
