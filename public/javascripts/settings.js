@@ -1,4 +1,4 @@
-var serverUrl = 'https://dreamverse.vercel.app/'
+var serverUrl = 'https://dreamverse.onrender.com'
 function saveSettings(){
   var blocked_users = []
   if(document.getElementsByClassName('block_users').length != 0){
