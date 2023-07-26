@@ -3,8 +3,9 @@ const router = express.Router()
 const axios = require('axios')
 const fileUpload = require('express-fileupload');
 const jwt = require('jsonwebtoken')
-var server= {}
-server.url = process.env.serverURL
+var server= {
+  url : 'https://dreamverse.onrender.com/'
+}
 const {google} = require('googleapis')
 const oauth2Client = new google.auth.OAuth2(
   '107645595769-al5lco2dmqo4k8da50skhh04v3reub4r.apps.googleusercontent.com',

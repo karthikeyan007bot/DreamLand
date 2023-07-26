@@ -7,8 +7,9 @@ const { google } = require('googleapis');
 const { Readable } = require('stream');
 const multer  = require('multer')
 const fileUpload = require('express-fileupload');
-var server= {}
-server.url = process.env.serverURL
+var server= {
+  url : 'https://dreamverse.onrender.com/'
+}
   class user{
     constructor(name, id, following, followers, prflimg){
       this.name  = name;
