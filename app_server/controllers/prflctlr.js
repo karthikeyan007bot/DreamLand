@@ -8,7 +8,7 @@ const { Readable } = require('stream');
 const multer  = require('multer')
 const fileUpload = require('express-fileupload');
 var server= {
-  url : 'https://dreamverse.onrender.com/'
+  url : 'https://dreamverse.onrender.com'
 }
   class user{
     constructor(name, id, following, followers, prflimg){

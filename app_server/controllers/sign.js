@@ -4,7 +4,7 @@ const axios = require('axios');
 const {CourierClient} = require('@trycourier/courier')
 const jwt = require('jsonwebtoken')
 var server= {
-    url : 'https://dreamverse.onrender.com/'
+    url : 'https://dreamverse.onrender.com'
 }
 function AddDays (days) {
     var today = new Date();

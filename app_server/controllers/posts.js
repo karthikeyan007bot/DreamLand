@@ -4,7 +4,7 @@ const axios = require('axios')
 const fileUpload = require('express-fileupload');
 const jwt = require('jsonwebtoken')
 var server= {
-  url : 'https://dreamverse.onrender.com/'
+  url : 'https://dreamverse.onrender.com'
 }
 const {google} = require('googleapis')
 const oauth2Client = new google.auth.OAuth2(

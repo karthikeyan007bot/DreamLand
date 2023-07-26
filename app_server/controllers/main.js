@@ -4,7 +4,7 @@ const axios = require('axios')
 const jwt = require('jsonwebtoken')
 var moment = require('moment');
 var server= {
-  url : 'https://dreamverse.onrender.com/'
+  url : 'https://dreamverse.onrender.com'
 }
 class user{
   constructor(name, id, following, followers, prflimg){
