@@ -11,6 +11,7 @@ head
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css')
   link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css')
+  script(src="https://kit.fontawesome.com/04a1228d4b.js" crossorigin="anonymous")
   // Bootstrap CSS / Color Scheme
   link#theme-color(rel='stylesheet', href='/stylesheets/welcome.css')  
 
@@ -62,25 +63,29 @@ section#features.pt-6.pb-7
           .col-md-6.box
             .icon-box.box-primary
               .icon-box-inner
-                span(data-feather='monitor' width='35' height='35')
+               span
+                i.fa-solid.fa-laptop
             h5 Read
             p.text-muted Indulge in daydreams, the legal way!
           .col-md-6.box
             .icon-box.box-success
               .icon-box-inner
-                span(data-feather='edit-3' width='35' height='35')
+                span
+                  i.fa-solid.fa-pencil
             h5 Write
             p.text-muted Put your wild thoughts on Dream Verse before they escape to Narnia.
           .col-md-6.box
             .icon-box.box-danger
               .icon-box-inner
-                span(data-feather='share-2' width='35' height='35')
+                span
+                  i.fa-solid.fa-share
             h5 Share
             p.text-muted Spread the madness, share your inner unicorn with the world!
           .col-md-6.box
             .icon-box.box-info
               .icon-box-inner
-                span(data-feather='repeat' width='35' height='35')
+                span 
+                  i.fa-solid.fa-repeat
             h5 Repeat
             p.text-muted Fantasies never dissapoints you. Keep on dreaming , keep on reading
 // pricing section
@@ -203,4 +208,5 @@ script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.m
 script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js')
 script(src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js')
-script(src='js/welcome.js')
+script(src ='/javascripts/welcome.js')
+

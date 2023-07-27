@@ -341,7 +341,14 @@ nav.navbar{
   animation: bounce-out-nds 0.3s linear;
   animation-fill-mode: forwards;
 }
-
+.nd3{
+  background: #3c80f6;
+  right: 40px;
+  bottom: 180px;
+  animation-delay: 0.15s;
+    animation: bounce-out-nds 0.15s linear;
+  animation-fill-mode:  forwards;
+}
 @keyframes bounce-nds {
   from {
     opacity: 0;
