@@ -91,7 +91,7 @@ class user{
         }).catch(err => console.log(err))
       })
     }else{
-      res.render('signin')
+      res.render('welcome')
     }
   }
   const error = (req, res) => {
@@ -297,6 +297,15 @@ const settings = async (req, res) => {
   console.log(err)
 }
 }
-  module.exports = {
-  settings, fminiFeed, error, fmini, find, drmpost, messages, message, notifications, getChapterPostPage, pmsg, gmsg, updtMsgStats, annexures,replies,alters, nestedReplies, fantoms, fmDl, chapter
+const terms_of_use = (req, res)=>{
+  res.render('terms_of_use')
+}
+const privacy = (req, res)=>{
+  res.render('privacy')
+}
+const guide = (req, res)=>{
+  res.render('guide')
+} 
+module.exports = {
+  guide, privacy, terms_of_use,settings, fminiFeed, error, fmini, find, drmpost, messages, message, notifications, getChapterPostPage, pmsg, gmsg, updtMsgStats, annexures,replies,alters, nestedReplies, fantoms, fmDl, chapter
   }

@@ -3,6 +3,7 @@ html
   head
     meta(name='viewport', content='width=device-width,initial-scale=1.0')
     title= title  
+    link(rel="icon", href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2TfMrrzfTKwv7ywlApoFRvlkg7ECvb0yh0A&usqp=CAU", type="image/x-icon")
     block link
     script(src="/javascripts/usrDefined.js")   
     script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js' )
@@ -335,10 +336,13 @@ html
    #container-floating
      .nd1.nds
       .fa-feather-pointed.fa-solid.reminder( data-bs-toggle='modal' data-bs-target='#fantamodal1' role='dialog')
-     #floating-button
-      p.plus +
+     .nd4.nds
       a(href="/post") 
-        i.fa-solid.fa-feather.edit  
+        i.fa-solid.fa-feather.edit 
+     #floating-button
+      p.plus + 
+      .material-symbols-rounded.edit 
+        | close
    block script 
    script(src="https://cdn.jsdelivr.net/npm/muuri@0.9.5/dist/muuri.min.js") 
    script(src="/javascripts/fmini.js" defer)  

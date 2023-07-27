@@ -10,7 +10,7 @@ var popoverList = [...popoverTriggerList].map(popoverTriggerEl => new bootstrap.
     }
     e.preventDefault();
 }));
-const serverUrl = 'https://dreamverse.onrender.com/'
+const serverUrl = 'https://dreamverse.onrender.com'
 var refresh_token = '1//04i_cUEJC4hGhCgYIARAAGAQSNwF-L9IrvBOnvM4DsoBDDRVFyEd2vAi4WWtMvh_2CkRhKaEdUZe-UQf9H-41o1pacei2xGers6A'
 
 function embed(input, id) {

@@ -51,4 +51,7 @@ router.get('/fantom/detail/:id', ctrlMain.fmDl) //fm id
 router.route('/profile/fantom/detail/:id').get(ctrlMain.fmDl) //fm id
 router.route('/:fmId/chapter/:chapterId').get(ctrlMain.chapter)
 router.route('/user/:userId').get(ctrlPrfl.user_profile)
+router.get('/privacy', ctrlMain.privacy)
+router.get('/guide', ctrlMain.guide)
+router.get('/terms_of_use', ctrlMain.terms_of_use)
 module.exports = router;

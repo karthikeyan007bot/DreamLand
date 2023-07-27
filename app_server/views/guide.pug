@@ -1,0 +1,126 @@
+doctype html
+head
+  // Required meta tags
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  title Dream Land Map
+  meta(name='description' content='Knight is a beautiful Bootstrap 4 template for product landing pages.')
+  // Inter UI font
+  link(href='https://rsms.me/inter/inter-ui.css' rel='stylesheet')
+  // vendors styles
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css')
+  link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css')
+  // Bootstrap CSS / Color Scheme
+  link#theme-color(rel='stylesheet' href='css/welcome.css')
+// navigation
+section.smart-scroll
+  .container-fluid
+    nav.navbar.navbar-expand-md.navbar-dark
+      a.navbar-brand.heading-black(href='index.html')
+        | Dream Verse
+      button.navbar-toggler.navbar-toggler-right.border-0(type='button' data-toggle='collapse' data-target='#navbarCollapse' aria-controls='navbarCollapse' aria-expanded='false' aria-label='Toggle navigation')
+        span(data-feather='grid')
+      #navbarCollapse.collapse.navbar-collapse
+        ul.navbar-nav.ml-auto
+          li.nav-item
+            a.nav-link.page-scroll.d-flex.flex-row.align-items-center.text-primary(href='https://dreamverse.onrender.com/signup')
+              em.mr-2(data-feather='layout' width='18' height='18')
+              |                             Log In
+// hero header
+.hero_header(style='margin-top: 200px;')
+  h1.heading-black.text-capitalize.text-center Dreamer&apos;s Map
+  p.lead.py-3.text-center
+    | Welcome to the comprehensive guide for Fanta Verse! Whether you&apos;re a seasoned dreamer or just starting to explore the world of imagination, this guide is here to be your trusty companion. Within these pages, you&apos;ll discover everything you need to know about our platform
+.container.mt-4
+  h3.mt-3 Dream Quest: Explore Page
+  p
+    | The Dream Quest is your gateway to endless imagination! It&apos;s the Explore Page where you can embark on a captivating journey to discover and explore a world of daydreams shared by fellow users.
+  h3.mt-3 Dreamers: Users
+  p
+    | Dreamers are the wonderful individuals like you who join our platform to share their imaginative stories and experiences. They are the heart and soul of our community.
+  h3.mt-3 Dream Line: Recent or Following
+  p
+    | The Dream Line is where you can stay up-to-date with the latest happenings. You can choose to view the most recent daydreams shared by users or follow specific Dreamers to see their latest posts.
+  h3.mt-3 Dream Beats: Notifications
+  p
+    | Dream Beats are the notifications that keep you in the loop. They inform you about new comments, likes, or updates on your posts, ensuring you never miss any exciting interactions or updates.
+  h3.mt-3 Fantom: Blog-like Long Story with Chapters
+  p
+    | Fantom is a special section for longer, blog-like stories that unfold chapter by chapter. It&apos;s where users can create and share their immersive tales, adding new chapters to captivate their readers.
+  h3.mt-3 Fmini (Fantom Mini): Short Imaginations
+  p
+    | Fmini, short for Fantom Mini, is a space for quick bursts of imagination. Users can share their shorter daydreams, limited to 500 characters, creating bite-sized yet delightful experiences.
+  h3.mt-3 Dream Tags: Tags
+  p
+    | Dream Tags are labels that help categorize and organize daydreams. By using tags, users can easily find and explore specific themes, genres, or topics that interest them.
+  h3.mt-3 Dream Echo: Top Fantoms and Fminis
+  p
+    | Dream Echo is where you&apos;ll find the most popular and highly recommended Fantoms (long stories) and Fminis (short imaginations). It&apos;s a curated collection of the best daydreams, serving as a source of inspiration for all.
+  h3.mt-3 Dream Stream: Recent Fantoms and Fminis
+  p
+    | The Dream Stream is a constantly updated feed of the most recent Fantoms and Fminis. It allows you to dive into the latest daydreams shared by users, ensuring you&apos;re always in touch with the freshest content.
+// footer
+footer.py-6
+  .container
+    .row
+      .col-sm-5.mr-auto
+        h5 About Dream Verse
+        p.text-muted
+          | Welcome to Fanta Verse, the realm where imagination thrives! 
+          br
+          |                     We invite dreamers and daydreamers to share their creative lives. 
+          br
+          |                     Connect with fellow dreamers, explore realms unknown, 
+          br
+          |                     Fanta Verse is where imaginations find their true home.
+        //
+          <ul class="list-inline social social-sm">
+          <li class="list-inline-item">
+          <a href=""><i class="fa fa-facebook"></i></a>
+          </li>
+          <li class="list-inline-item">
+          <a href=""><i class="fa fa-twitter"></i></a>
+          </li>
+          <li class="list-inline-item">
+          <a href=""><i class="fa fa-google-plus"></i></a>
+          </li>
+          </ul>
+      .col-sm-2
+        h5 Legal
+        ul.list-unstyled
+          li
+            a(href='/privacy') Privacy
+          li
+            a(href='/terms_of_use') Terms
+          li
+            a(href='/guide') Guide
+      //
+        <div class="col-sm-2">
+        <h5>Partner</h5>
+        <ul class="list-unstyled">
+        <li><a href="#">Refer a friend</a></li>
+        </ul>
+        </div>
+      .col-sm-2
+        h5 Help
+        ul.list-unstyled
+          li
+            a(href='join_us') Join Us
+          li
+            a(href='https://dreamverse.render.com') Sign up
+    .row.mt-5
+      .col-12.text-muted.text-center.small-xl
+        | &copy; 2023 Dream Verse - All Rights Reserved. From
+        a(href='') Karthikeyan
+// scroll to top
+.scroll-top
+  i.fa.fa-angle-up(aria-hidden='true')
+// jQuery first, then Popper.js, then Bootstrap JS
+script(src='https://code.jquery.com/jquery-3.2.1.min.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js')
+script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.0/feather.min.js')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js')
+script(src="/javascripts/welcome.js") 
+

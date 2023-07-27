@@ -66,7 +66,7 @@ toId : toId, // fmini or fantom
 usrRefId : refId,
 media : media,
 to : to
-}).then( resp => window.location.href = 'https://dreamverse.onrender.com/') 
+}).then( resp => window.location.href = 'https://dreamverse.onrender.com') 
 }
  async function postCommonReply(id,fminiRefId){
   // var reply_to_reply, reply_to_annex= false;
@@ -129,7 +129,7 @@ to : to
       refId : refId,
       fminiRefId : fminiRefId, 
       media : media
-     }).then( resp => window.location.href = 'https://dreamverse.onrender.com/') 
+     }).then( resp => window.location.href = 'https://dreamverse.onrender.com') 
  }
 
 
