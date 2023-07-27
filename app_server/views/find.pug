@@ -11,7 +11,7 @@ block content
         button(type="submit").btn.ibtn.me-3#find_button 
          .fa-solid.fa-magnifying-glass
    .radio_container.no-scrollbar.overflow-scroll
-          .radio_tile_group.scrollbox.hstack(style='width : 1368px' name = `radio_tile`) 
+          .radio_tile_group.scrollbox.hstack(style='width : 1400px' name = `radio_tile`) 
                     .input_container
                       input.radio_button.custom-cursor-on-hover(name='find_filter' value='fmini' type='radio' onclick='find("fmini")')
                       .radio_tile   
@@ -49,13 +49,13 @@ block content
                           span Dreamstream                                                  
    .search_results.mt-4
      #placeholders
-       img#search_placeholder(src="/images/search1.png", alt="")
-       span#search_msg Search for imaginations     
+       img#search_placeholder(src="/images/search1.png", alt="" style='max-width : 100%')
+       span.search_msg Search for imaginations     
        #search_spinner.spinner-border.m-auto(role='status' style='display : none')
                span.visually-hidden Loading...       
      #no_search_result(style='display : none')
-       img#no_result(src="/images/no_result.png", alt="")
-       span#search_msg No imaginations found
+       img#no_result(src="/images/no_result.png", alt="" style='max-width : 100%')
+       span.search_msg No imaginations found
      #search_results_grid.grid
      
                                           

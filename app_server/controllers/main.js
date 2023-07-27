@@ -207,12 +207,16 @@ class user{
     })
   }
   const find = (req, res) => {
-    const decoded = jwt.verify(req.cookies.indigotoken, process.env.JWT_SECRET)
-    axios.get(`${server.url}/api/user/${decoded._id}`).then( resp => { // gets information about user
-      var User =  new user(resp.data.name, resp.data.userId, resp.data.following, resp.data.followers, resp.data.prflimg)
-      console.log(User)
-      res.render('find',{user : User})           
-    })
+    if(req.cookies.indigotoken){
+      const decoded = jwt.verify(req.cookies.indigotoken, process.env.JWT_SECRET)
+      axios.get(`${server.url}/api/user/${decoded._id}`).then( resp => { // gets information about user
+        var User =  new user(resp.data.name, resp.data.userId, resp.data.following, resp.data.followers, resp.data.prflimg)
+        console.log(User)
+        res.render('find',{user : User})           
+      })
+    }else{
+      res.render('signin')
+    }
   }
   const messages = async (req, res) => {
     const decoded = jwt.verify(req.cookies.indigotoken, process.env.JWT_SECRET)
