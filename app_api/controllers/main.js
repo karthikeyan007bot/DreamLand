@@ -544,7 +544,7 @@ const getUsers2 = async (req, res) => {
   }
 }
 const fantoms = (req, res) => {
-  Fantom.find({ "who_can_see": "public" }, '-body -whoCanSee').limit(40).exec((err, fantoms) => {
+  Fantom.find('-body -whoCanSee').limit(40).exec((err, fantoms) => {
       if (err) {
         console.error(err);
         res.status(500).json({ error: 'An error occurred' });

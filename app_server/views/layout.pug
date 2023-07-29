@@ -30,7 +30,7 @@ html
    .main_container
      nav.navbar.navbar-expand-lg
       .container-fluid
-       a.navbar-logo(data-bs-toggle='popover' data-bs-placement='right' data-bs-html='true' data-bs-content='<div class="brand_popover"> <div id="guide"> <a href="/guide">Guide</a> </div> <div id="faq"> <a href="/faq">FAQ</a> </div> <div id="about_us"> <a href="/about_us">About Us</a> </div> <div id="jobs"> <a href="/jobs">Join Us</a> </div> </div>')
+       a.navbar-logo(data-bs-toggle='popover' data-bs-placement='right' data-bs-html='true' data-bs-content='<div class="brand_popover"> <div id="guide"> <a href="/guide">Guide</a> </div><div id="about_us"> <a href="/about">About Us</a> </div> <div id="join_us"> <a href="/about#the_us">Join Us</a> </div> </div>')
          img(src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2TfMrrzfTKwv7ywlApoFRvlkg7ECvb0yh0A&usqp=CAU", alt="", srcset="" style='max-width : 40px')
        a(href='/home').navbar-item
          .material-symbols-rounded
@@ -55,9 +55,9 @@ html
        button(type='button' onclick='logOut()').btn.navbar-item  
          .material-symbols-rounded 
            | logout
-       .navbar_profile_pic(data-bs-toggle="popover" data-bs-placement="left" data-bs-html='true' data-bs-content=`<div class="account_popover"> <div class="profile"> <div class="profile_card"> <img src="https://drive.google.com/uc?export=view&id=${user.prflimg}" alt="" class="profile_pic"> <div class="user_info_card"> <span class="user_name">${user.name}</span> <br> <span class="user_id">@${user.id}</span> </div> </div> </div> <div claidss="profile"> <a href="/profile">Profile</a> </div> <div id="privacy_policy"> <a href="">Privacy policy</a> <span class="material-symbols-rounded">open_in_new</span> </div> <div id="terms_conds"> <a href="">Terms & conditions</a> <span class="material-symbols-rounded">open_in_new</span> </div> </div>`) 
+       .navbar_profile_pic(data-bs-toggle="popover" data-bs-placement="left" data-bs-html='true' data-bs-content=`<div class="account_popover"> <div class="profile"> <div class="profile_card"> <img src="https://drive.google.com/uc?export=view&id=${user.prflimg}" alt="" class="profile_pic"> <div class="user_info_card"> <span class="user_name">${user.name}</span> <br> <span class="user_id">@${user.id}</span> </div> </div> </div> <div claidss="profile"> <a href="/profile">Profile</a> </div> <div id="privacy_policy"> <a href="/privacy">Privacy policy</a> <span class="material-symbols-rounded">open_in_new</span> </div> <div id="terms_conds"> <a href="/terms_of_use">Terms of use</a> <span class="material-symbols-rounded">open_in_new</span> </div> </div>`) 
          -if(user.prflimg)
-            img.navbar_profile_pic( style='max-width : 40px'  ,alt="usr_pic", srcset=`https://drive.google.com/uc?export=view&id=${user.prflimg}` data-bs-toggle="popover" data-bs-placement="left" data-bs-html='true' data-bs-content=`<div class="account_popover"> <div class="profile"> <div class="profile_card"> <img src="https://drive.google.com/uc?export=view&id=${user.prflimg}" alt="" class="profile_pic"> <div class="user_info_card"> <span class="user_name">${user.name}</span> <br> <span class="user_id">@${user.id}</span> </div> </div> </div> <div claidss="profile"> <a href="/profile">Profile</a> </div> <div id="privacy_policy"> <a href="">Privacy policy</a> <span class="material-symbols-rounded">open_in_new</span> </div> <div id="terms_conds"> <a href="">Terms & conditions</a> <span class="material-symbols-rounded">open_in_new</span> </div></div>`)#usr_pic
+            img( style='max-width : 40px'  ,alt="usr_pic", srcset=`https://drive.google.com/uc?export=view&id=${user.prflimg}`)#usr_pic
          -else
             img(style='background: #c631c6; min-width : 40px;min-height:40px ')      
      block content
@@ -337,12 +337,11 @@ html
      .nd1.nds
       .fa-feather-pointed.fa-solid.reminder( data-bs-toggle='modal' data-bs-target='#fantamodal1' role='dialog')
      .nd3.nds
-      a(href="/post").edit 
-        i.fa-solid.fa-feather 
+      a(href="/post")
+        i.fa-solid.fa-feather.edit 
      #floating-button
       p.plus + 
-      .material-symbols-rounded.edit
-        | close
+       i.fa-solid.fa-xmark
    block script 
    script(src="https://cdn.jsdelivr.net/npm/muuri@0.9.5/dist/muuri.min.js") 
    script(src="/javascripts/fmini.js" defer)  

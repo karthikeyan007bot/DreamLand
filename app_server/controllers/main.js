@@ -310,6 +310,9 @@ const privacy = (req, res)=>{
 const guide = (req, res)=>{
   res.render('guide')
 } 
+const welcome = (req, res)=>{
+  res.render('welcome')
+} 
 module.exports = {
-  guide, privacy, terms_of_use,settings, fminiFeed, error, fmini, find, drmpost, messages, message, notifications, getChapterPostPage, pmsg, gmsg, updtMsgStats, annexures,replies,alters, nestedReplies, fantoms, fmDl, chapter
+  welcome, guide, privacy, terms_of_use,settings, fminiFeed, error, fmini, find, drmpost, messages, message, notifications, getChapterPostPage, pmsg, gmsg, updtMsgStats, annexures,replies,alters, nestedReplies, fantoms, fmDl, chapter
   }

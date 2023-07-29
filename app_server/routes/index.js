@@ -54,4 +54,5 @@ router.route('/user/:userId').get(ctrlPrfl.user_profile)
 router.get('/privacy', ctrlMain.privacy)
 router.get('/guide', ctrlMain.guide)
 router.get('/terms_of_use', ctrlMain.terms_of_use)
+router.get('/about', ctrlMain.welcome)
 module.exports = router;

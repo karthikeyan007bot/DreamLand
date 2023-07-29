@@ -44,7 +44,7 @@ const preview = document.getElementById('preview')
     ]
     },
     // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
-    placeholder: 'Ask your question',
+    placeholder: 'Your imagination',
     // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
     fontFamily: {
     options: [
