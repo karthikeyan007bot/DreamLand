@@ -196,7 +196,7 @@ block content
                   -if(user.prflimg)
                      img.avator(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
                   -else
-                     img(style='background: #c631c6; min-width : 50px;min-height:50px ')                   
+                     img(style='background: #c631c6; min-width : 50px;min-height:50px')                   
                   .dream-header-info
                     .user_name_id.d-flex 
                       -if(fantom.post_as == 'anonymous')
@@ -209,14 +209,14 @@ block content
                         i.fa-solid.fa-ellipsis-vertical                        
                     a(href=`/fantom/detail/${fantom._id}`)  #{fantom.desc}
                 -if(fantom.cover)
-                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}` alt=''  data-bs-toggle='modal' data-bs-target=`#${fantom._id}`)
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}` alt=''  data-bs-toggle='modal' data-bs-target=`#${fantom._id}`  style='max-width : 100%')
                 .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${fantom._id}`)
                      .modal-dialog.modal-fullscreen
                        .modal-content
                          .modal-header
                            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
                          .modal-body.text-center.vstack
-                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}` alt='').mx-auto                                                 
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${fantom.cover}` alt=''  style='max-width : 100%').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
                    a.mx-1(href=`/${fantom.fminiRefId}/${fantom._id}/nestedReplies`).replies 
                        .material-symbols-rounded
@@ -255,14 +255,14 @@ block content
                     -if(annex.media.includes('tenor'))
                       img.fmini_media(src=`${annex.media}`, alt="", srcset="")
                     -else
-                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${annex.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${annex._id}`)
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${annex.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${annex._id}`  style='max-width : 100%')
                   .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${annex._id}`)
                      .modal-dialog.modal-fullscreen
                        .modal-content
                          .modal-header
                            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
                          .modal-body.text-center.vstack
-                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${annex.media}` alt='').mx-auto                                                 
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${annex.media}` alt=''  style='max-width : 100%').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
                   .replies
                    .material-symbols-rounded
@@ -300,14 +300,14 @@ block content
                     -if(alter.media.includes('tenor'))
                       img.fmini_media(src=`${alter.media}`, alt="", srcset="")
                     -else
-                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${alter.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${alter._id}`)
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${alter.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${alter._id}`  style='max-width : 100%')
                   .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${alter._id}`)
                      .modal-dialog.modal-fullscreen
                        .modal-content
                          .modal-header
                            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
                          .modal-body.text-center.vstack
-                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${alter.media}` alt='').mx-auto                                                 
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${alter.media}` alt=''  style='max-width : 100%').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
                    a.mx-1.replies(href=`/${alter.fminiRefId}/${alter._id}/nestedReplies`) 
                        .material-symbols-rounded
@@ -344,14 +344,14 @@ block content
                     -if(reply.media.includes('tenor'))
                       img.fmini_media(src=`${reply.media}`, alt="", srcset="")
                     -else
-                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${reply.media}` alt=''  data-bs-toggle='modal' data-bs-target=`#${reply._id}`)
+                      img.fmini_media(src=`https://drive.google.com/uc?export=view&id=${reply.media}`  style='max-width : 100%' alt=''  data-bs-toggle='modal' data-bs-target=`#${reply._id}`)
                   .modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true' id=`${reply._id}`)
                      .modal-dialog.modal-fullscreen
                        .modal-content
                          .modal-header
                            button.btn-close(type='button' data-bs-dismiss='modal' aria-label='Close')
                          .modal-body.text-center.vstack
-                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${reply.media}` alt='').mx-auto                                                 
+                           img.modal-img(src=`https://drive.google.com/uc?export=view&id=${reply.media}` alt=''  style='max-width : 100%').mx-auto                                                 
                 .dream-info-counts.d-flex.justify-content-around
                    a.mx-1(type='button' href=`/${reply.fminiRefId}/${reply._id}/nestedReplies`).replies 
                        .material-symbols-rounded

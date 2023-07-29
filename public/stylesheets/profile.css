@@ -6,7 +6,9 @@
     border-radius: 20px;
     width: 120px;
 }
-
+.fmini_tags{
+  flex-wrap : wrap
+}
 .dream-img{
   max-width: 100%;
 }

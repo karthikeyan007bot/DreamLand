@@ -12,7 +12,7 @@ const oauth2Client = new google.auth.OAuth2(
   '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',
 'https://developers.google.com/oauthplayground'
 )
-oauth2Client.setCredentials({refresh_token : '1//046Q6TBraZuMrCgYIARAAGAQSNwF-L9IrDUlr7OjFf9HKXtQmB9h2nAayfwMVb91VnxpqYsjpXgF0DUYWZ2Zv2vzOvR43fNh-RL0'})
+oauth2Client.setCredentials({refresh_token : process.env.refresh_token})
 
 var drive = google.drive({
  version : 'v3',
