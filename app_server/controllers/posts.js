@@ -38,7 +38,7 @@ const chapterPost = (req, res) => {
   axios.post(`${server.url}/api/chapter/${req.params.fmId}`,{
     title : req.body.title ,
     chapter : req.body.chapter
-  }).then(()=> res.redirect('/fminiFeed')).catch(err => console.log(err))
+  }).then(()=> res.redirect('/fantoms')).catch(err => console.log(err))
 }
 const fantomPost = async (req, res) =>{
   const decoded = jwt.verify(req.cookies.indigotoken, process.env.JWT_SECRET)

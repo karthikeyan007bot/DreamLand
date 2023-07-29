@@ -413,7 +413,7 @@ block script
         var refresh_token = '1//04Q-zMWWBOlOfCgYIARAAGAQSNwF-L9Irq7pBmgYwoFp8m4h6vb7hxKHtR1NcJ_jRru1ieBuCVB4YHSlE1Hz9LB-iNhI1hJpxPPI'
 
          function myFunction(x) {
-             if (x.matches) { // If media query matches
+            //-  if (x.matches) { // If media query matches
       cropper(document.getElementById('image-cropper'), {
           area: [ 280, 280 ],
           crop: [ 150, 150 ],
@@ -458,7 +458,7 @@ block script
           var data = {
             id : val.id
           }
-            await fetch('https://dreamverse.onrender.com/hdrimg', {
+            await fetch('https://dreamverse.onrender.com/prflimg', {
             method: 'POST',
             headers: {
                    "Content-Type": "application/json",
@@ -475,63 +475,64 @@ block script
 
                    }
 
-         } else {
-      cropper(document.getElementById('image-cropper'), {
-          area: [ 320, 100 ],
-       })
-               document.getElementById('image-getter').onclick = function() {
-             document.getElementById('image-cropper-result').children[0].src =
-              document.getElementById('image-cropper').crop.getCroppedImage().src;
-         }
-        document.getElementById('saveprflimg').onclick = function(){
-              const t = document.getElementById('image-cropper').crop.getCroppedAsBlob(
+        //-  } 
+    //-      else {
+    //-   cropper(document.getElementById('image-cropper'), {
+    //-       area: [ 320, 100 ],
+    //-    })
+    //-            document.getElementById('image-getter').onclick = function() {
+    //-          document.getElementById('image-cropper-result').children[0].src =
+    //-           document.getElementById('image-cropper').crop.getCroppedImage().src;
+    //-      }
+    //-     document.getElementById('saveprflimg').onclick = function(){
+    //-           const t = document.getElementById('image-cropper').crop.getCroppedAsBlob(
 
-           async function fu(r){
-         let tokenRequest = await axios.request({
-    method: 'post',
-    url: "https://oauth2.googleapis.com/token",
-    headers: {"content-type": "application/x-www-form-urlencoded"},
-    params: {
-    client_id: '107645595769-al5lco2dmqo4k8da50skhh04v3reub4r.apps.googleusercontent.com',
-    client_secret: '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',
-    refresh_token: refresh_token,
-    grant_type: "refresh_token"
-        } 
-      }).catch(e => console.log(e))
-         let accessToken = tokenRequest.data["access_token"];
-          console.log('Access token : ' +   accessToken )
+    //-        async function fu(r){
+    //-      let tokenRequest = await axios.request({
+    //- method: 'post',
+    //- url: "https://oauth2.googleapis.com/token",
+    //- headers: {"content-type": "application/x-www-form-urlencoded"},
+    //- params: {
+    //- client_id: '107645595769-al5lco2dmqo4k8da50skhh04v3reub4r.apps.googleusercontent.com',
+    //- client_secret: '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',
+    //- refresh_token: refresh_token,
+    //- grant_type: "refresh_token"
+    //-     } 
+    //-   }).catch(e => console.log(e))
+    //-      let accessToken = tokenRequest.data["access_token"];
+    //-       console.log('Access token : ' +   accessToken )
   
-         var metadata = {
-          'name': 'sampleName', // Filename at Google Drive
-          'mimeType': 'image/png', // mimeType at Google Drive
-            };
-        // var accessToken = gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
-       var form = new FormData();
-       form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
-       form.append('file', r);
+    //-      var metadata = {
+    //-       'name': 'sampleName', // Filename at Google Drive
+    //-       'mimeType': 'image/png', // mimeType at Google Drive
+    //-         };
+    //-     // var accessToken = gapi.auth.getToken().access_token; // Here gapi is used for retrieving the access token.
+    //-    var form = new FormData();
+    //-    form.append('metadata', new Blob([JSON.stringify(metadata)], { type: 'application/json' }));
+    //-    form.append('file', r);
   
-       fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
-      method: 'POST',
-      headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
-      body: form,
-        }).then((res) => {
-      return res.json();
-        }).then(async function(val) {
-          var data = {
-            id : val.id
-          }
-            await fetch('https://dreamverse.onrender.com/hdrimg', {
-            method: 'POST',
-            headers: {
-                   "Content-Type": "application/json",
-                },
-            body:  JSON.stringify(data)
-              }).then(()=>window.location.href = 'https://dreamverse.onrender.com/profile')
-       });
-        }
-              )
-        }
-      } 
+    //-    fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id', {
+    //-   method: 'POST',
+    //-   headers: new Headers({ 'Authorization': 'Bearer ' + accessToken }),
+    //-   body: form,
+    //-     }).then((res) => {
+    //-   return res.json();
+    //-     }).then(async function(val) {
+    //-       var data = {
+    //-         id : val.id
+    //-       }
+    //-         await fetch('https://dreamverse.onrender.com/hdrimg', {
+    //-         method: 'POST',
+    //-         headers: {
+    //-                "Content-Type": "application/json",
+    //-             },
+    //-         body:  JSON.stringify(data)
+    //-           }).then(()=>window.location.href = 'https://dreamverse.onrender.com/profile')
+    //-    });
+    //-     }
+    //-           )
+    //-     }
+    //-   } 
      }
 
      var x = window.matchMedia("(min-width: 992px)")
