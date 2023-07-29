@@ -8,11 +8,11 @@ var server= {
 }
 const {google} = require('googleapis')
 const oauth2Client = new google.auth.OAuth2(
-  '107645595769-al5lco2dmqo4k8da50skhh04v3reub4r.apps.googleusercontent.com',
-  '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',
-'https://developers.google.com/oauthplayground'
+  process.env.GOOGLE_CLIENT_ID,
+  process.env.GOOGLE_CLIENT_SECRET,
+  process.env.GOOGLE_REDIRECT_URI
 )
-oauth2Client.setCredentials({refresh_token : process.env.refresh_token})
+oauth2Client.setCredentials({refresh_token : process.env.GOOGLE_REFRESH_TOKEN})
 
 var drive = google.drive({
  version : 'v3',

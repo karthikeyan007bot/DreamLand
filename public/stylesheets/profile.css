@@ -167,6 +167,7 @@ input:not(type='text'), .export {
 }
 .fmini_media{
   margin-inline : auto;
+  max-width : 100%
 }
 #top_tab{
   font-size : 18px
