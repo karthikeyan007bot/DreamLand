@@ -336,7 +336,7 @@ nav.navbar{
 .nd1 {
   background: var(--bg-theme);
   right: 30px;
-  bottom: 9cqmax;
+  bottom: 90px;
   animation-delay: 0.2s;
   animation: bounce-out-nds 0.3s linear;
   animation-fill-mode: forwards;
