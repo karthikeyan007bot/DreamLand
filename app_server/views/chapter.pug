@@ -26,7 +26,8 @@ block content
                      .icon_btn
                        .material-symbols-rounded(id=`like_btn_${fantom._id}`)  
                           | favorite
-                       span.totals.total_likes(id=`likes_total_${fantom._id}`)  #{fantom.likes.length}    
+                       -if(fantom.likes)   
+                         span.totals.total_likes(id=`likes_total_${fantom._id}`)  #{fantom.likes.length}    
                    .fantom_bookmark(onclick=`bookmark('${fantom._id}', '${fantom._id}')`) 
                      .icon_btn
                       .material-symbols-rounded(id=`bookmark_btn_${fantom._id}`)   
