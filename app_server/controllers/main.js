@@ -48,6 +48,10 @@ class user{
       const User = new user(response.data.name, response.data.userId, response.data.following, response.data.followers, response.data.prflimg); 
       const fantom = await axios.get(`${server.url}/api/${req.params.fmId}/chapter/${req.params.chapterId}`)
       const fantom_user = await axios.get(`${server.url}/api/user/${fantom.data.fantom_infos.usrRefId}`);
+      console.log('User :', User)
+      console.log('fantom_user :', fantom_user.data)
+      console.log('chapter : ', fantom.data.chapter)
+      console.log('fantom:' , fantom.data.fantom_infos)
       res.render('chapter', {chapter : fantom.data.chapter, user : User, fantom_user : fantom_user.data,fantom_infos : fantom.data.fantom_infos})
     }catch(err){
       console.log(err)
