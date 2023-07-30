@@ -80,8 +80,8 @@ html
                      img.avator.float-start(src=`https://drive.google.com/uc?export=view&id=${user.prflimg}` alt='')
                      textarea#fantatxtarea.mt-1.form-control( placeholder=" Your Fantasy !" cols='40' oninput='showlimit()' name='fmtext')
                      .media-attached-fantamini(style ='position: relative') 
-                             img.img.my-2(src="", alt="", srcset="", id=`fmini_media_preview_${user.id}`, name='fmini_media')
-                             i.fa-solid.fa-xmark.close_img.btn.ibtn(onclick = `closeMedia('${user.id}')` style='display : none')
+                             img.img.my-2(src="", alt="", srcset="", id=`media_preview_${user.id}`, name='fmini_media')
+                             //i.fa-solid.fa-xmark.close_img.btn.ibtn(onclick = `closeMedia('${user.id}')` style='display : none')
                      hr 
                      #minpntclpx 
                       .fanta-options.d-flex 

@@ -44,8 +44,9 @@ block content
                 .annex-hdr-usrid @#{annex.userId}
            a.annex-body(href=`/annex/${annex._id}` id=annex._id)
              .mt-2  #{annex.annex}
-           if annex.media.includes('https://media.tenor.com')  
-             img(src=`${annex.media}`)
+           if annex.media  
+             if annex.media.includes('https://media.tenor.com')  
+               img(src=`${annex.media}`)
            else
              img.annex-media.my-1(src=`https://drive.google.com/uc?export=view&id=${annex.media}`, alt="", srcset="" data-bs-toggle='modal' data-bs-target='#reply-media-modal')                             
            #annex-media-modal.modal.fade(tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true')
