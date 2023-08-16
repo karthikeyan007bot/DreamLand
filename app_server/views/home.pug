@@ -10,7 +10,7 @@ block content
      .grid
       each fmini, index in fminis
        - let itemClass = (index % 2 === 0) ? 'small' : 'large'
-       .item
+       .item(style="margin-inline: auto")
          .item-content
              .card.fmini_card 
                .card-body 
